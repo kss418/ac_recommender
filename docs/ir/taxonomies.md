@@ -2,6 +2,14 @@
 
 This document defines normalized ids used by Editorial IR v1.
 
+Machine-readable taxonomy data lives in:
+
+- `../../taxonomies/solution-models.json`
+- `../../taxonomies/skill-atoms.json`
+
+Extractor and validator code should read the JSON files. This Markdown file is
+for naming rules, review policy, and human-readable summaries.
+
 ## ID Naming Convention
 
 Use lowercase dot-separated ids for skill atoms.

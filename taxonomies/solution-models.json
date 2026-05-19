@@ -1,0 +1,120 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "solution_models",
+  "items": [
+    {
+      "id": "monotonic_feasibility_optimization",
+      "name": "Monotonic feasibility optimization",
+      "description": "Optimization problem reducible to monotone feasibility.",
+      "parent": "binary_search"
+    },
+    {
+      "id": "maximize_minimum_under_budget",
+      "name": "Maximize minimum under budget",
+      "description": "Maximize a minimum value subject to a limited resource or budget.",
+      "parent": "binary_search"
+    },
+    {
+      "id": "state_space_shortest_path",
+      "name": "State-space shortest path",
+      "description": "Shortest path over expanded or implicit state graph.",
+      "parent": "graph"
+    },
+    {
+      "id": "prefix_suffix_aggregation",
+      "name": "Prefix/suffix aggregation",
+      "description": "Combine prefix and suffix aggregates to answer or optimize.",
+      "parent": "array"
+    },
+    {
+      "id": "interval_decomposition",
+      "name": "Interval decomposition",
+      "description": "Decompose the problem into intervals or interval events.",
+      "parent": "interval"
+    },
+    {
+      "id": "local_greedy_selection",
+      "name": "Local greedy selection",
+      "description": "Repeated local choice directly determines the solution.",
+      "parent": "greedy"
+    },
+    {
+      "id": "global_invariant_greedy",
+      "name": "Global invariant greedy",
+      "description": "Greedy solution justified by a maintained global invariant.",
+      "parent": "greedy"
+    },
+    {
+      "id": "counting_combinatorics",
+      "name": "Counting combinatorics",
+      "description": "Count valid objects using combinatorial structure.",
+      "parent": "math"
+    },
+    {
+      "id": "graph_connectivity_under_constraints",
+      "name": "Graph connectivity under constraints",
+      "description": "Connectivity problem with constraints on edges, vertices, or states.",
+      "parent": "graph"
+    },
+    {
+      "id": "range_query_update",
+      "name": "Range query/update",
+      "description": "Maintain values under range queries and/or updates.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "subset_state_optimization",
+      "name": "Subset state optimization",
+      "description": "Optimize over subset masks or subset states.",
+      "parent": "dp"
+    },
+    {
+      "id": "tree_dp",
+      "name": "Tree DP",
+      "description": "Dynamic programming over a tree structure.",
+      "parent": "dp"
+    },
+    {
+      "id": "sequence_dp",
+      "name": "Sequence DP",
+      "description": "Dynamic programming over a sequence or prefix.",
+      "parent": "dp"
+    },
+    {
+      "id": "grid_graph_traversal",
+      "name": "Grid graph traversal",
+      "description": "Traverse or search a grid as a graph.",
+      "parent": "graph"
+    },
+    {
+      "id": "implicit_graph_search",
+      "name": "Implicit graph search",
+      "description": "Search graph states generated on demand.",
+      "parent": "graph"
+    },
+    {
+      "id": "meet_in_the_middle",
+      "name": "Meet in the middle",
+      "description": "Split the search space and combine partial enumerations.",
+      "parent": "search"
+    },
+    {
+      "id": "two_pointer_window",
+      "name": "Two-pointer window",
+      "description": "Maintain a moving window with two pointers.",
+      "parent": "two_pointer"
+    },
+    {
+      "id": "offline_query_processing",
+      "name": "Offline query processing",
+      "description": "Reorder or batch queries before answering.",
+      "parent": "query_processing"
+    },
+    {
+      "id": "expression_parsing",
+      "name": "Expression parsing",
+      "description": "Parse or transform expressions using grammar, precedence, or stack structure.",
+      "parent": "parsing"
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "items": [
+    {
+      "id": "binary_search.answer",
+      "name": "Binary search on answer",
+      "description": "Binary search over an answer value.",
+      "parent": "binary_search"
+    },
+    {
+      "id": "binary_search.monotone_predicate",
+      "name": "Monotone predicate",
+      "description": "Design or use a monotone feasibility predicate.",
+      "parent": "binary_search"
+    },
+    {
+      "id": "binary_search.lower_bound",
+      "name": "Lower bound binary search",
+      "description": "Use lower_bound-style binary search over sorted data.",
+      "parent": "binary_search"
+    },
+    {
+      "id": "binary_search.real_number",
+      "name": "Real-number binary search",
+      "description": "Binary search over continuous values.",
+      "parent": "binary_search"
+    },
+    {
+      "id": "binary_search.parametric_search",
+      "name": "Parametric search",
+      "description": "Parametric search framing with a decision procedure.",
+      "parent": "binary_search"
+    },
+    {
+      "id": "array.linear_scan",
+      "name": "Linear scan",
+      "description": "Linear scan over an array or sequence.",
+      "parent": "array"
+    },
+    {
+      "id": "array.prefix_sum",
+      "name": "Prefix sum",
+      "description": "Prefix sums or cumulative aggregates.",
+      "parent": "array"
+    },
+    {
+      "id": "array.suffix_aggregation",
+      "name": "Suffix aggregation",
+      "description": "Suffix aggregates or reverse cumulative values.",
+      "parent": "array"
+    },
+    {
+      "id": "math.sum_of_deficits",
+      "name": "Sum of deficits",
+      "description": "Sum deficits from a target value or threshold.",
+      "parent": "math"
+    },
+    {
+      "id": "math.modular_arithmetic",
+      "name": "Modular arithmetic",
+      "description": "Modular arithmetic operations or identities.",
+      "parent": "math"
+    },
+    {
+      "id": "dp.state_design",
+      "name": "DP state design",
+      "description": "Define DP states that capture necessary information.",
+      "parent": "dp"
+    },
+    {
+      "id": "dp.transition_optimization",
+      "name": "DP transition optimization",
+      "description": "Optimize transition cost or transition enumeration.",
+      "parent": "dp"
+    },
+    {
+      "id": "graph.bfs",
+      "name": "Breadth-first search",
+      "description": "Breadth-first search.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.dijkstra",
+      "name": "Dijkstra",
+      "description": "Dijkstra shortest path with non-negative edge weights.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.state_expansion",
+      "name": "State expansion",
+      "description": "Expand graph nodes with extra state dimensions.",
+      "parent": "graph"
+    },
+    {
+      "id": "greedy.sorting_key",
+      "name": "Greedy sorting key",
+      "description": "Sort by a key that enables greedy choices.",
+      "parent": "greedy"
+    },
+    {
+      "id": "greedy.exchange_argument",
+      "name": "Exchange argument",
+      "description": "Justify greedy choice by exchange argument.",
+      "parent": "greedy"
+    },
+    {
+      "id": "data_structure.segment_tree",
+      "name": "Segment tree",
+      "description": "Segment tree for range queries or updates.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.fenwick_tree",
+      "name": "Fenwick tree",
+      "description": "Fenwick tree for prefix aggregates or point updates.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.stack",
+      "name": "Stack",
+      "description": "Stack used to manage nested, delayed, or last-in-first-out state.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "parsing.operator_precedence",
+      "name": "Operator precedence",
+      "description": "Handle operators according to precedence and parentheses rules.",
+      "parent": "parsing"
+    }
+  ]
+}
