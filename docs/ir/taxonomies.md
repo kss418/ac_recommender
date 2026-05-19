@@ -112,6 +112,7 @@ are not statement-side problem categories.
 | `array.prefix_sum` | Prefix sums or cumulative aggregates. |
 | `array.suffix_aggregation` | Suffix aggregates or reverse cumulative values. |
 | `math.sum_of_deficits` | Sum deficits from a target value or threshold. |
+| `math.ceil_division` | Integer ceiling division for counts or operation requirements. |
 | `math.modular_arithmetic` | Modular arithmetic operations or identities. |
 | `dp.state_design` | Define DP states that capture necessary information. |
 | `dp.transition_optimization` | Optimize transition cost or transition enumeration. |
@@ -124,3 +125,4 @@ are not statement-side problem categories.
 | `data_structure.fenwick_tree` | Fenwick tree for prefix aggregates or point updates. |
 | `data_structure.stack` | Stack used to manage nested, delayed, or last-in-first-out state. |
 | `parsing.operator_precedence` | Handle operators according to precedence and parentheses rules. |
+| `implementation.overflow_guard` | Avoid overflow in accumulated values or search bounds. |

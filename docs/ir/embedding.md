@@ -105,13 +105,13 @@ Primary paradigm: binary_search
 Algorithm template: binary_search_on_answer
 Solution models: monotonic_feasibility_optimization, maximize_minimum_under_budget
 Main object: target minimum value x
-Main condition: required_increments(x) <= K
+Main condition: required_operations(x) <= K
 Structural property: monotone feasible region
 Update or transition: move the lower bound upward when x is feasible
 Answer extraction: maximum feasible x
 Template-specific: search over answer x with monotone feasible predicate
-Core computations: required_increments = sum(max(0, x - a_i))
-Complexity: O(N log V), where V is answer search range
+Core computations: required_operations = sum(ceil((x - a_i) / i) for i where a_i < x)
+Complexity: O(N log(A_1 + K)), where A_1 + K is the binary search range upper scale
 ```
 
 ## `skill`
@@ -130,7 +130,7 @@ Suggested text:
 
 ```text
 Primary skills: binary_search.answer, binary_search.monotone_predicate
-Supporting skills: array.linear_scan, math.sum_of_deficits
+Supporting skills: array.linear_scan, math.ceil_division, implementation.overflow_guard
 Paradigm: binary_search
 Template: binary_search_on_answer
 ```
@@ -164,9 +164,9 @@ Problem: Raise Minimum
 Paradigm: binary_search
 Template: binary_search_on_answer
 Solution models: monotonic_feasibility_optimization, maximize_minimum_under_budget
-Skills: binary_search.answer, binary_search.monotone_predicate, array.linear_scan, math.sum_of_deficits
-Signature: target minimum value x; required_increments(x) <= K; monotone feasible region; maximize feasible x
-Core computations: sum(max(0, x - a_i))
+Skills: binary_search.answer, binary_search.monotone_predicate, array.linear_scan, math.ceil_division, implementation.overflow_guard
+Signature: target minimum value x; required_operations(x) <= K; monotone feasible region; maximize feasible x
+Core computations: sum(ceil((x - a_i) / i) for i where a_i < x)
 ```
 
 ## Difficulty

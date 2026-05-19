@@ -37,13 +37,13 @@ feasibility predicate.
   "search_space": {
     "variable": "x",
     "meaning": "target minimum value",
-    "lower_bound": "min(A)",
-    "upper_bound": "max(A) + K"
+    "lower_bound": "1",
+    "upper_bound": "A_1 + K + 1"
   },
   "predicate": {
     "name": "feasible",
-    "definition": "required_increments(x) <= K",
-    "evaluation": "sum(max(0, x - a_i)) <= K",
+    "definition": "required_operations(x) <= K",
+    "evaluation": "sum(ceil((x - a_i) / i) for i where a_i < x) <= K",
     "cost": "O(N)"
   },
   "monotonicity": {

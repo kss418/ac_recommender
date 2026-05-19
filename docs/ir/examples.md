@@ -65,18 +65,23 @@ Binary search on answer.
         "weight": 0.4
       },
       {
-        "id": "math.sum_of_deficits",
+        "id": "math.ceil_division",
+        "role": "supporting",
+        "weight": 0.5
+      },
+      {
+        "id": "implementation.overflow_guard",
         "role": "supporting",
         "weight": 0.3
       }
     ],
     "solution_signature": {
       "main_object": "target minimum value x",
-      "main_condition": "required_increments(x) <= K",
+      "main_condition": "required_operations(x) <= K",
       "structural_property": "monotone feasible region",
       "update_or_transition": "move the lower bound upward when x is feasible",
       "answer_extraction": "maximum feasible x",
-      "complexity_bottleneck": "O(N) feasibility check"
+      "complexity_bottleneck": "O(N) feasibility check using integer ceiling division"
     },
     "template_specific": {
       "type": "binary_search_on_answer",
@@ -89,13 +94,13 @@ Binary search on answer.
       "search_space": {
         "variable": "x",
         "meaning": "target minimum value",
-        "lower_bound": "min(A)",
-        "upper_bound": "max(A) + K"
+        "lower_bound": "1",
+        "upper_bound": "A_1 + K + 1"
       },
       "predicate": {
         "name": "feasible",
-        "definition": "required_increments(x) <= K",
-        "evaluation": "sum(max(0, x - a_i)) <= K",
+        "definition": "required_operations(x) <= K",
+        "evaluation": "sum(ceil((x - a_i) / i) for i where a_i < x) <= K",
         "cost": "O(N)"
       },
       "monotonicity": {
@@ -105,22 +110,28 @@ Binary search on answer.
     },
     "core_computations": [
       {
-        "name": "required_increments",
-        "expression": "sum(max(0, x - a_i))",
+        "name": "required_operations",
+        "expression": "sum(ceil((x - a_i) / i) for i where a_i < x)",
         "role": "feasibility check"
+      },
+      {
+        "name": "integer_ceil_division",
+        "expression": "(x - a_i + i - 1) // i",
+        "role": "compute required operations for one element"
       }
     ],
     "procedure": [
       "Binary search x over the answer space.",
-      "Evaluate feasible(x).",
+      "For each candidate x, compute the total operations needed to make every element at least x.",
+      "Use integer ceiling division for elements below x.",
       "Return the maximum feasible x."
     ],
     "complexity": {
       "time": {
-        "raw": "O(N log V)",
+        "raw": "O(N log(A_1 + K))",
         "variables": {
           "N": "number of elements",
-          "V": "answer search range"
+          "A_1 + K": "binary search range upper scale"
         }
       },
       "space": {

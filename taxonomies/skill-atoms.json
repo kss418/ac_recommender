@@ -57,6 +57,12 @@
       "parent": "math"
     },
     {
+      "id": "math.ceil_division",
+      "name": "Ceiling division",
+      "description": "Integer ceiling division for counts or operation requirements.",
+      "parent": "math"
+    },
+    {
       "id": "math.modular_arithmetic",
       "name": "Modular arithmetic",
       "description": "Modular arithmetic operations or identities.",
@@ -127,6 +133,12 @@
       "name": "Operator precedence",
       "description": "Handle operators according to precedence and parentheses rules.",
       "parent": "parsing"
+    },
+    {
+      "id": "implementation.overflow_guard",
+      "name": "Overflow guard",
+      "description": "Avoid overflow in accumulated values or search bounds.",
+      "parent": "implementation"
     }
   ]
 }
