@@ -1,5 +1,8 @@
 # Examples
 
+Some examples in this document are synthetic and are intended to demonstrate
+schema shape rather than represent real problems.
+
 ## AtCoder ABC457 D - Raise Minimum
 
 Binary search on answer.
@@ -129,7 +132,7 @@ Binary search on answer.
 }
 ```
 
-## Dynamic Programming
+## Synthetic Dynamic Programming
 
 ```json
 {
@@ -228,7 +231,7 @@ Binary search on answer.
 }
 ```
 
-## Graph Traversal
+## Synthetic Graph Traversal
 
 ```json
 {
@@ -330,7 +333,7 @@ Binary search on answer.
 }
 ```
 
-## Greedy
+## Synthetic Greedy
 
 ```json
 {
