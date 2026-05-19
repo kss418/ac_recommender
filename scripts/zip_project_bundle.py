@@ -26,6 +26,7 @@ def zip_project_bundle(*, repo_root: Path, output: Path) -> Path:
     source_roots = [
         repo_root / "docs" / "ir",
         repo_root / "schema",
+        repo_root / "scripts",
         repo_root / "taxonomies",
     ]
     for source_root in source_roots:
@@ -40,10 +41,16 @@ def zip_project_bundle(*, repo_root: Path, output: Path) -> Path:
     with zipfile.ZipFile(output_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
         for source_root in source_roots:
             for path in sorted(source_root.rglob("*")):
-                if path.is_file():
+                if path.is_file() and should_include_file(path):
                     archive.write(path, path.relative_to(repo_root).as_posix())
 
     return output_path
+
+
+def should_include_file(path: Path) -> bool:
+    if "__pycache__" in path.parts:
+        return False
+    return path.suffix != ".pyc"
 
 
 def main(argv: Iterable[str] | None = None) -> int:

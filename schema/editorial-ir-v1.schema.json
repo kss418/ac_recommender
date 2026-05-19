@@ -163,6 +163,7 @@
           "enum": [
             "official_solution",
             "user_editorial",
+            "user_solution_code",
             "generated",
             "unknown"
           ]

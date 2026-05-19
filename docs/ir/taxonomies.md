@@ -10,6 +10,18 @@ Machine-readable taxonomy data lives in:
 Extractor and validator code should read the JSON files. This Markdown file is
 for naming rules, review policy, and human-readable summaries.
 
+## Reference Validation
+
+JSON Schema validates the shape of taxonomy references. A second validation
+step must verify that every referenced id exists in the taxonomy data:
+
+```text
+solution.solution_models[].id in taxonomies/solution-models.json
+solution.skill_atoms[].id in taxonomies/skill-atoms.json
+```
+
+Use `../../scripts/validate_ir.py` for this check.
+
 ## ID Naming Convention
 
 Use lowercase dot-separated ids for skill atoms.

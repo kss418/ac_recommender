@@ -87,7 +87,7 @@ Solution source metadata.
 ```
 
 - `url`: source solution URL, repository URL, or `null` when the solution is generated without a concrete source URL
-- `kind`: `official_solution`, `user_editorial`, `generated`, or `unknown`
+- `kind`: `official_solution`, `user_editorial`, `user_solution_code`, `generated`, or `unknown`
 - `language`: source solution language, otherwise `null`
 - `author`: solution source author when available, otherwise `null`
 

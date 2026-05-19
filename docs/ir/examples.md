@@ -455,7 +455,7 @@ Binary search on answer.
   },
   "source": {
     "url": "https://github.com/kss418/boj/blob/main/%EB%B0%B1%EC%A4%80/Gold/1918.%E2%80%85%ED%9B%84%EC%9C%84%E2%80%85%ED%91%9C%EA%B8%B0%EC%8B%9D/%ED%9B%84%EC%9C%84%E2%80%85%ED%91%9C%EA%B8%B0%EC%8B%9D.cc",
-    "kind": "user_editorial",
+    "kind": "user_solution_code",
     "language": "cpp",
     "author": "kss418"
   },

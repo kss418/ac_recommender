@@ -17,3 +17,8 @@ competitive programming editorial content for retrieval and recommendation.
 - `../../schema/editorial-ir-v1.schema.json`: JSON Schema for IR validation
 - `../../taxonomies/solution-models.json`: Solution model taxonomy data
 - `../../taxonomies/skill-atoms.json`: Skill atom taxonomy data
+
+## Validation
+
+Use `../../scripts/validate_ir.py` to run JSON Schema validation followed by
+taxonomy reference validation.
