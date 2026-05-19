@@ -7,7 +7,7 @@ The IR is the source of truth; embeddings are derived text views.
 
 Each problem may produce multiple embedding documents:
 
-- `problem_semantic`
+- `problem_identity`
 - `solution_structure`
 - `skill`
 - `combined`
@@ -28,9 +28,10 @@ them directly in embedding text unless a view explicitly says so.
 
 Use `problem.difficulty` for filtering or reranking, not for embedding.
 
-## `problem_semantic`
+## `problem_identity`
 
-Purpose: capture the problem identity at a light semantic level.
+Purpose: capture the source problem identity for lookup and weak lexical
+matching. This is not a true semantic view of the problem statement.
 
 Use:
 
@@ -52,6 +53,27 @@ Platform: atcoder
 Event: abc457
 Problem: D - Raise Minimum
 ```
+
+## Future `problem_semantic`
+
+Do not generate a `problem_semantic` view from identity fields alone. A true
+problem semantic view requires a structured statement-side signature such as:
+
+```json
+{
+  "problem_signature": {
+    "domain": "array",
+    "objects": ["array", "increment_budget", "target_minimum"],
+    "objective": "maximize the minimum value after at most K increments",
+    "operations": ["increment array elements"],
+    "constraint_signal": "answer search is needed over a large value range"
+  }
+}
+```
+
+If `problem_signature` is added in a later IR version, `problem_semantic`
+should be generated from that object rather than from platform, event, or
+problem id metadata.
 
 ## `solution_structure`
 

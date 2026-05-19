@@ -238,7 +238,7 @@ def select_one_editorial_per_section(links: list[EditorialLink]) -> list[Editori
 def select_preferred_editorial(candidates: list[EditorialLink]) -> EditorialLink:
     return min(
         candidates,
-        key=lambda link: 0 if link.kind == "official" else 1,
+        key=lambda link: 0 if link.kind == "official_solution" else 1,
     )
 
 

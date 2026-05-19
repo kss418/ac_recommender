@@ -75,21 +75,24 @@ Problem identity.
 
 ## `source`
 
-Editorial source metadata.
+Solution source metadata.
 
 ```json
 {
   "url": "https://atcoder.jp/contests/abc457/editorial/20138?editorialLang=en&lang=en",
-  "kind": "official",
+  "kind": "official_solution",
   "language": "en",
   "author": "en_translator"
 }
 ```
 
-- `url`: source editorial URL
-- `kind`: `official`, `user`, or `unknown`
-- `language`: editorial language
-- `author`: editorial author when available, otherwise `null`
+- `url`: source solution URL, repository URL, or `null` when the solution is generated without a concrete source URL
+- `kind`: `official_solution`, `user_editorial`, `generated`, or `unknown`
+- `language`: source solution language, otherwise `null`
+- `author`: solution source author when available, otherwise `null`
+
+`generated` is reserved for AI-generated solutions. Do not use it for
+user-authored repository code.
 
 ## `solution`
 
