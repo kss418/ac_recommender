@@ -1,5 +1,6 @@
 editorials/
 ir/
+data-bundle-*.zip
 ir-docs-*.zip
 project-bundle-*.zip
 __pycache__/
