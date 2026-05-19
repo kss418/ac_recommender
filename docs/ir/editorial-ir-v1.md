@@ -62,6 +62,7 @@ Do not use the older pilot paths `editorials/ABC/...`, `ir/v1/ABC/...`, or
   "source": {},
   "solution": {
     "primary_paradigm": "...",
+    "specific_paradigm": "...",
     "algorithm_template": "...",
     "solution_models": [],
     "skill_atoms": [],

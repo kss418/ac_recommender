@@ -37,6 +37,7 @@ Binary search on answer.
   },
   "solution": {
     "primary_paradigm": "binary_search",
+    "specific_paradigm": "binary_search_on_answer",
     "algorithm_template": "binary_search_on_answer",
     "solution_models": [
       {
@@ -175,6 +176,7 @@ Binary search on answer.
   },
   "solution": {
     "primary_paradigm": "dp",
+    "specific_paradigm": "sequence_dp",
     "algorithm_template": "dynamic_programming",
     "solution_models": [
       {
@@ -274,6 +276,7 @@ Binary search on answer.
   },
   "solution": {
     "primary_paradigm": "graph",
+    "specific_paradigm": "grid_state_bfs",
     "algorithm_template": "graph_traversal",
     "solution_models": [
       {
@@ -376,6 +379,7 @@ Binary search on answer.
   },
   "solution": {
     "primary_paradigm": "greedy",
+    "specific_paradigm": "earliest_finish_interval_greedy",
     "algorithm_template": "greedy",
     "solution_models": [
       {
@@ -472,6 +476,7 @@ Binary search on answer.
   },
   "solution": {
     "primary_paradigm": "data_structure",
+    "specific_paradigm": "stack_expression_parsing",
     "algorithm_template": "stack_expression_parsing",
     "solution_models": [
       {

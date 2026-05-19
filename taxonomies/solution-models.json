@@ -115,6 +115,132 @@
       "name": "Expression parsing",
       "description": "Parse or transform expressions using grammar, precedence, or stack structure.",
       "parent": "parsing"
+    },
+    {
+      "id": "simple_condition_check",
+      "name": "Simple condition check",
+      "description": "Decision problem solved by a small fixed set of direct conditions.",
+      "parent": "implementation"
+    },
+    {
+      "id": "fixed_output_construction",
+      "name": "Fixed output construction",
+      "description": "Construct the output directly from fixed formatting or coordinate rules.",
+      "parent": "construction"
+    },
+    {
+      "id": "direct_access_query",
+      "name": "Direct access query",
+      "description": "Answer by mapping a requested index or key to one stored value.",
+      "parent": "implementation"
+    },
+    {
+      "id": "linear_scan_accumulation",
+      "name": "Linear scan accumulation",
+      "description": "Single pass that maintains a small amount of accumulated state.",
+      "parent": "array"
+    },
+    {
+      "id": "exhaustive_enumeration",
+      "name": "Exhaustive enumeration",
+      "description": "Enumerate the feasible candidate space directly and test each candidate.",
+      "parent": "search"
+    },
+    {
+      "id": "incremental_counting",
+      "name": "Incremental counting",
+      "description": "Accumulate counts or deltas while scanning independent records.",
+      "parent": "counting"
+    },
+    {
+      "id": "data_structure_simulation",
+      "name": "Data structure simulation",
+      "description": "Simulate updates and queries with an explicit data structure.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "precomputed_lookup",
+      "name": "Precomputed lookup",
+      "description": "Build a lookup table so later feasibility checks are local or constant time.",
+      "parent": "precomputation"
+    },
+    {
+      "id": "quotient_interval_decomposition",
+      "name": "Quotient interval decomposition",
+      "description": "Group consecutive indices with the same quotient or arithmetic behavior.",
+      "parent": "math"
+    },
+    {
+      "id": "suffix_array_distinct_counting",
+      "name": "Suffix-array distinct counting",
+      "description": "Count distinct substrings or subarrays using suffix array and LCP subtraction.",
+      "parent": "string"
+    },
+    {
+      "id": "combinatorial_formula",
+      "name": "Combinatorial formula",
+      "description": "Reduce the answer to a closed-form or inclusion-exclusion count.",
+      "parent": "math"
+    },
+    {
+      "id": "constructive_algorithm",
+      "name": "Constructive algorithm",
+      "description": "Build an object directly while preserving stated constraints.",
+      "parent": "construction"
+    },
+    {
+      "id": "linked_structure_simulation",
+      "name": "Linked structure simulation",
+      "description": "Maintain predecessor and successor links under update operations.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "segment_tree_aggregation",
+      "name": "Segment tree aggregation",
+      "description": "Maintain range aggregates with a segment tree or lazy propagation.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "prefix_counting",
+      "name": "Prefix counting",
+      "description": "Count valid intervals or substrings by comparing prefix-state keys.",
+      "parent": "array"
+    },
+    {
+      "id": "sliding_window_hashing",
+      "name": "Sliding-window hashing",
+      "description": "Maintain a moving window and hash/frequency state for counting.",
+      "parent": "two_pointer"
+    },
+    {
+      "id": "math_formula_transformation",
+      "name": "Math formula transformation",
+      "description": "Transform the statement into a direct mathematical formula or decomposition.",
+      "parent": "math"
+    },
+    {
+      "id": "block_decomposition",
+      "name": "Block decomposition",
+      "description": "Locate or count answers by decomposing a sequence into fixed blocks.",
+      "parent": "array"
+    },
+    {
+      "id": "poset_lis_reduction",
+      "name": "Poset LIS reduction",
+      "description": "Reduce a partial-order chain or antichain problem to LIS-style tail updates.",
+      "parent": "sequence"
+    },
+    {
+      "id": "cyclic_rotation_scan",
+      "name": "Cyclic rotation scan",
+      "description": "Scan rotations of a sorted cyclic representation while maintaining an invariant.",
+      "parent": "array"
+    },
+    {
+      "id": "endpoint_query_processing",
+      "name": "Endpoint query processing",
+      "description": "Answer interval queries using preprocessed endpoint-indexed structures.",
+      "parent": "query_processing"
     }
   ]
 }

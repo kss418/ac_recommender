@@ -101,6 +101,7 @@ Structured solution model.
 ```json
 {
   "primary_paradigm": "...",
+  "specific_paradigm": "...",
   "algorithm_template": "...",
   "solution_models": [
     {
@@ -138,7 +139,8 @@ Structured solution model.
 }
 ```
 
-- `primary_paradigm`: broad family such as `binary_search`, `dp`, `graph`, `greedy`, `math`
+- `primary_paradigm`: coarse family. Must be one of `implementation`, `brute_force`, `math`, `greedy`, `binary_search`, `dp`, `graph`, `data_structure`, `string`, or `constructive`
+- `specific_paradigm`: more detailed human-readable paradigm, such as `persistent_segment_tree`, `two_pointer_data_structure`, or `recursive_dynamic_programming`
 - `algorithm_template`: reusable pattern such as `binary_search_on_answer`
 - `solution_models`: normalized retrieval-oriented solution model ids with weights, ordered from strongest to weakest
 - `solution_models[].id`: taxonomy id such as `monotonic_feasibility_optimization`

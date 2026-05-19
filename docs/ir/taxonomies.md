@@ -98,6 +98,27 @@ are not statement-side problem categories.
 | `two_pointer_window` | Maintain a moving window with two pointers. |
 | `offline_query_processing` | Reorder or batch queries before answering. |
 | `expression_parsing` | Parse or transform expressions using grammar, precedence, or stack structure. |
+| `simple_condition_check` | Decision problem solved by a small fixed set of direct conditions. |
+| `fixed_output_construction` | Construct the output directly from fixed formatting or coordinate rules. |
+| `direct_access_query` | Answer by mapping a requested index or key to one stored value. |
+| `linear_scan_accumulation` | Single pass that maintains a small amount of accumulated state. |
+| `exhaustive_enumeration` | Enumerate the feasible candidate space directly and test each candidate. |
+| `incremental_counting` | Accumulate counts or deltas while scanning independent records. |
+| `data_structure_simulation` | Simulate updates and queries with an explicit data structure. |
+| `precomputed_lookup` | Build a lookup table so later feasibility checks are local or constant time. |
+| `quotient_interval_decomposition` | Group consecutive indices with the same quotient or arithmetic behavior. |
+| `suffix_array_distinct_counting` | Count distinct substrings or subarrays using suffix array and LCP subtraction. |
+| `combinatorial_formula` | Reduce the answer to a closed-form or inclusion-exclusion count. |
+| `constructive_algorithm` | Build an object directly while preserving stated constraints. |
+| `linked_structure_simulation` | Maintain predecessor and successor links under update operations. |
+| `segment_tree_aggregation` | Maintain range aggregates with a segment tree or lazy propagation. |
+| `prefix_counting` | Count valid intervals or substrings by comparing prefix-state keys. |
+| `sliding_window_hashing` | Maintain a moving window and hash/frequency state for counting. |
+| `math_formula_transformation` | Transform the statement into a direct mathematical formula or decomposition. |
+| `block_decomposition` | Locate or count answers by decomposing a sequence into fixed blocks. |
+| `poset_lis_reduction` | Reduce a partial-order chain or antichain problem to LIS-style tail updates. |
+| `cyclic_rotation_scan` | Scan rotations of a sorted cyclic representation while maintaining an invariant. |
+| `endpoint_query_processing` | Answer interval queries using preprocessed endpoint-indexed structures. |
 
 ## Skill Atoms
 
@@ -126,3 +147,20 @@ are not statement-side problem categories.
 | `data_structure.stack` | Stack used to manage nested, delayed, or last-in-first-out state. |
 | `parsing.operator_precedence` | Handle operators according to precedence and parentheses rules. |
 | `implementation.overflow_guard` | Avoid overflow in accumulated values or search bounds. |
+| `data_structure.disjoint_set_union` | Maintain connected components with union-find. |
+| `graph.bipartite_coloring` | Assign or maintain two-color parity constraints in a graph. |
+| `data_structure.small_to_large` | Merge smaller sets or containers into larger ones to bound total movement. |
+| `data_structure.set` | Maintain explicit sets of elements with insertion, deletion, or membership checks. |
+| `graph.minimum_spanning_tree` | Construct or reason about a minimum spanning tree. |
+| `graph.tree_distance_verification` | Verify that a tree realizes required pairwise distances. |
+| `graph.all_pairs_tree_distance` | Compute or check distances between all pairs of vertices in a tree. |
+| `data_structure.persistent_segment_tree` | Maintain versioned segment tree roots under updates. |
+| `data_structure.path_copying` | Create persistent updates by cloning nodes along an update path. |
+| `data_structure.range_sum_query` | Query sums over an interval. |
+| `data_structure.lazy_segment_tree` | Segment tree with lazy propagation for range updates. |
+| `math.aggregate_formula` | Use an algebraic formula over maintained aggregates. |
+| `math.sum_and_square_sum` | Maintain or use both sum and sum of squares. |
+| `implementation.condition_check` | Evaluate a direct boolean condition. |
+| `implementation.direct_formula` | Compute the answer with a direct formula. |
+| `implementation.output_formatting` | Produce output in the exact required format. |
+| `math.interval_length` | Compute the number of integers or values in an interval. |

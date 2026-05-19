@@ -12,6 +12,18 @@ from typing import Any, Iterable, Iterator
 
 
 JsonObject = dict[str, Any]
+PRIMARY_PARADIGMS = {
+    "implementation",
+    "brute_force",
+    "math",
+    "greedy",
+    "binary_search",
+    "dp",
+    "graph",
+    "data_structure",
+    "string",
+    "constructive",
+}
 
 
 def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
@@ -80,6 +92,8 @@ def main(argv: Iterable[str] | None = None) -> int:
     for label, instance in inputs:
         if schema_validator is not None:
             errors.extend(validate_schema(schema_validator, label, instance))
+        errors.extend(validate_primary_paradigm(label, instance))
+        errors.extend(validate_template_invariant(label, instance))
         errors.extend(
             validate_taxonomy_references(
                 label,
@@ -126,6 +140,50 @@ def validate_schema(validator: Any, label: str, instance: JsonObject) -> list[st
         path = json_path(error.path)
         messages.append(f"{label}: schema error at {path}: {error.message}")
     return messages
+
+
+def validate_primary_paradigm(label: str, instance: JsonObject) -> list[str]:
+    solution = instance.get("solution")
+    if not isinstance(solution, dict):
+        return [f"{label}: paradigm error at $.solution: missing or invalid solution object"]
+
+    primary = solution.get("primary_paradigm")
+    if primary not in PRIMARY_PARADIGMS:
+        allowed = ", ".join(sorted(PRIMARY_PARADIGMS))
+        return [
+            f"{label}: paradigm error at $.solution.primary_paradigm: "
+            f"expected one of {{{allowed}}}, got {primary!r}"
+        ]
+
+    specific = solution.get("specific_paradigm")
+    if not isinstance(specific, str) or not specific:
+        return [
+            f"{label}: paradigm error at $.solution.specific_paradigm: "
+            "expected a non-empty string"
+        ]
+    return []
+
+
+def validate_template_invariant(label: str, instance: JsonObject) -> list[str]:
+    solution = instance.get("solution")
+    if not isinstance(solution, dict):
+        return [f"{label}: invariant error at $.solution: missing or invalid solution object"]
+
+    algorithm_template = solution.get("algorithm_template")
+    template_specific = solution.get("template_specific")
+    if not isinstance(template_specific, dict):
+        return [
+            f"{label}: invariant error at $.solution.template_specific: "
+            "missing or invalid template_specific object"
+        ]
+
+    template_type = template_specific.get("type")
+    if algorithm_template != template_type:
+        return [
+            f"{label}: invariant error: $.solution.algorithm_template "
+            f"{algorithm_template!r} must equal $.solution.template_specific.type {template_type!r}"
+        ]
+    return []
 
 
 def load_taxonomy_ids(path: Path, *, expected_kind: str) -> set[str]:

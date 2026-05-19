@@ -108,7 +108,11 @@ Each IR JSON document is built around:
 Inside `solution`, the important retrieval fields are:
 
 - `primary_paradigm`: broad category, for example `binary_search`, `dp`,
-  `graph`, `greedy`, `data_structure`.
+  `graph`, `greedy`, `data_structure`. Keep this field coarse and use only the
+  documented enum values.
+- `specific_paradigm`: detailed human-readable variant, for example
+  `persistent_segment_tree`, `two_pointer_data_structure`, or
+  `recursive_dynamic_programming`.
 - `algorithm_template`: concrete template id.
 - `solution_models`: weighted retrieval-oriented solution model ids from
   `taxonomies/solution-models.json`.
@@ -308,6 +312,10 @@ python scripts\validate_ir.py ir --examples-md docs\ir\examples.md
   computation.
 - Avoid boilerplate in `procedure`; do not include generic steps like "read
   input" unless input handling is itself the core trick.
+- Do not use `greedy` as a fallback template. Prefer narrower templates such as
+  `exhaustive_enumeration`, `two_pointer`, `segment_tree`,
+  `data_structure_simulation`, `prefix_counting`, or `query_processing` when
+  those better describe the solution.
 - For binary-search-on-answer IR, keep the retrieval fingerprint in
   `solution_signature`, and put concrete search bounds/predicate details in
   `template_specific`.

@@ -187,6 +187,7 @@
       "additionalProperties": false,
       "required": [
         "primary_paradigm",
+        "specific_paradigm",
         "algorithm_template",
         "solution_models",
         "skill_atoms",
@@ -198,6 +199,9 @@
       ],
       "properties": {
         "primary_paradigm": {
+          "$ref": "#/$defs/primaryParadigm"
+        },
+        "specific_paradigm": {
           "type": "string",
           "minLength": 1
         },
@@ -336,13 +340,46 @@
         }
       ]
     },
+    "primaryParadigm": {
+      "enum": [
+        "implementation",
+        "brute_force",
+        "math",
+        "greedy",
+        "binary_search",
+        "dp",
+        "graph",
+        "data_structure",
+        "string",
+        "constructive"
+      ]
+    },
     "algorithmTemplate": {
       "enum": [
         "binary_search_on_answer",
+        "block_decomposition",
+        "case_analysis",
+        "combinatorial_counting",
+        "counting_accumulation",
+        "cyclic_rotation_scan",
+        "data_structure_simulation",
+        "direct_access",
         "dynamic_programming",
+        "exhaustive_enumeration",
         "graph_traversal",
         "greedy",
-        "stack_expression_parsing"
+        "interval_decomposition",
+        "linear_scan",
+        "lis_patience_sorting",
+        "math_formula",
+        "output_construction",
+        "precomputation_table",
+        "prefix_counting",
+        "query_processing",
+        "segment_tree",
+        "stack_expression_parsing",
+        "string_algorithm",
+        "two_pointer"
       ]
     },
     "weightedSolutionModel": {
@@ -439,15 +476,114 @@
           "$ref": "#/$defs/dynamicProgrammingTemplate"
         },
         {
+          "$ref": "#/$defs/exhaustiveEnumerationTemplate"
+        },
+        {
           "$ref": "#/$defs/graphTraversalTemplate"
         },
         {
           "$ref": "#/$defs/greedyTemplate"
         },
         {
+          "$ref": "#/$defs/segmentTreeTemplate"
+        },
+        {
           "$ref": "#/$defs/stackExpressionParsingTemplate"
+        },
+        {
+          "$ref": "#/$defs/commonStructuredTemplate"
         }
       ]
+    },
+    "commonStructuredTemplate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "main_structure",
+        "key_operations",
+        "answer_extraction"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "block_decomposition",
+            "case_analysis",
+            "combinatorial_counting",
+            "counting_accumulation",
+            "cyclic_rotation_scan",
+            "data_structure_simulation",
+            "direct_access",
+            "interval_decomposition",
+            "linear_scan",
+            "lis_patience_sorting",
+            "math_formula",
+            "output_construction",
+            "precomputation_table",
+            "prefix_counting",
+            "query_processing",
+            "string_algorithm",
+            "two_pointer"
+          ]
+        },
+        "main_structure": {
+          "type": "string",
+          "minLength": 1
+        },
+        "key_operations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "answer_extraction": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "exhaustiveEnumerationTemplate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "search_space",
+        "enumeration_order",
+        "candidate_condition",
+        "aggregation",
+        "pruning",
+        "answer_extraction"
+      ],
+      "properties": {
+        "type": {
+          "const": "exhaustive_enumeration"
+        },
+        "search_space": {
+          "type": "string",
+          "minLength": 1
+        },
+        "enumeration_order": {
+          "type": "string",
+          "minLength": 1
+        },
+        "candidate_condition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "aggregation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pruning": {
+          "type": "string",
+          "minLength": 1
+        },
+        "answer_extraction": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
     },
     "binarySearchOnAnswerTemplate": {
       "type": "object",
@@ -682,6 +818,62 @@
           "minLength": 1
         },
         "exchange_argument": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "segmentTreeTemplate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "variant",
+        "index_domain",
+        "stored_values",
+        "update_operations",
+        "query_operations",
+        "propagation_or_versioning",
+        "answer_extraction"
+      ],
+      "properties": {
+        "type": {
+          "const": "segment_tree"
+        },
+        "variant": {
+          "type": "string",
+          "minLength": 1
+        },
+        "index_domain": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stored_values": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "update_operations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "query_operations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "propagation_or_versioning": {
+          "type": "string",
+          "minLength": 1
+        },
+        "answer_extraction": {
           "type": "string",
           "minLength": 1
         }

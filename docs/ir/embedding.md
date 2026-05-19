@@ -82,6 +82,7 @@ Purpose: retrieve problems with similar solution structure.
 Use:
 
 - `solution.primary_paradigm`
+- `solution.specific_paradigm`
 - `solution.algorithm_template`
 - `solution.solution_models`
 - `solution.solution_signature`
@@ -102,6 +103,7 @@ Suggested text:
 
 ```text
 Primary paradigm: binary_search
+Specific paradigm: binary_search_on_answer
 Algorithm template: binary_search_on_answer
 Solution models: monotonic_feasibility_optimization, maximize_minimum_under_budget
 Main object: target minimum value x
@@ -122,6 +124,7 @@ Use:
 
 - `solution.skill_atoms`
 - `solution.primary_paradigm`
+- `solution.specific_paradigm`
 - `solution.algorithm_template`
 
 Sort skill atoms by role and descending weight.
@@ -132,6 +135,7 @@ Suggested text:
 Primary skills: binary_search.answer, binary_search.monotone_predicate
 Supporting skills: array.linear_scan, math.ceil_division, implementation.overflow_guard
 Paradigm: binary_search
+Specific paradigm: binary_search_on_answer
 Template: binary_search_on_answer
 ```
 
@@ -143,6 +147,7 @@ Use a compact combination of:
 
 - `problem.name`
 - `solution.primary_paradigm`
+- `solution.specific_paradigm`
 - `solution.algorithm_template`
 - `solution.solution_models`
 - `solution.skill_atoms`
@@ -162,6 +167,7 @@ Suggested text:
 ```text
 Problem: Raise Minimum
 Paradigm: binary_search
+Specific paradigm: binary_search_on_answer
 Template: binary_search_on_answer
 Solution models: monotonic_feasibility_optimization, maximize_minimum_under_budget
 Skills: binary_search.answer, binary_search.monotone_predicate, array.linear_scan, math.ceil_division, implementation.overflow_guard

@@ -139,6 +139,108 @@
       "name": "Overflow guard",
       "description": "Avoid overflow in accumulated values or search bounds.",
       "parent": "implementation"
+    },
+    {
+      "id": "data_structure.disjoint_set_union",
+      "name": "Disjoint set union",
+      "description": "Maintain connected components with union-find.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "graph.bipartite_coloring",
+      "name": "Bipartite coloring",
+      "description": "Assign or maintain two-color parity constraints in a graph.",
+      "parent": "graph"
+    },
+    {
+      "id": "data_structure.small_to_large",
+      "name": "Small-to-large merging",
+      "description": "Merge smaller sets or containers into larger ones to bound total movement.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.set",
+      "name": "Set container",
+      "description": "Maintain explicit sets of elements with insertion, deletion, or membership checks.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "graph.minimum_spanning_tree",
+      "name": "Minimum spanning tree",
+      "description": "Construct or reason about a minimum spanning tree.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.tree_distance_verification",
+      "name": "Tree distance verification",
+      "description": "Verify that a tree realizes required pairwise distances.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.all_pairs_tree_distance",
+      "name": "All-pairs tree distance",
+      "description": "Compute or check distances between all pairs of vertices in a tree.",
+      "parent": "graph"
+    },
+    {
+      "id": "data_structure.persistent_segment_tree",
+      "name": "Persistent segment tree",
+      "description": "Maintain versioned segment tree roots under updates.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.path_copying",
+      "name": "Path copying",
+      "description": "Create persistent updates by cloning nodes along an update path.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.range_sum_query",
+      "name": "Range sum query",
+      "description": "Query sums over an interval.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.lazy_segment_tree",
+      "name": "Lazy segment tree",
+      "description": "Segment tree with lazy propagation for range updates.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "math.aggregate_formula",
+      "name": "Aggregate formula",
+      "description": "Use an algebraic formula over maintained aggregates.",
+      "parent": "math"
+    },
+    {
+      "id": "math.sum_and_square_sum",
+      "name": "Sum and square-sum aggregates",
+      "description": "Maintain or use both sum and sum of squares.",
+      "parent": "math"
+    },
+    {
+      "id": "implementation.condition_check",
+      "name": "Condition check",
+      "description": "Evaluate a direct boolean condition.",
+      "parent": "implementation"
+    },
+    {
+      "id": "implementation.direct_formula",
+      "name": "Direct formula",
+      "description": "Compute the answer with a direct formula.",
+      "parent": "implementation"
+    },
+    {
+      "id": "implementation.output_formatting",
+      "name": "Output formatting",
+      "description": "Produce output in the exact required format.",
+      "parent": "implementation"
+    },
+    {
+      "id": "math.interval_length",
+      "name": "Interval length",
+      "description": "Compute the number of integers or values in an interval.",
+      "parent": "math"
     }
   ]
 }
