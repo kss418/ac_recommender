@@ -8,6 +8,6 @@ competitive programming editorial content for retrieval and recommendation.
 - `editorial-ir-v1.md`: Core JSON schema
 - `field-rules.md`: Field-level rules and empty value policy
 - `templates.md`: Template-specific schemas
-- `taxonomies.md`: Problem model and skill atom taxonomies
+- `taxonomies.md`: Solution model and skill atom taxonomies
 - `examples.md`: Complete examples
 - `embedding.md`: Embedding document generation rules

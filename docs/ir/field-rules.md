@@ -99,7 +99,7 @@ Structured solution model.
 {
   "primary_paradigm": "...",
   "algorithm_template": "...",
-  "problem_models": [
+  "solution_models": [
     {
       "id": "...",
       "weight": 1.0
@@ -135,9 +135,9 @@ Structured solution model.
 
 - `primary_paradigm`: broad family such as `binary_search`, `dp`, `graph`, `greedy`, `math`
 - `algorithm_template`: reusable pattern such as `binary_search_on_answer`
-- `problem_models`: normalized model ids with weights, ordered from strongest to weakest
-- `problem_models[].id`: taxonomy id such as `monotonic_feasibility_optimization`
-- `problem_models[].weight`: relevance score from `0.0` to `1.0`
+- `solution_models`: normalized retrieval-oriented solution model ids with weights, ordered from strongest to weakest
+- `solution_models[].id`: taxonomy id such as `monotonic_feasibility_optimization`
+- `solution_models[].weight`: relevance score from `0.0` to `1.0`
 - `skill_atoms`: fine-grained reusable skills with roles and weights
 - `skill_atoms[].id`: stable skill id such as `binary_search.answer`
 - `skill_atoms[].role`: `primary`, `supporting`, or `incidental`

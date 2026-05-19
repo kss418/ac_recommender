@@ -61,7 +61,7 @@ Use:
 
 - `solution.primary_paradigm`
 - `solution.algorithm_template`
-- `solution.problem_models`
+- `solution.solution_models`
 - `solution.solution_signature`
 - `solution.template_specific`
 - `solution.core_computation`
@@ -81,7 +81,7 @@ Suggested text:
 ```text
 Primary paradigm: binary_search
 Algorithm template: binary_search_on_answer
-Problem models: monotonic_feasibility_optimization, maximize_minimum_under_budget
+Solution models: monotonic_feasibility_optimization, maximize_minimum_under_budget
 Main object: target minimum value x
 Main condition: required_increments(x) <= K
 Structural property: monotone feasible region
@@ -122,7 +122,7 @@ Use a compact combination of:
 - `problem.name`
 - `solution.primary_paradigm`
 - `solution.algorithm_template`
-- `solution.problem_models`
+- `solution.solution_models`
 - `solution.skill_atoms`
 - `solution.solution_signature`
 - `solution.core_computation`
@@ -141,7 +141,7 @@ Suggested text:
 Problem: Raise Minimum
 Paradigm: binary_search
 Template: binary_search_on_answer
-Models: monotonic_feasibility_optimization, maximize_minimum_under_budget
+Solution models: monotonic_feasibility_optimization, maximize_minimum_under_budget
 Skills: binary_search.answer, binary_search.monotone_predicate, array.linear_scan, math.sum_of_deficits
 Signature: target minimum value x; required_increments(x) <= K; monotone feasible region; maximize feasible x
 Core computation: sum(max(0, x - a_i))

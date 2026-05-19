@@ -36,7 +36,7 @@ Use the platform event id when the problem belongs to a contest or event. Use
   "solution": {
     "primary_paradigm": "...",
     "algorithm_template": "...",
-    "problem_models": [],
+    "solution_models": [],
     "skill_atoms": [],
     "solution_signature": {},
     "template_specific": {},

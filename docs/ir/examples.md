@@ -35,7 +35,7 @@ Binary search on answer.
   "solution": {
     "primary_paradigm": "binary_search",
     "algorithm_template": "binary_search_on_answer",
-    "problem_models": [
+    "solution_models": [
       {
         "id": "monotonic_feasibility_optimization",
         "weight": 1.0
@@ -160,7 +160,7 @@ Binary search on answer.
   "solution": {
     "primary_paradigm": "dp",
     "algorithm_template": "dynamic_programming",
-    "problem_models": [
+    "solution_models": [
       {
         "id": "sequence_dp",
         "weight": 1.0
@@ -257,7 +257,7 @@ Binary search on answer.
   "solution": {
     "primary_paradigm": "graph",
     "algorithm_template": "graph_traversal",
-    "problem_models": [
+    "solution_models": [
       {
         "id": "grid_graph_traversal",
         "weight": 1.0
@@ -357,7 +357,7 @@ Binary search on answer.
   "solution": {
     "primary_paradigm": "greedy",
     "algorithm_template": "greedy",
-    "problem_models": [
+    "solution_models": [
       {
         "id": "local_greedy_selection",
         "weight": 1.0
@@ -451,7 +451,7 @@ Binary search on answer.
   "solution": {
     "primary_paradigm": "data_structure",
     "algorithm_template": "stack_expression_parsing",
-    "problem_models": [
+    "solution_models": [
       {
         "id": "expression_parsing",
         "weight": 1.0

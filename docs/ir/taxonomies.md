@@ -12,7 +12,7 @@ Examples:
 - `graph.state_expansion`
 - `dp.state_design`
 
-Use lowercase snake_case ids for problem models.
+Use lowercase snake_case ids for solution models.
 
 Examples:
 
@@ -52,7 +52,10 @@ Skill atom roles:
 - `supporting`: useful or repeatedly used, but not the main idea.
 - `incidental`: present in implementation but not useful for recommendation.
 
-## Problem Models
+## Solution Models
+
+Solution models are retrieval-oriented abstractions of solution structure. They
+are not statement-side problem categories.
 
 | ID | Meaning |
 |---|---|
