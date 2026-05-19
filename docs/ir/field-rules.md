@@ -1,0 +1,199 @@
+# Field Rules
+
+## `ir_version`
+
+Fixed string for migration control.
+
+```json
+{
+  "ir_version": "1.0"
+}
+```
+
+## `platform`
+
+Judge or problem platform identity.
+
+```json
+{
+  "name": "atcoder"
+}
+```
+
+- `name`: stable lowercase platform key, for example `atcoder`, `codeforces`, `baekjoon`
+
+## `event`
+
+Contest or event identity. Use `null` when the problem has no contest or event
+context, such as many Baekjoon problems.
+
+```json
+{
+  "series": "ABC",
+  "number": 457,
+  "id": "abc457",
+  "name": "AtCoder Beginner Contest 457"
+}
+```
+
+- `series`: optional event series such as `ABC`, `ARC`, `AGC`, `Div2`
+- `number`: optional event number
+- `id`: platform-specific event id
+- `name`: human-readable event name
+
+For a problem without a contest:
+
+```json
+{
+  "event": null
+}
+```
+
+## `problem`
+
+Problem identity.
+
+```json
+{
+  "id": "abc457_d",
+  "index": "D",
+  "name": "Raise Minimum",
+  "difficulty": {
+    "rating": null,
+    "source": null
+  },
+  "url": "https://atcoder.jp/contests/abc457/tasks/abc457_d"
+}
+```
+
+- `id`: platform-specific problem id, for example `abc457_d`, `1918`, `1878A`
+- `index`: contest-local problem index such as `A`, `B`, `C`, `D`; use `null` when absent
+- `name`: official problem name
+- `difficulty.rating`: numeric difficulty or rating when available, otherwise `null`
+- `difficulty.source`: source of the difficulty value, for example `atcoder`, `codeforces`, `solved_ac`, otherwise `null`
+- `url`: problem URL
+
+## `source`
+
+Editorial source metadata.
+
+```json
+{
+  "url": "https://atcoder.jp/contests/abc457/editorial/20138?editorialLang=en&lang=en",
+  "kind": "official",
+  "language": "en",
+  "author": "en_translator"
+}
+```
+
+- `url`: source editorial URL
+- `kind`: `official`, `user`, or `unknown`
+- `language`: editorial language
+- `author`: editorial author when available, otherwise `null`
+
+## `solution`
+
+Structured solution model.
+
+```json
+{
+  "primary_paradigm": "...",
+  "algorithm_template": "...",
+  "problem_models": [
+    {
+      "id": "...",
+      "weight": 1.0
+    }
+  ],
+  "skill_atoms": [
+    {
+      "id": "...",
+      "role": "primary",
+      "weight": 1.0
+    }
+  ],
+  "solution_signature": {
+    "main_object": "...",
+    "main_condition": "...",
+    "structural_property": "...",
+    "update_or_transition": "...",
+    "answer_extraction": "...",
+    "complexity_bottleneck": "..."
+  },
+  "template_specific": {
+    "type": "..."
+  },
+  "core_computation": {
+    "name": "...",
+    "expression": "...",
+    "role": "..."
+  },
+  "procedure": ["..."],
+  "complexity": {}
+}
+```
+
+- `primary_paradigm`: broad family such as `binary_search`, `dp`, `graph`, `greedy`, `math`
+- `algorithm_template`: reusable pattern such as `binary_search_on_answer`
+- `problem_models`: normalized model ids with weights, ordered from strongest to weakest
+- `problem_models[].id`: taxonomy id such as `monotonic_feasibility_optimization`
+- `problem_models[].weight`: relevance score from `0.0` to `1.0`
+- `skill_atoms`: fine-grained reusable skills with roles and weights
+- `skill_atoms[].id`: stable skill id such as `binary_search.answer`
+- `skill_atoms[].role`: `primary`, `supporting`, or `incidental`
+- `skill_atoms[].weight`: relevance score from `0.0` to `1.0`
+- `solution_signature`: compact retrieval-oriented fingerprint of the solution
+- `solution_signature.main_object`: central value, state, object, or structure manipulated by the solution
+- `solution_signature.main_condition`: core constraint, transition condition, validity condition, or objective condition
+- `solution_signature.structural_property`: key shape of the solution, such as monotone region, DAG state graph, shortest path, exchange argument
+- `solution_signature.update_or_transition`: how the algorithm updates the object, state, candidate, or answer
+- `solution_signature.answer_extraction`: how the final answer is selected or read out
+- `solution_signature.complexity_bottleneck`: repeated operation that dominates time complexity
+- `template_specific`: template-dependent structure; its fields depend on `template_specific.type`
+- `core_computation`: main repeated computation inside the algorithm
+- `procedure`: short normalized steps, not a prose explanation
+
+## `complexity`
+
+Asymptotic complexity with variable definitions and separated memory views.
+
+```json
+{
+  "time": {
+    "raw": "O(N log V)",
+    "variables": {
+      "N": "number of elements",
+      "V": "answer search range"
+    }
+  },
+  "space": {
+    "auxiliary": "O(1)",
+    "total": "O(N)"
+  }
+}
+```
+
+- `complexity.time.raw`: asymptotic time complexity expression
+- `complexity.time.variables`: meaning of variables used in the raw expression
+- `complexity.space.auxiliary`: additional memory beyond the input
+- `complexity.space.total`: total memory including stored input
+
+## Empty Values
+
+Use `null` only when the field is truly unknown.
+
+Prefer empty lists for missing repeated content:
+
+```json
+{
+  "procedure": []
+}
+```
+
+Prefer `null` for unknown scalar values:
+
+```json
+{
+  "author": null
+}
+```
