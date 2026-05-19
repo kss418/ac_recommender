@@ -1,5 +1,4 @@
 editorials/
-dist/
 ir-docs-*.zip
 __pycache__/
 scripts/__pycache__
