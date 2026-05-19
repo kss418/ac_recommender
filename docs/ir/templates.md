@@ -30,25 +30,25 @@ feasibility predicate.
   "type": "binary_search_on_answer",
   "objective": {
     "type": "maximize_feasible_value",
-    "target": "x",
-    "condition": "feasible(x)",
-    "canonical_form": "maximize x such that feasible(x) is true"
+    "target": "<candidate answer variable>",
+    "condition": "feasible(<candidate>)",
+    "canonical_form": "maximize candidate such that feasible(candidate) is true"
   },
   "search_space": {
-    "variable": "x",
-    "meaning": "target minimum value",
-    "lower_bound": "1",
-    "upper_bound": "A_1 + K + 1"
+    "variable": "<candidate>",
+    "meaning": "<meaning of the searched answer value>",
+    "lower_bound": "<initial feasible or minimum candidate expression>",
+    "upper_bound": "<initial infeasible or maximum candidate expression>"
   },
   "predicate": {
     "name": "feasible",
-    "definition": "required_operations(x) <= K",
-    "evaluation": "sum(ceil((x - a_i) / i) for i where a_i < x) <= K",
-    "cost": "O(N)"
+    "definition": "<feasibility condition>",
+    "evaluation": "<how to evaluate feasibility>",
+    "cost": "<cost per predicate evaluation>"
   },
   "monotonicity": {
-    "direction": "true_to_smaller_values",
-    "statement": "If feasible(x), then feasible(y) for every y <= x."
+    "direction": "true_to_smaller_values or true_to_larger_values",
+    "statement": "<monotonicity statement justifying binary search>"
   }
 }
 ```
