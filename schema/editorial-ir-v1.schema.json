@@ -1,0 +1,794 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kss418/ac_recommender/schema/editorial-ir-v1.schema.json",
+  "title": "Editorial IR v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "ir_version",
+    "platform",
+    "event",
+    "problem",
+    "source",
+    "solution"
+  ],
+  "properties": {
+    "ir_version": {
+      "const": "1.0"
+    },
+    "platform": {
+      "$ref": "#/$defs/platform"
+    },
+    "event": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/event"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "problem": {
+      "$ref": "#/$defs/problem"
+    },
+    "source": {
+      "$ref": "#/$defs/source"
+    },
+    "solution": {
+      "$ref": "#/$defs/solution"
+    }
+  },
+  "$defs": {
+    "platform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "series": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "number": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "problem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "index",
+        "name",
+        "difficulty",
+        "url"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "index": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "difficulty": {
+          "$ref": "#/$defs/difficulty"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "difficulty": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rating",
+        "source"
+      ],
+      "properties": {
+        "rating": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "source": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "url",
+        "kind",
+        "language",
+        "author"
+      ],
+      "properties": {
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        },
+        "kind": {
+          "enum": [
+            "official_solution",
+            "user_editorial",
+            "generated",
+            "unknown"
+          ]
+        },
+        "language": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "author": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "solution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "primary_paradigm",
+        "algorithm_template",
+        "solution_models",
+        "skill_atoms",
+        "solution_signature",
+        "template_specific",
+        "core_computations",
+        "procedure",
+        "complexity"
+      ],
+      "properties": {
+        "primary_paradigm": {
+          "type": "string",
+          "minLength": 1
+        },
+        "algorithm_template": {
+          "$ref": "#/$defs/algorithmTemplate"
+        },
+        "solution_models": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/weightedSolutionModel"
+          }
+        },
+        "skill_atoms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/skillAtom"
+          }
+        },
+        "solution_signature": {
+          "$ref": "#/$defs/solutionSignature"
+        },
+        "template_specific": {
+          "$ref": "#/$defs/templateSpecific"
+        },
+        "core_computations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/coreComputation"
+          }
+        },
+        "procedure": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "complexity": {
+          "$ref": "#/$defs/complexity"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "algorithm_template": {
+                "const": "binary_search_on_answer"
+              }
+            },
+            "required": [
+              "algorithm_template"
+            ]
+          },
+          "then": {
+            "properties": {
+              "template_specific": {
+                "$ref": "#/$defs/binarySearchOnAnswerTemplate"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "algorithm_template": {
+                "const": "dynamic_programming"
+              }
+            },
+            "required": [
+              "algorithm_template"
+            ]
+          },
+          "then": {
+            "properties": {
+              "template_specific": {
+                "$ref": "#/$defs/dynamicProgrammingTemplate"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "algorithm_template": {
+                "const": "graph_traversal"
+              }
+            },
+            "required": [
+              "algorithm_template"
+            ]
+          },
+          "then": {
+            "properties": {
+              "template_specific": {
+                "$ref": "#/$defs/graphTraversalTemplate"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "algorithm_template": {
+                "const": "greedy"
+              }
+            },
+            "required": [
+              "algorithm_template"
+            ]
+          },
+          "then": {
+            "properties": {
+              "template_specific": {
+                "$ref": "#/$defs/greedyTemplate"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "algorithm_template": {
+                "const": "stack_expression_parsing"
+              }
+            },
+            "required": [
+              "algorithm_template"
+            ]
+          },
+          "then": {
+            "properties": {
+              "template_specific": {
+                "$ref": "#/$defs/stackExpressionParsingTemplate"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "algorithmTemplate": {
+      "enum": [
+        "binary_search_on_answer",
+        "dynamic_programming",
+        "graph_traversal",
+        "greedy",
+        "stack_expression_parsing"
+      ]
+    },
+    "weightedSolutionModel": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "weight"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "weight": {
+          "$ref": "#/$defs/weight"
+        }
+      }
+    },
+    "skillAtom": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "role",
+        "weight"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*)*$"
+        },
+        "role": {
+          "enum": [
+            "primary",
+            "supporting",
+            "incidental"
+          ]
+        },
+        "weight": {
+          "$ref": "#/$defs/weight"
+        }
+      }
+    },
+    "weight": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "solutionSignature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "main_object",
+        "main_condition",
+        "structural_property",
+        "update_or_transition",
+        "answer_extraction",
+        "complexity_bottleneck"
+      ],
+      "properties": {
+        "main_object": {
+          "type": "string",
+          "minLength": 1
+        },
+        "main_condition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "structural_property": {
+          "type": "string",
+          "minLength": 1
+        },
+        "update_or_transition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "answer_extraction": {
+          "type": "string",
+          "minLength": 1
+        },
+        "complexity_bottleneck": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "templateSpecific": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/binarySearchOnAnswerTemplate"
+        },
+        {
+          "$ref": "#/$defs/dynamicProgrammingTemplate"
+        },
+        {
+          "$ref": "#/$defs/graphTraversalTemplate"
+        },
+        {
+          "$ref": "#/$defs/greedyTemplate"
+        },
+        {
+          "$ref": "#/$defs/stackExpressionParsingTemplate"
+        }
+      ]
+    },
+    "binarySearchOnAnswerTemplate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "objective",
+        "search_space",
+        "predicate",
+        "monotonicity"
+      ],
+      "properties": {
+        "type": {
+          "const": "binary_search_on_answer"
+        },
+        "objective": {
+          "$ref": "#/$defs/binarySearchObjective"
+        },
+        "search_space": {
+          "$ref": "#/$defs/binarySearchSpace"
+        },
+        "predicate": {
+          "$ref": "#/$defs/binarySearchPredicate"
+        },
+        "monotonicity": {
+          "$ref": "#/$defs/binarySearchMonotonicity"
+        }
+      }
+    },
+    "binarySearchObjective": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "target",
+        "condition",
+        "canonical_form"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1
+        },
+        "condition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "canonical_form": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "binarySearchSpace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "variable",
+        "meaning",
+        "lower_bound",
+        "upper_bound"
+      ],
+      "properties": {
+        "variable": {
+          "type": "string",
+          "minLength": 1
+        },
+        "meaning": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lower_bound": {
+          "type": "string",
+          "minLength": 1
+        },
+        "upper_bound": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "binarySearchPredicate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "definition",
+        "evaluation",
+        "cost"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "definition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evaluation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cost": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "binarySearchMonotonicity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "direction",
+        "statement"
+      ],
+      "properties": {
+        "direction": {
+          "type": "string",
+          "minLength": 1
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "dynamicProgrammingTemplate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "state_definition",
+        "transition",
+        "base_cases",
+        "iteration_order",
+        "answer_extraction"
+      ],
+      "properties": {
+        "type": {
+          "const": "dynamic_programming"
+        },
+        "state_definition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "base_cases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "iteration_order": {
+          "type": "string",
+          "minLength": 1
+        },
+        "answer_extraction": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "graphTraversalTemplate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "graph_model",
+        "node_definition",
+        "edge_definition",
+        "traversal_order",
+        "visited_state"
+      ],
+      "properties": {
+        "type": {
+          "const": "graph_traversal"
+        },
+        "graph_model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "node_definition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "edge_definition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "traversal_order": {
+          "type": "string",
+          "minLength": 1
+        },
+        "visited_state": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "greedyTemplate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "sorting_key",
+        "greedy_choice",
+        "invariant",
+        "exchange_argument"
+      ],
+      "properties": {
+        "type": {
+          "const": "greedy"
+        },
+        "sorting_key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "greedy_choice": {
+          "type": "string",
+          "minLength": 1
+        },
+        "invariant": {
+          "type": "string",
+          "minLength": 1
+        },
+        "exchange_argument": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "stackExpressionParsingTemplate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "operator_stack",
+        "output_rule",
+        "parentheses_rule"
+      ],
+      "properties": {
+        "type": {
+          "const": "stack_expression_parsing"
+        },
+        "operator_stack": {
+          "type": "string",
+          "minLength": 1
+        },
+        "output_rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parentheses_rule": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "coreComputation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "expression",
+        "role"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expression": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "complexity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "time",
+        "space"
+      ],
+      "properties": {
+        "time": {
+          "$ref": "#/$defs/timeComplexity"
+        },
+        "space": {
+          "$ref": "#/$defs/spaceComplexity"
+        }
+      }
+    },
+    "timeComplexity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw",
+        "variables"
+      ],
+      "properties": {
+        "raw": {
+          "type": "string",
+          "minLength": 1
+        },
+        "variables": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "spaceComplexity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "auxiliary",
+        "total"
+      ],
+      "properties": {
+        "auxiliary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "total": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

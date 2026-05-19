@@ -11,3 +11,5 @@ competitive programming editorial content for retrieval and recommendation.
 - `taxonomies.md`: Solution model and skill atom taxonomies
 - `examples.md`: Complete examples
 - `embedding.md`: Embedding document generation rules
+
+Machine-readable validation schema: `../../schema/editorial-ir-v1.schema.json`
