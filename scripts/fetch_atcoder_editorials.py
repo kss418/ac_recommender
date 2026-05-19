@@ -14,6 +14,7 @@ from typing import Iterable
 from atcoder_editorials.cli import build_contest_list, parse_args
 from atcoder_editorials.contest import contest_index_url, with_language_params
 from atcoder_editorials.http_client import decode_html, fetch_url, is_tls_certificate_error
+from atcoder_editorials.models import EditorialLink, FetchResult
 from atcoder_editorials.parsing import extract_editorial_links, is_english_editorial_link
 from atcoder_editorials.storage import (
     editorial_file_stem,
@@ -29,6 +30,7 @@ def fetch_contest(
     out_dir: Path,
     lang: str | None,
     editorial_lang: str | None,
+    fallback_editorial_lang: str | None,
     delay: float,
     timeout: float,
     retries: int,
@@ -38,28 +40,16 @@ def fetch_contest(
     max_editorials: int | None,
 ) -> dict[str, object]:
     fetched_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-    index_url = contest_index_url(contest, lang=lang, editorial_lang=editorial_lang)
-
-    print(f"[{contest}] fetching index: {index_url}", file=sys.stderr)
-    index_result = fetch_url(
-        index_url,
+    index_result, links, selected_editorial_lang, fallback_used = discover_editorial_links(
+        contest,
+        lang=lang,
+        editorial_lang=editorial_lang,
+        fallback_editorial_lang=fallback_editorial_lang,
         timeout=timeout,
         retries=retries,
         user_agent=user_agent,
         verify_tls=verify_tls,
     )
-    links = extract_editorial_links(
-        decode_html(index_result),
-        base_url=index_result.url,
-        contest=contest,
-    )
-    links = [link for link in links if is_english_editorial_link(link)]
-    for link in links:
-        link.url = with_language_params(
-            link.url,
-            lang=lang,
-            editorial_lang=editorial_lang,
-        )
     if max_editorials is not None:
         links = links[:max_editorials]
 
@@ -101,6 +91,8 @@ def fetch_contest(
     summary: dict[str, object] = {
         "contest": contest,
         "index_url": index_result.url,
+        "editorial_language": selected_editorial_lang,
+        "fallback_used": fallback_used,
         "fetched_at": fetched_at,
         "editorial_count": len(records),
         "editorials": records,
@@ -108,6 +100,167 @@ def fetch_contest(
     if not dry_run:
         write_contest_index(out_dir, contest, summary)
     return summary
+
+
+def discover_editorial_links(
+    contest: str,
+    *,
+    lang: str | None,
+    editorial_lang: str | None,
+    fallback_editorial_lang: str | None,
+    timeout: float,
+    retries: int,
+    user_agent: str,
+    verify_tls: bool,
+) -> tuple[FetchResult, list[EditorialLink], str | None, bool]:
+    if fallback_editorial_lang == editorial_lang:
+        fallback_editorial_lang = None
+
+    primary_result = fetch_editorial_index(
+        contest,
+        lang=editorial_lang or lang,
+        editorial_lang=editorial_lang,
+        timeout=timeout,
+        retries=retries,
+        user_agent=user_agent,
+        verify_tls=verify_tls,
+    )
+    primary_links = extract_editorial_links(
+        decode_html(primary_result),
+        base_url=primary_result.url,
+        contest=contest,
+    )
+
+    if editorial_lang == "en":
+        english_links = select_one_editorial_per_section(
+            [link for link in primary_links if is_english_editorial_link(link)]
+        )
+        if english_links or not fallback_editorial_lang:
+            for link in english_links:
+                link.url = with_language_params(link.url, lang="en", editorial_lang="en")
+            if not fallback_editorial_lang:
+                return primary_result, english_links, "en", False
+    else:
+        selected_links = select_one_editorial_per_section(primary_links)
+        if selected_links or not fallback_editorial_lang:
+            for link in selected_links:
+                link.url = with_language_params(
+                    link.url,
+                    lang=editorial_lang or lang,
+                    editorial_lang=editorial_lang,
+                )
+            return primary_result, selected_links, editorial_lang, False
+
+    fallback_result = fetch_editorial_index(
+        contest,
+        lang=fallback_editorial_lang,
+        editorial_lang=fallback_editorial_lang,
+        timeout=timeout,
+        retries=retries,
+        user_agent=user_agent,
+        verify_tls=verify_tls,
+    )
+    fallback_links = extract_editorial_links(
+        decode_html(fallback_result),
+        base_url=fallback_result.url,
+        contest=contest,
+    )
+
+    if editorial_lang == "en":
+        selected_links = merge_english_with_fallback_by_section(
+            english_links,
+            fallback_links,
+            fallback_editorial_lang=fallback_editorial_lang,
+        )
+        fallback_used = len(selected_links) > len(english_links)
+        if fallback_used:
+            missing_count = len(selected_links) - len(english_links)
+            print(
+                f"[{contest}] added {missing_count} {fallback_editorial_lang} fallback editorial(s) for sections without en editorials",
+                file=sys.stderr,
+            )
+        selected_language = fallback_editorial_lang if not english_links else (
+            "mixed" if fallback_used else "en"
+        )
+        return fallback_result if not english_links else primary_result, selected_links, selected_language, fallback_used
+
+    for link in fallback_links:
+        link.url = with_language_params(
+            link.url,
+            lang=fallback_editorial_lang,
+            editorial_lang=fallback_editorial_lang,
+        )
+    if fallback_links:
+        print(
+            f"[{contest}] no {editorial_lang} editorials found; falling back to {fallback_editorial_lang}",
+            file=sys.stderr,
+        )
+    return fallback_result, fallback_links, fallback_editorial_lang, bool(fallback_links)
+
+
+def merge_english_with_fallback_by_section(
+    english_links: list[EditorialLink],
+    fallback_links: list[EditorialLink],
+    *,
+    fallback_editorial_lang: str,
+) -> list[EditorialLink]:
+    sections_with_english = {link.section for link in english_links}
+    selected: list[EditorialLink] = []
+
+    for link in english_links:
+        link.url = with_language_params(link.url, lang="en", editorial_lang="en")
+        selected.append(link)
+
+    for link in select_one_editorial_per_section(fallback_links):
+        if link.section in sections_with_english:
+            continue
+        link.url = with_language_params(
+            link.url,
+            lang=fallback_editorial_lang,
+            editorial_lang=fallback_editorial_lang,
+        )
+        selected.append(link)
+
+    return selected
+
+
+def select_one_editorial_per_section(links: list[EditorialLink]) -> list[EditorialLink]:
+    by_section: dict[str, list[EditorialLink]] = {}
+    for link in links:
+        by_section.setdefault(link.section, []).append(link)
+
+    selected: list[EditorialLink] = []
+    for candidates in by_section.values():
+        selected.append(select_preferred_editorial(candidates))
+    return selected
+
+
+def select_preferred_editorial(candidates: list[EditorialLink]) -> EditorialLink:
+    return min(
+        candidates,
+        key=lambda link: 0 if link.kind == "official" else 1,
+    )
+
+
+def fetch_editorial_index(
+    contest: str,
+    *,
+    lang: str | None,
+    editorial_lang: str | None,
+    timeout: float,
+    retries: int,
+    user_agent: str,
+    verify_tls: bool,
+) -> FetchResult:
+    index_url = contest_index_url(contest, lang=lang, editorial_lang=editorial_lang)
+    print(f"[{contest}] fetching index: {index_url}", file=sys.stderr)
+    return fetch_url(
+        index_url,
+        timeout=timeout,
+        retries=retries,
+        user_agent=user_agent,
+        verify_tls=verify_tls,
+    )
 
 
 def main(argv: Iterable[str] = sys.argv[1:]) -> int:
@@ -130,6 +283,9 @@ def main(argv: Iterable[str] = sys.argv[1:]) -> int:
                     out_dir=args.out,
                     lang=lang,
                     editorial_lang=args.editorial_lang,
+                    fallback_editorial_lang=None
+                    if args.fallback_editorial_lang == "none"
+                    else args.fallback_editorial_lang,
                     delay=args.delay,
                     timeout=args.timeout,
                     retries=args.retries,

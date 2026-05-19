@@ -22,9 +22,15 @@ def parse_args(argv: Iterable[str]) -> argparse.Namespace:
     parser.add_argument("--lang", default="en", help="AtCoder UI language query value, or empty.")
     parser.add_argument(
         "--editorial-lang",
-        choices=["en"],
+        choices=["en", "ja"],
         default="en",
-        help="AtCoder editorialLang query value. Only English editorials are supported.",
+        help="Primary AtCoder editorialLang query value. Defaults to English.",
+    )
+    parser.add_argument(
+        "--fallback-editorial-lang",
+        choices=["ja", "none"],
+        default="ja",
+        help="Fallback editorial language when the primary language has no links.",
     )
     parser.add_argument("--delay", type=float, default=1.0, help="Delay between detail requests.")
     parser.add_argument("--timeout", type=float, default=20.0, help="HTTP timeout in seconds.")
