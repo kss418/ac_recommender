@@ -194,11 +194,35 @@ rules, and parentheses handling.
 }
 ```
 
+## Fenwick Tree Policy
+
+Editorial IR v1 does not define `fenwick_tree` as an `algorithm_template`.
+Represent Fenwick tree solutions with the closest broader template such as
+`query_processing`, `prefix_counting`, or `data_structure_simulation`, and add
+`data_structure.fenwick_tree` as a primary skill atom.
+
+Example:
+
+```json
+{
+  "algorithm_template": "query_processing",
+  "skill_atoms": [
+    {
+      "id": "data_structure.fenwick_tree",
+      "role": "primary",
+      "weight": 1.0
+    }
+  ]
+}
+```
+
+If Fenwick tree problems become common enough to need dedicated retrieval
+structure, add `fenwick_tree` as a v1.1 template.
+
 ## Future Templates
 
 Likely future templates:
 
-- `segment_tree`
 - `fenwick_tree`
 - `shortest_path`
 - `flow`
@@ -206,4 +230,3 @@ Likely future templates:
 - `number_theory`
 - `combinatorics`
 - `geometry`
-- `string_algorithm`

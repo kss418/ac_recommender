@@ -65,12 +65,29 @@ Do not use the older pilot paths `editorials/ABC/...`, `ir/v1/ABC/...`, or
     "primary_paradigm": "...",
     "specific_paradigm": "...",
     "algorithm_template": "...",
-    "solution_models": [],
-    "skill_atoms": [],
+    "solution_models": [
+      {
+        "id": "...",
+        "weight": 1.0
+      }
+    ],
+    "skill_atoms": [
+      {
+        "id": "...",
+        "role": "primary",
+        "weight": 1.0
+      }
+    ],
     "solution_signature": {},
     "template_specific": {},
-    "core_computations": [],
-    "procedure": [],
+    "core_computations": [
+      {
+        "name": "...",
+        "expression": "...",
+        "role": "..."
+      }
+    ],
+    "procedure": ["..."],
     "complexity": {}
   }
 }

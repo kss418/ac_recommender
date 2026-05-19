@@ -216,19 +216,21 @@
         },
         "specific_paradigm": {
           "type": "string",
-          "minLength": 1
+          "pattern": "^[a-z][a-z0-9_]*$"
         },
         "algorithm_template": {
           "$ref": "#/$defs/algorithmTemplate"
         },
         "solution_models": {
           "type": "array",
+          "minItems": 1,
           "items": {
             "$ref": "#/$defs/weightedSolutionModel"
           }
         },
         "skill_atoms": {
           "type": "array",
+          "minItems": 1,
           "items": {
             "$ref": "#/$defs/skillAtom"
           }
@@ -241,14 +243,17 @@
         },
         "core_computations": {
           "type": "array",
+          "minItems": 1,
           "items": {
             "$ref": "#/$defs/coreComputation"
           }
         },
         "procedure": {
           "type": "array",
+          "minItems": 1,
           "items": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           }
         },
         "complexity": {
@@ -545,6 +550,7 @@
         },
         "key_operations": {
           "type": "array",
+          "minItems": 1,
           "items": {
             "type": "string",
             "minLength": 1
@@ -863,6 +869,7 @@
         },
         "stored_values": {
           "type": "array",
+          "minItems": 1,
           "items": {
             "type": "string",
             "minLength": 1
@@ -870,6 +877,7 @@
         },
         "update_operations": {
           "type": "array",
+          "minItems": 1,
           "items": {
             "type": "string",
             "minLength": 1
@@ -877,6 +885,7 @@
         },
         "query_operations": {
           "type": "array",
+          "minItems": 1,
           "items": {
             "type": "string",
             "minLength": 1

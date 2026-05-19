@@ -156,7 +156,7 @@ Structured solution model.
 ```
 
 - `primary_paradigm`: coarse family. Must be one of `implementation`, `brute_force`, `math`, `greedy`, `binary_search`, `dp`, `graph`, `data_structure`, `string`, or `constructive`
-- `specific_paradigm`: more detailed human-readable paradigm, such as `persistent_segment_tree`, `two_pointer_data_structure`, or `recursive_dynamic_programming`
+- `specific_paradigm`: more detailed normalized `lower_snake_case` paradigm, such as `persistent_segment_tree`, `two_pointer_data_structure`, or `recursive_dynamic_programming`
 - `algorithm_template`: reusable pattern such as `binary_search_on_answer`
 - `solution_models`: normalized retrieval-oriented solution model ids with weights, ordered from strongest to weakest
 - `solution_models[].id`: taxonomy id such as `monotonic_feasibility_optimization`
@@ -213,13 +213,13 @@ Asymptotic complexity with variable definitions and separated memory views.
 
 Use `null` only when the field is truly unknown.
 
-Prefer empty lists for missing repeated content:
+Core retrieval fields must be non-empty. In particular, `solution_models`,
+`skill_atoms`, `core_computations`, `procedure`,
+`template_specific.key_operations`, and segment-tree operation lists should
+contain at least one meaningful item.
 
-```json
-{
-  "procedure": []
-}
-```
+Prefer empty lists only for optional repeated fields that are not part of the
+core retrieval signal.
 
 Prefer `null` for unknown scalar values:
 
