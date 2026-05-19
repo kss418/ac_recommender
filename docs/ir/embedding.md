@@ -18,6 +18,7 @@ Use these fields for filtering, joins, display, or reranking. Do not include
 them directly in embedding text unless a view explicitly says so.
 
 - `ir_version`
+- `ir_language`
 - `platform`
 - `event`
 - `problem.id`
@@ -25,6 +26,7 @@ them directly in embedding text unless a view explicitly says so.
 - `source.url`
 - `source.kind`
 - `source.author`
+- `source.fetched_at`
 
 Use `problem.difficulty` for filtering or reranking, not for embedding.
 

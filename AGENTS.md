@@ -97,6 +97,7 @@ Each IR JSON document is built around:
 ```json
 {
   "ir_version": "1.0",
+  "ir_language": "en",
   "platform": {},
   "event": null,
   "problem": {},
@@ -123,6 +124,9 @@ Inside `solution`, the important retrieval fields are:
 - `core_computations`: one or more central expressions/operations.
 - `procedure`: non-boilerplate algorithm outline.
 - `complexity`: structured time/space complexity.
+
+`source.language` is the original solution source language. `ir_language` is
+the language used by normalized IR text fields and is currently `en`.
 
 In v1, `solution.algorithm_template` should match
 `solution.template_specific.type`.

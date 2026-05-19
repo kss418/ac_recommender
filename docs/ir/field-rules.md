@@ -10,6 +10,20 @@ Fixed string for migration control.
 }
 ```
 
+## `ir_language`
+
+Language used by normalized IR text fields.
+
+```json
+{
+  "ir_language": "en"
+}
+```
+
+This can differ from `source.language`. For example, a Japanese editorial can
+have `"source.language": "ja"` while the normalized IR remains English with
+`"ir_language": "en"`.
+
 ## `platform`
 
 Judge or problem platform identity.
@@ -82,7 +96,8 @@ Solution source metadata.
   "url": "https://atcoder.jp/contests/abc457/editorial/20138?editorialLang=en&lang=en",
   "kind": "official_solution",
   "language": "en",
-  "author": "en_translator"
+  "author": "en_translator",
+  "fetched_at": "2026-05-18T07:33:39.709020Z"
 }
 ```
 
@@ -90,6 +105,7 @@ Solution source metadata.
 - `kind`: `official_solution`, `user_editorial`, `user_solution_code`, `generated`, or `unknown`
 - `language`: source solution language, otherwise `null`
 - `author`: solution source author when available, otherwise `null`
+- `fetched_at`: UTC timestamp when the source was fetched, otherwise `null`
 
 `generated` is reserved for AI-generated solutions. Do not use it for
 user-authored repository code.

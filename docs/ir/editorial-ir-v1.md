@@ -56,6 +56,7 @@ Do not use the older pilot paths `editorials/ABC/...`, `ir/v1/ABC/...`, or
 ```json
 {
   "ir_version": "1.0",
+  "ir_language": "en",
   "platform": {},
   "event": null,
   "problem": {},
@@ -80,6 +81,11 @@ Do not use the older pilot paths `editorials/ABC/...`, `ir/v1/ABC/...`, or
 ### `ir_version`
 
 Schema version string used for migrations.
+
+### `ir_language`
+
+Language used by normalized IR text fields. This can differ from
+`source.language` when a non-English source is normalized into English IR.
 
 ### `platform`
 

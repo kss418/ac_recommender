@@ -10,6 +10,7 @@ Binary search on answer.
 ```json
 {
   "ir_version": "1.0",
+  "ir_language": "en",
   "platform": {
     "name": "ac"
   },
@@ -33,7 +34,8 @@ Binary search on answer.
     "url": "https://atcoder.jp/contests/abc457/editorial/20138?editorialLang=en&lang=en",
     "kind": "official_solution",
     "language": "en",
-    "author": "en_translator"
+    "author": "en_translator",
+    "fetched_at": "2026-05-18T07:33:39.709020Z"
   },
   "solution": {
     "primary_paradigm": "binary_search",
@@ -149,6 +151,7 @@ Binary search on answer.
 ```json
 {
   "ir_version": "1.0",
+  "ir_language": "en",
   "platform": {
     "name": "ac"
   },
@@ -172,7 +175,8 @@ Binary search on answer.
     "url": "https://atcoder.jp/contests/abc999/editorial/99999?editorialLang=en&lang=en",
     "kind": "official_solution",
     "language": "en",
-    "author": "example_author"
+    "author": "example_author",
+    "fetched_at": "2026-05-18T07:33:39.709020Z"
   },
   "solution": {
     "primary_paradigm": "dp",
@@ -249,6 +253,7 @@ Binary search on answer.
 ```json
 {
   "ir_version": "1.0",
+  "ir_language": "en",
   "platform": {
     "name": "ac"
   },
@@ -272,7 +277,8 @@ Binary search on answer.
     "url": "https://atcoder.jp/contests/abc999/editorial/99998?editorialLang=en&lang=en",
     "kind": "official_solution",
     "language": "en",
-    "author": "example_author"
+    "author": "example_author",
+    "fetched_at": "2026-05-18T07:33:39.709020Z"
   },
   "solution": {
     "primary_paradigm": "graph",
@@ -352,6 +358,7 @@ Binary search on answer.
 ```json
 {
   "ir_version": "1.0",
+  "ir_language": "en",
   "platform": {
     "name": "cf"
   },
@@ -375,7 +382,8 @@ Binary search on answer.
     "url": "https://codeforces.com/blog/entry/example",
     "kind": "official_solution",
     "language": "en",
-    "author": null
+    "author": null,
+    "fetched_at": null
   },
   "solution": {
     "primary_paradigm": "greedy",
@@ -454,6 +462,7 @@ Binary search on answer.
 ```json
 {
   "ir_version": "1.0",
+  "ir_language": "en",
   "platform": {
     "name": "boj"
   },
@@ -472,7 +481,8 @@ Binary search on answer.
     "url": "https://github.com/kss418/boj/blob/main/%EB%B0%B1%EC%A4%80/Gold/1918.%E2%80%85%ED%9B%84%EC%9C%84%E2%80%85%ED%91%9C%EA%B8%B0%EC%8B%9D/%ED%9B%84%EC%9C%84%E2%80%85%ED%91%9C%EA%B8%B0%EC%8B%9D.cc",
     "kind": "user_solution_code",
     "language": "cpp",
-    "author": "kss418"
+    "author": "kss418",
+    "fetched_at": null
   },
   "solution": {
     "primary_paradigm": "data_structure",

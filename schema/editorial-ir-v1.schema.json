@@ -6,6 +6,7 @@
   "additionalProperties": false,
   "required": [
     "ir_version",
+    "ir_language",
     "platform",
     "event",
     "problem",
@@ -15,6 +16,10 @@
   "properties": {
     "ir_version": {
       "const": "1.0"
+    },
+    "ir_language": {
+      "type": "string",
+      "minLength": 1
     },
     "platform": {
       "$ref": "#/$defs/platform"
@@ -149,7 +154,8 @@
         "url",
         "kind",
         "language",
-        "author"
+        "author",
+        "fetched_at"
       ],
       "properties": {
         "url": {
@@ -179,6 +185,13 @@
             "string",
             "null"
           ]
+        },
+        "fetched_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
         }
       }
     },
