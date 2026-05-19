@@ -11,7 +11,7 @@ Binary search on answer.
 {
   "ir_version": "1.0",
   "platform": {
-    "name": "atcoder"
+    "name": "ac"
   },
   "event": {
     "series": "ABC",
@@ -149,7 +149,7 @@ Binary search on answer.
 {
   "ir_version": "1.0",
   "platform": {
-    "name": "atcoder"
+    "name": "ac"
   },
   "event": {
     "series": "ABC",
@@ -248,7 +248,7 @@ Binary search on answer.
 {
   "ir_version": "1.0",
   "platform": {
-    "name": "atcoder"
+    "name": "ac"
   },
   "event": {
     "series": "ABC",
@@ -350,7 +350,7 @@ Binary search on answer.
 {
   "ir_version": "1.0",
   "platform": {
-    "name": "codeforces"
+    "name": "cf"
   },
   "event": {
     "series": "Div2",
@@ -364,7 +364,7 @@ Binary search on answer.
     "name": "Interval Selection",
     "difficulty": {
       "rating": 900,
-      "source": "codeforces"
+      "source": "cf"
     },
     "url": "https://codeforces.com/problemset/problem/1878/A"
   },
@@ -443,7 +443,7 @@ Binary search on answer.
 }
 ```
 
-## Baekjoon Standalone Problem
+## BOJ Standalone Problem
 
 `event` is `null` for a problem without contest context.
 
@@ -451,7 +451,7 @@ Binary search on answer.
 {
   "ir_version": "1.0",
   "platform": {
-    "name": "baekjoon"
+    "name": "boj"
   },
   "event": null,
   "problem": {

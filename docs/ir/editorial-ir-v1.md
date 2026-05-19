@@ -10,19 +10,46 @@ solution model for retrieval and recommendation.
 Recommended path:
 
 ```text
-ir/<platform>/<event-id-or-problems>/<problem-id>.json
+ir/v1/<platform>/<event-series-or-problems>/<event-number-or-id>/<problem-file>.json
 ```
 
 Examples:
 
 ```text
-ir/atcoder/abc457/abc457_d.json
-ir/baekjoon/problems/1918.json
-ir/codeforces/1878/1878A.json
+ir/v1/ac/abc/457/D-raise-minimum.json
+ir/v1/boj/problems/1918.json
+ir/v1/cf/1878/1878A.json
 ```
 
-Use the platform event id when the problem belongs to a contest or event. Use
-`problems` when `event` is `null`.
+For AtCoder, mirror the editorial path after the platform directory: lowercase
+series, contest number, and the same problem filename stem. Use `problems` when
+`event` is `null`.
+
+## AtCoder Path Convention
+
+For AtCoder data, use this fixed layout:
+
+```text
+editorials/ac/<series>/<contest-number>/<problem-file>.md
+ir/v1/ac/<series>/<contest-number>/<problem-file>.json
+```
+
+Rules:
+
+- `ac` is the platform key for AtCoder.
+- `<series>` is lowercase: `abc`, `arc`, or `agc`.
+- `<contest-number>` is the numeric contest id only, such as `450` or `457`.
+- `<problem-file>` is the same filename stem in both `editorials` and `ir`.
+
+Example:
+
+```text
+editorials/ac/abc/457/D-raise-minimum.md
+ir/v1/ac/abc/457/D-raise-minimum.json
+```
+
+Do not use the older pilot paths `editorials/ABC/...`, `ir/v1/ABC/...`, or
+`ir/ac/abc457/...` for AtCoder data.
 
 ## Top-level Schema
 

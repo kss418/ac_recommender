@@ -31,7 +31,7 @@ def contest_output_parts(contest: str) -> tuple[str, str]:
     match = CONTEST_RE.fullmatch(contest)
     if not match:
         raise ValueError(f"unsupported contest id '{contest}'")
-    return match.group(1).upper(), match.group(2)
+    return match.group(1).lower(), match.group(2)
 
 
 def contest_index_url(contest: str, *, lang: str | None, editorial_lang: str | None) -> str:

@@ -16,11 +16,11 @@ Judge or problem platform identity.
 
 ```json
 {
-  "name": "atcoder"
+  "name": "ac"
 }
 ```
 
-- `name`: stable lowercase platform key, for example `atcoder`, `codeforces`, `baekjoon`
+- `name`: stable lowercase platform key, for example `ac`, `cf`, `boj`
 
 ## `event`
 
@@ -70,7 +70,7 @@ Problem identity.
 - `index`: contest-local problem index such as `A`, `B`, `C`, `D`; use `null` when absent
 - `name`: official problem name
 - `difficulty.rating`: numeric difficulty or rating when available, otherwise `null`
-- `difficulty.source`: source of the difficulty value, for example `atcoder`, `codeforces`, `solved_ac`, otherwise `null`
+- `difficulty.source`: source of the difficulty value, for example `ac`, `cf`, `solved_ac`, otherwise `null`
 - `url`: problem URL
 
 ## `source`

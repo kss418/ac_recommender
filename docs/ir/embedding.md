@@ -49,7 +49,7 @@ Do not include:
 Suggested text:
 
 ```text
-Platform: atcoder
+Platform: ac
 Event: abc457
 Problem: D - Raise Minimum
 ```

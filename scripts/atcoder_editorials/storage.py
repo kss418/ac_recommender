@@ -114,7 +114,7 @@ def relative_path(path: Path, root: Path) -> str:
 
 def contest_output_dir(out_dir: Path, contest: str) -> Path:
     series, number = contest_output_parts(contest)
-    return out_dir / series / number
+    return out_dir / "ac" / series / number
 
 
 def editorial_file_stem(link: EditorialLink, *, duplicate_index: int = 1) -> str:
