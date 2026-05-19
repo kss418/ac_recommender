@@ -5,6 +5,21 @@
 `template_specific` should only contain fields that naturally belong to the
 selected algorithm template. Do not add unrelated fields with `null`.
 
+For Editorial IR v1, `solution.algorithm_template` and
+`solution.template_specific.type` must use the same id. For example:
+
+```json
+{
+  "algorithm_template": "binary_search_on_answer",
+  "template_specific": {
+    "type": "binary_search_on_answer"
+  }
+}
+```
+
+Do not use a broad/refined pair such as `shortest_path` and
+`dijkstra_with_state_expansion` in v1.
+
 ## `binary_search_on_answer`
 
 Use when the solution searches over the answer value and checks a monotone

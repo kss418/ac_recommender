@@ -126,11 +126,13 @@ Structured solution model.
   "template_specific": {
     "type": "..."
   },
-  "core_computation": {
-    "name": "...",
-    "expression": "...",
-    "role": "..."
-  },
+  "core_computations": [
+    {
+      "name": "...",
+      "expression": "...",
+      "role": "..."
+    }
+  ],
   "procedure": ["..."],
   "complexity": {}
 }
@@ -153,8 +155,16 @@ Structured solution model.
 - `solution_signature.answer_extraction`: how the final answer is selected or read out
 - `solution_signature.complexity_bottleneck`: repeated operation that dominates time complexity
 - `template_specific`: template-dependent structure; its fields depend on `template_specific.type`
-- `core_computation`: main repeated computation inside the algorithm
+- `core_computations`: main repeated computations inside the algorithm, ordered by importance
+- `core_computations[].name`: stable short name for the computation
+- `core_computations[].expression`: formula, recurrence, transition, or operation summary
+- `core_computations[].role`: how the computation is used in the solution
 - `procedure`: short normalized steps, not a prose explanation
+
+In v1, `solution.algorithm_template` must be equal to
+`solution.template_specific.type`. This invariant keeps extraction and
+validation simple. Broader template names with refined `template_specific.type`
+values are reserved for a later IR version.
 
 ## `complexity`
 

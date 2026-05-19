@@ -86,7 +86,7 @@ Use:
 - `solution.solution_models`
 - `solution.solution_signature`
 - `solution.template_specific`
-- `solution.core_computation`
+- `solution.core_computations`
 - `solution.complexity.time.raw`
 - `solution.complexity.time.variables`
 
@@ -110,7 +110,7 @@ Structural property: monotone feasible region
 Update or transition: move the lower bound upward when x is feasible
 Answer extraction: maximum feasible x
 Template-specific: search over answer x with monotone feasible predicate
-Core computation: required_increments = sum(max(0, x - a_i))
+Core computations: required_increments = sum(max(0, x - a_i))
 Complexity: O(N log V), where V is answer search range
 ```
 
@@ -147,7 +147,7 @@ Use a compact combination of:
 - `solution.solution_models`
 - `solution.skill_atoms`
 - `solution.solution_signature`
-- `solution.core_computation`
+- `solution.core_computations`
 
 Do not include:
 
@@ -166,7 +166,7 @@ Template: binary_search_on_answer
 Solution models: monotonic_feasibility_optimization, maximize_minimum_under_budget
 Skills: binary_search.answer, binary_search.monotone_predicate, array.linear_scan, math.sum_of_deficits
 Signature: target minimum value x; required_increments(x) <= K; monotone feasible region; maximize feasible x
-Core computation: sum(max(0, x - a_i))
+Core computations: sum(max(0, x - a_i))
 ```
 
 ## Difficulty

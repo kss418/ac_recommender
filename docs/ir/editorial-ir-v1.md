@@ -40,7 +40,7 @@ Use the platform event id when the problem belongs to a contest or event. Use
     "skill_atoms": [],
     "solution_signature": {},
     "template_specific": {},
-    "core_computation": {},
+    "core_computations": [],
     "procedure": [],
     "complexity": {}
   }

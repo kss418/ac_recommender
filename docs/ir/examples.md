@@ -100,11 +100,13 @@ Binary search on answer.
         "statement": "If feasible(x), then feasible(y) for every y <= x."
       }
     },
-    "core_computation": {
-      "name": "required_increments",
-      "expression": "sum(max(0, x - a_i))",
-      "role": "feasibility check"
-    },
+    "core_computations": [
+      {
+        "name": "required_increments",
+        "expression": "sum(max(0, x - a_i))",
+        "role": "feasibility check"
+      }
+    ],
     "procedure": [
       "Binary search x over the answer space.",
       "Evaluate feasible(x).",
@@ -196,11 +198,13 @@ Binary search on answer.
       "iteration_order": "increasing i, increasing j",
       "answer_extraction": "dp[N][K]"
     },
-    "core_computation": {
-      "name": "dp_transition",
-      "expression": "max(skip current item, take current item)",
-      "role": "state update"
-    },
+    "core_computations": [
+      {
+        "name": "dp_transition",
+        "expression": "max(skip current item, take current item)",
+        "role": "state update"
+      }
+    ],
     "procedure": [
       "Define prefix-count DP states.",
       "Iterate states in increasing prefix order.",
@@ -295,11 +299,13 @@ Binary search on answer.
       "traversal_order": "BFS by distance",
       "visited_state": "visited[row][col][resource]"
     },
-    "core_computation": {
-      "name": "neighbor_generation",
-      "expression": "valid adjacent cells with updated resource",
-      "role": "graph transition"
-    },
+    "core_computations": [
+      {
+        "name": "neighbor_generation",
+        "expression": "valid adjacent cells with updated resource",
+        "role": "graph transition"
+      }
+    ],
     "procedure": [
       "Treat each cell-resource pair as a graph state.",
       "Run BFS from the initial state.",
@@ -394,11 +400,13 @@ Binary search on answer.
       "invariant": "chosen intervals leave maximum remaining space",
       "exchange_argument": "any optimal solution can replace its first interval with the earliest finishing interval"
     },
-    "core_computation": {
-      "name": "compatibility_check",
-      "expression": "interval.start > last_selected_end",
-      "role": "selection condition"
-    },
+    "core_computations": [
+      {
+        "name": "compatibility_check",
+        "expression": "interval.start > last_selected_end",
+        "role": "selection condition"
+      }
+    ],
     "procedure": [
       "Sort intervals by end time.",
       "Scan intervals in sorted order.",
@@ -483,11 +491,13 @@ Binary search on answer.
       "output_rule": "append operands immediately and pop operators by precedence",
       "parentheses_rule": "pop until matching opening parenthesis"
     },
-    "core_computation": {
-      "name": "precedence_comparison",
-      "expression": "priority(top_operator) >= priority(current_operator)",
-      "role": "operator emission condition"
-    },
+    "core_computations": [
+      {
+        "name": "precedence_comparison",
+        "expression": "priority(top_operator) >= priority(current_operator)",
+        "role": "operator emission condition"
+      }
+    ],
     "procedure": [
       "Scan the expression from left to right.",
       "Append operands to the output.",
