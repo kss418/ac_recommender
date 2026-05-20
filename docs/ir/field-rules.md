@@ -43,14 +43,14 @@ context, such as many Baekjoon problems.
 
 ```json
 {
-  "series": "ABC",
+  "series": "abc",
   "number": 457,
   "id": "abc457",
   "name": "AtCoder Beginner Contest 457"
 }
 ```
 
-- `series`: optional event series such as `ABC`, `ARC`, `AGC`, `Div2`
+- `series`: optional event series. For AtCoder, use lowercase `abc`, `arc`, or `agc` to match the path convention.
 - `number`: optional event number
 - `id`: platform-specific event id
 - `name`: human-readable event name

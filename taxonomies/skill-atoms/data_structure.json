@@ -1,0 +1,97 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "parent": "data_structure",
+  "items": [
+    {
+      "id": "data_structure.segment_tree",
+      "name": "Segment tree",
+      "description": "Segment tree for range queries or updates.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.fenwick_tree",
+      "name": "Fenwick tree",
+      "description": "Fenwick tree for prefix aggregates or point updates.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.binary_indexed_tree",
+      "name": "Binary indexed tree",
+      "description": "Binary indexed tree operations such as prefix sums, point updates, and prefix lower_bound.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.stack",
+      "name": "Stack",
+      "description": "Stack used to manage nested, delayed, or last-in-first-out state.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.disjoint_set_union",
+      "name": "Disjoint set union",
+      "description": "Maintain connected components with union-find.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.small_to_large",
+      "name": "Small-to-large merging",
+      "description": "Merge smaller sets or containers into larger ones to bound total movement.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.set",
+      "name": "Set container",
+      "description": "Maintain explicit sets of elements with insertion, deletion, or membership checks.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.trie",
+      "name": "Trie",
+      "description": "Store sequences or bit patterns in a prefix tree for traversal, lookup, or counting.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.priority_queue",
+      "name": "Priority queue",
+      "description": "Maintain elements or states ordered by a maximum or minimum priority key.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.order_statistic_tree",
+      "name": "Order-statistic tree",
+      "description": "Maintain dynamic ordered elements with rank, kth-element, or prefix lower_bound queries.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.functional_graph",
+      "name": "Functional graph",
+      "description": "Model one-outgoing-edge transitions with cycles, trees into cycles, or binary lifting tables.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.persistent_segment_tree",
+      "name": "Persistent segment tree",
+      "description": "Maintain versioned segment tree roots under updates.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.path_copying",
+      "name": "Path copying",
+      "description": "Create persistent updates by cloning nodes along an update path.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.range_sum_query",
+      "name": "Range sum query",
+      "description": "Query sums over an interval.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.lazy_segment_tree",
+      "name": "Lazy segment tree",
+      "description": "Segment tree with lazy propagation for range updates.",
+      "parent": "data_structure"
+    }
+  ]
+}

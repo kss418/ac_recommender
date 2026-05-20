@@ -1,0 +1,19 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "parent": "greedy",
+  "items": [
+    {
+      "id": "greedy.sorting_key",
+      "name": "Greedy sorting key",
+      "description": "Sort by a key that enables greedy choices.",
+      "parent": "greedy"
+    },
+    {
+      "id": "greedy.exchange_argument",
+      "name": "Exchange argument",
+      "description": "Justify greedy choice by exchange argument.",
+      "parent": "greedy"
+    }
+  ]
+}

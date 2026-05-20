@@ -1,0 +1,13 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "parent": "parsing",
+  "items": [
+    {
+      "id": "parsing.operator_precedence",
+      "name": "Operator precedence",
+      "description": "Handle operators according to precedence and parentheses rules.",
+      "parent": "parsing"
+    }
+  ]
+}

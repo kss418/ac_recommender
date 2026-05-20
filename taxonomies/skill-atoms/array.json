@@ -1,0 +1,25 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "parent": "array",
+  "items": [
+    {
+      "id": "array.linear_scan",
+      "name": "Linear scan",
+      "description": "Linear scan over an array or sequence.",
+      "parent": "array"
+    },
+    {
+      "id": "array.prefix_sum",
+      "name": "Prefix sum",
+      "description": "Prefix sums or cumulative aggregates.",
+      "parent": "array"
+    },
+    {
+      "id": "array.suffix_aggregation",
+      "name": "Suffix aggregation",
+      "description": "Suffix aggregates or reverse cumulative values.",
+      "parent": "array"
+    }
+  ]
+}

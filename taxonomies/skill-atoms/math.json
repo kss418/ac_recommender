@@ -1,0 +1,103 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "parent": "math",
+  "items": [
+    {
+      "id": "math.sum_of_deficits",
+      "name": "Sum of deficits",
+      "description": "Sum deficits from a target value or threshold.",
+      "parent": "math"
+    },
+    {
+      "id": "math.ceil_division",
+      "name": "Ceiling division",
+      "description": "Integer ceiling division for counts or operation requirements.",
+      "parent": "math"
+    },
+    {
+      "id": "math.modular_arithmetic",
+      "name": "Modular arithmetic",
+      "description": "Modular arithmetic operations or identities.",
+      "parent": "math"
+    },
+    {
+      "id": "math.convolution",
+      "name": "Convolution",
+      "description": "Combine coefficient sequences by polynomial or distribution convolution.",
+      "parent": "math"
+    },
+    {
+      "id": "math.ntt",
+      "name": "Number theoretic transform",
+      "description": "Use NTT-friendly modular convolution for polynomial or sequence multiplication.",
+      "parent": "math"
+    },
+    {
+      "id": "math.generating_function",
+      "name": "Generating function",
+      "description": "Encode counts or probabilities as coefficients of a generating function.",
+      "parent": "math"
+    },
+    {
+      "id": "math.formal_power_series",
+      "name": "Formal power series",
+      "description": "Manipulate formal power series with polynomial arithmetic, inverses, products, or coefficient extraction.",
+      "parent": "math"
+    },
+    {
+      "id": "math.power_projection",
+      "name": "Power projection",
+      "description": "Compute selected coefficients across powers of a polynomial or formal power series.",
+      "parent": "math"
+    },
+    {
+      "id": "math.floor_sum",
+      "name": "Floor sum",
+      "description": "Evaluate sums of floor((a*i+b)/m) or equivalent quotient decompositions.",
+      "parent": "math"
+    },
+    {
+      "id": "math.binomial_coefficient",
+      "name": "Binomial coefficient",
+      "description": "Use binomial coefficients, factorial normalization, or modular combinations.",
+      "parent": "math"
+    },
+    {
+      "id": "math.gaussian_integer",
+      "name": "Gaussian integer",
+      "description": "Reason about factors, norms, or residues in Gaussian integers.",
+      "parent": "math"
+    },
+    {
+      "id": "math.prime_factorization",
+      "name": "Prime factorization",
+      "description": "Factor integers and use prime exponents or prime classes in the solution.",
+      "parent": "math"
+    },
+    {
+      "id": "math.residue_distribution",
+      "name": "Residue distribution",
+      "description": "Maintain counts or probabilities over residue classes, often modulo one or more dimensions.",
+      "parent": "math"
+    },
+    {
+      "id": "math.aggregate_formula",
+      "name": "Aggregate formula",
+      "description": "Use an algebraic formula over maintained aggregates.",
+      "parent": "math"
+    },
+    {
+      "id": "math.sum_and_square_sum",
+      "name": "Sum and square-sum aggregates",
+      "description": "Maintain or use both sum and sum of squares.",
+      "parent": "math"
+    },
+    {
+      "id": "math.interval_length",
+      "name": "Interval length",
+      "description": "Compute the number of integers or values in an interval.",
+      "parent": "math"
+    }
+  ]
+}

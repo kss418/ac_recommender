@@ -15,7 +15,7 @@ Binary search on answer.
     "name": "ac"
   },
   "event": {
-    "series": "ABC",
+    "series": "abc",
     "number": 457,
     "id": "abc457",
     "name": "AtCoder Beginner Contest 457"
@@ -156,7 +156,7 @@ Binary search on answer.
     "name": "ac"
   },
   "event": {
-    "series": "ABC",
+    "series": "abc",
     "number": 999,
     "id": "abc999",
     "name": "AtCoder Beginner Contest 999"
@@ -258,7 +258,7 @@ Binary search on answer.
     "name": "ac"
   },
   "event": {
-    "series": "ABC",
+    "series": "abc",
     "number": 999,
     "id": "abc999",
     "name": "AtCoder Beginner Contest 999"

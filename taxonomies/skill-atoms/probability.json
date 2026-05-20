@@ -1,0 +1,13 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "parent": "probability",
+  "items": [
+    {
+      "id": "probability.generating_function",
+      "name": "Probability generating function",
+      "description": "Represent probability distributions or hitting probabilities with generating functions.",
+      "parent": "probability"
+    }
+  ]
+}

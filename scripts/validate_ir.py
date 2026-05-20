@@ -51,8 +51,8 @@ def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--skill-atoms",
         type=Path,
-        default=Path("taxonomies/skill-atoms.json"),
-        help="Skill atom taxonomy JSON path.",
+        default=Path("taxonomies/skill-atoms"),
+        help="Skill atom taxonomy JSON path or directory.",
     )
     parser.add_argument(
         "--examples-md",
@@ -187,25 +187,52 @@ def validate_template_invariant(label: str, instance: JsonObject) -> list[str]:
 
 
 def load_taxonomy_ids(path: Path, *, expected_kind: str) -> set[str]:
-    data = load_json(path)
-    kind = data.get("kind")
-    if kind != expected_kind:
-        raise SystemExit(f"error: {path} has kind {kind!r}; expected {expected_kind!r}")
-
-    items = data.get("items")
-    if not isinstance(items, list):
-        raise SystemExit(f"error: {path} must contain an items array")
-
     ids: list[str] = []
-    for index, item in enumerate(items):
-        if not isinstance(item, dict) or not isinstance(item.get("id"), str):
-            raise SystemExit(f"error: {path} item {index} must contain a string id")
-        ids.append(item["id"])
+    for taxonomy_path, data in load_taxonomy_objects(path):
+        kind = data.get("kind")
+        if kind != expected_kind:
+            raise SystemExit(
+                f"error: {taxonomy_path} has kind {kind!r}; expected {expected_kind!r}"
+            )
 
-    duplicates = sorted({taxonomy_id for taxonomy_id in ids if ids.count(taxonomy_id) > 1})
+        items = data.get("items")
+        if not isinstance(items, list):
+            raise SystemExit(f"error: {taxonomy_path} must contain an items array")
+
+        parent = data.get("parent")
+        for index, item in enumerate(items):
+            if not isinstance(item, dict) or not isinstance(item.get("id"), str):
+                raise SystemExit(
+                    f"error: {taxonomy_path} item {index} must contain a string id"
+                )
+            if parent is not None and item.get("parent") != parent:
+                raise SystemExit(
+                    f"error: {taxonomy_path} item {index} has parent "
+                    f"{item.get('parent')!r}; expected {parent!r}"
+                )
+            ids.append(item["id"])
+
+    seen: set[str] = set()
+    duplicates: set[str] = set()
+    for taxonomy_id in ids:
+        if taxonomy_id in seen:
+            duplicates.add(taxonomy_id)
+        seen.add(taxonomy_id)
     if duplicates:
-        raise SystemExit(f"error: duplicate ids in {path}: {', '.join(duplicates)}")
+        raise SystemExit(f"error: duplicate ids in {path}: {', '.join(sorted(duplicates))}")
     return set(ids)
+
+
+def load_taxonomy_objects(path: Path) -> Iterator[tuple[Path, JsonObject]]:
+    if path.is_dir():
+        json_paths = sorted(path.rglob("*.json"))
+        if not json_paths:
+            raise SystemExit(f"error: taxonomy directory contains no JSON files: {path}")
+        for json_path_file in json_paths:
+            yield json_path_file, load_json(json_path_file)
+        return
+
+    yield path, load_json(path)
 
 
 def validate_taxonomy_references(

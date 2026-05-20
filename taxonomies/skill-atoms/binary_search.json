@@ -1,0 +1,37 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "parent": "binary_search",
+  "items": [
+    {
+      "id": "binary_search.answer",
+      "name": "Binary search on answer",
+      "description": "Binary search over an answer value.",
+      "parent": "binary_search"
+    },
+    {
+      "id": "binary_search.monotone_predicate",
+      "name": "Monotone predicate",
+      "description": "Design or use a monotone feasibility predicate.",
+      "parent": "binary_search"
+    },
+    {
+      "id": "binary_search.lower_bound",
+      "name": "Lower bound binary search",
+      "description": "Use lower_bound-style binary search over sorted data.",
+      "parent": "binary_search"
+    },
+    {
+      "id": "binary_search.real_number",
+      "name": "Real-number binary search",
+      "description": "Binary search over continuous values.",
+      "parent": "binary_search"
+    },
+    {
+      "id": "binary_search.parametric_search",
+      "name": "Parametric search",
+      "description": "Parametric search framing with a decision procedure.",
+      "parent": "binary_search"
+    }
+  ]
+}

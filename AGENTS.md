@@ -31,7 +31,7 @@ docs/ir/                         Human-facing IR documentation
 schema/editorial-ir-v1.schema.json
                                   Machine JSON Schema for Editorial IR v1
 taxonomies/solution-models.json   Machine-readable solution model ids
-taxonomies/skill-atoms.json       Machine-readable skill atom ids
+taxonomies/skill-atoms/           Machine-readable skill atom ids, split by parent
 scripts/                          Fetch, validate, and zip utilities
 scripts/atcoder_editorials/       Fetcher helper modules
 editorials/                       Fetched editorial markdown data, gitignored
@@ -118,7 +118,7 @@ Inside `solution`, the important retrieval fields are:
 - `solution_models`: weighted retrieval-oriented solution model ids from
   `taxonomies/solution-models.json`.
 - `skill_atoms`: weighted fine-grained skill ids from
-  `taxonomies/skill-atoms.json`.
+  `taxonomies/skill-atoms/*.json`.
 - `solution_signature`: general retrieval fingerprint fields.
 - `template_specific`: fields that belong naturally to the selected template.
 - `core_computations`: one or more central expressions/operations.
@@ -232,7 +232,7 @@ Notes:
 - Without `--skip-schema`, the script requires the `jsonschema` Python package.
 - Taxonomy reference validation always checks that
   `solution.solution_models[].id` and `solution.skill_atoms[].id` exist in the
-  JSON taxonomy files.
+  JSON taxonomy files. Skill atom files are read from `taxonomies/skill-atoms/`.
 
 ### `scripts/zip_project_bundle.py`
 

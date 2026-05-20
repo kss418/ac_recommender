@@ -1,0 +1,31 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "parent": "implementation",
+  "items": [
+    {
+      "id": "implementation.overflow_guard",
+      "name": "Overflow guard",
+      "description": "Avoid overflow in accumulated values or search bounds.",
+      "parent": "implementation"
+    },
+    {
+      "id": "implementation.condition_check",
+      "name": "Condition check",
+      "description": "Evaluate a direct boolean condition.",
+      "parent": "implementation"
+    },
+    {
+      "id": "implementation.direct_formula",
+      "name": "Direct formula",
+      "description": "Compute the answer with a direct formula.",
+      "parent": "implementation"
+    },
+    {
+      "id": "implementation.output_formatting",
+      "name": "Output formatting",
+      "description": "Produce output in the exact required format.",
+      "parent": "implementation"
+    }
+  ]
+}

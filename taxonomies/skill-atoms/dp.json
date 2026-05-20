@@ -1,0 +1,19 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "parent": "dp",
+  "items": [
+    {
+      "id": "dp.state_design",
+      "name": "DP state design",
+      "description": "Define DP states that capture necessary information.",
+      "parent": "dp"
+    },
+    {
+      "id": "dp.transition_optimization",
+      "name": "DP transition optimization",
+      "description": "Optimize transition cost or transition enumeration.",
+      "parent": "dp"
+    }
+  ]
+}

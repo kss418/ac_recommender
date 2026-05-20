@@ -341,6 +341,25 @@
           "if": {
             "properties": {
               "algorithm_template": {
+                "const": "flow_network"
+              }
+            },
+            "required": [
+              "algorithm_template"
+            ]
+          },
+          "then": {
+            "properties": {
+              "template_specific": {
+                "$ref": "#/$defs/flowNetworkTemplate"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "algorithm_template": {
                 "const": "stack_expression_parsing"
               }
             },
@@ -384,6 +403,7 @@
         "direct_access",
         "dynamic_programming",
         "exhaustive_enumeration",
+        "flow_network",
         "graph_traversal",
         "greedy",
         "interval_decomposition",
@@ -497,6 +517,9 @@
           "$ref": "#/$defs/exhaustiveEnumerationTemplate"
         },
         {
+          "$ref": "#/$defs/flowNetworkTemplate"
+        },
+        {
           "$ref": "#/$defs/graphTraversalTemplate"
         },
         {
@@ -595,6 +618,53 @@
           "minLength": 1
         },
         "pruning": {
+          "type": "string",
+          "minLength": 1
+        },
+        "answer_extraction": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "flowNetworkTemplate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "network_model",
+        "node_definition",
+        "edge_definition",
+        "capacity_model",
+        "flow_objective",
+        "cut_or_reconstruction",
+        "answer_extraction"
+      ],
+      "properties": {
+        "type": {
+          "const": "flow_network"
+        },
+        "network_model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "node_definition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "edge_definition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capacity_model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "flow_objective": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cut_or_reconstruction": {
           "type": "string",
           "minLength": 1
         },

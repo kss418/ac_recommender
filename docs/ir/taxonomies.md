@@ -5,10 +5,12 @@ This document defines normalized ids used by Editorial IR v1.
 Machine-readable taxonomy data lives in:
 
 - `../../taxonomies/solution-models.json`
-- `../../taxonomies/skill-atoms.json`
+- `../../taxonomies/skill-atoms/*.json`
 
-Extractor and validator code should read the JSON files. This Markdown file is
-for naming rules, review policy, and human-readable summaries.
+Skill atom JSON files are split by parent namespace, for example
+`../../taxonomies/skill-atoms/graph.json`. Extractor and validator code should
+read all JSON files under the directory. This Markdown file is for naming
+rules, review policy, and human-readable summaries.
 
 ## Reference Validation
 
@@ -17,7 +19,7 @@ step must verify that every referenced id exists in the taxonomy data:
 
 ```text
 solution.solution_models[].id in taxonomies/solution-models.json
-solution.skill_atoms[].id in taxonomies/skill-atoms.json
+solution.skill_atoms[].id in taxonomies/skill-atoms/*.json
 ```
 
 Use `../../scripts/validate_ir.py` for this check.
@@ -135,22 +137,50 @@ are not statement-side problem categories.
 | `math.sum_of_deficits` | Sum deficits from a target value or threshold. |
 | `math.ceil_division` | Integer ceiling division for counts or operation requirements. |
 | `math.modular_arithmetic` | Modular arithmetic operations or identities. |
+| `math.convolution` | Combine coefficient sequences by polynomial or distribution convolution. |
+| `math.ntt` | Use NTT-friendly modular convolution for polynomial or sequence multiplication. |
+| `math.generating_function` | Encode counts or probabilities as coefficients of a generating function. |
+| `math.formal_power_series` | Manipulate formal power series with polynomial arithmetic, inverses, products, or coefficient extraction. |
+| `math.power_projection` | Compute selected coefficients across powers of a polynomial or formal power series. |
+| `math.floor_sum` | Evaluate sums of floor((a*i+b)/m) or equivalent quotient decompositions. |
+| `math.binomial_coefficient` | Use binomial coefficients, factorial normalization, or modular combinations. |
+| `math.gaussian_integer` | Reason about factors, norms, or residues in Gaussian integers. |
+| `math.prime_factorization` | Factor integers and use prime exponents or prime classes in the solution. |
+| `math.residue_distribution` | Maintain counts or probabilities over residue classes, often modulo one or more dimensions. |
+| `probability.generating_function` | Represent probability distributions or hitting probabilities with generating functions. |
 | `dp.state_design` | Define DP states that capture necessary information. |
 | `dp.transition_optimization` | Optimize transition cost or transition enumeration. |
 | `graph.bfs` | Breadth-first search. |
 | `graph.dijkstra` | Dijkstra shortest path with non-negative edge weights. |
 | `graph.state_expansion` | Expand graph nodes with extra state dimensions. |
+| `graph.dag_game_dp` | Compute winning and losing states on an acyclic directed game graph. |
 | `greedy.sorting_key` | Sort by a key that enables greedy choices. |
 | `greedy.exchange_argument` | Justify greedy choice by exchange argument. |
 | `data_structure.segment_tree` | Segment tree for range queries or updates. |
 | `data_structure.fenwick_tree` | Fenwick tree for prefix aggregates or point updates. |
+| `data_structure.binary_indexed_tree` | Binary indexed tree operations such as prefix sums, point updates, and prefix lower_bound. |
 | `data_structure.stack` | Stack used to manage nested, delayed, or last-in-first-out state. |
+| `string.z_algorithm` | Compute longest common prefixes from each string position using the Z-algorithm. |
+| `string.rotation_matching` | Reduce string rotation equality to pattern matching in a doubled string. |
+| `string.suffix_automaton` | Build or use a suffix automaton to represent substrings and transitions. |
+| `string.game_dp` | Model game states over strings, substrings, or string automata and compute winning states. |
+| `string.lexicographic_comparator` | Compare strings or concatenations lexicographically using LCP or equivalent structure. |
+| `game.impartial_game_dp` | Classify impartial game positions as winning or losing from legal moves. |
 | `parsing.operator_precedence` | Handle operators according to precedence and parentheses rules. |
 | `implementation.overflow_guard` | Avoid overflow in accumulated values or search bounds. |
 | `data_structure.disjoint_set_union` | Maintain connected components with union-find. |
 | `graph.bipartite_coloring` | Assign or maintain two-color parity constraints in a graph. |
+| `graph.max_flow` | Compute a maximum feasible flow in a capacitated network. |
+| `graph.min_cut` | Use the source-side residual reachability or cut capacity after max flow. |
+| `graph.flow_network_modeling` | Reduce constraints or choices to nodes, edges, capacities, and source/sink structure. |
+| `graph.bipartite_independent_set` | Recover a maximum independent set in a bipartite graph via matching or min-cut duality. |
+| `graph.flow_reconstruction` | Convert saturated or positive-flow edges back into explicit decisions or output objects. |
 | `data_structure.small_to_large` | Merge smaller sets or containers into larger ones to bound total movement. |
 | `data_structure.set` | Maintain explicit sets of elements with insertion, deletion, or membership checks. |
+| `data_structure.trie` | Store sequences or bit patterns in a prefix tree for traversal, lookup, or counting. |
+| `data_structure.priority_queue` | Maintain elements or states ordered by a maximum or minimum priority key. |
+| `data_structure.order_statistic_tree` | Maintain dynamic ordered elements with rank, kth-element, or prefix lower_bound queries. |
+| `data_structure.functional_graph` | Model one-outgoing-edge transitions with cycles, trees into cycles, or binary lifting tables. |
 | `graph.minimum_spanning_tree` | Construct or reason about a minimum spanning tree. |
 | `graph.tree_distance_verification` | Verify that a tree realizes required pairwise distances. |
 | `graph.all_pairs_tree_distance` | Compute or check distances between all pairs of vertices in a tree. |

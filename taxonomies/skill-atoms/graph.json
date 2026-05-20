@@ -1,0 +1,85 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "parent": "graph",
+  "items": [
+    {
+      "id": "graph.bfs",
+      "name": "Breadth-first search",
+      "description": "Breadth-first search.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.dijkstra",
+      "name": "Dijkstra",
+      "description": "Dijkstra shortest path with non-negative edge weights.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.state_expansion",
+      "name": "State expansion",
+      "description": "Expand graph nodes with extra state dimensions.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.dag_game_dp",
+      "name": "DAG game DP",
+      "description": "Compute winning and losing states on an acyclic directed game graph.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.bipartite_coloring",
+      "name": "Bipartite coloring",
+      "description": "Assign or maintain two-color parity constraints in a graph.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.max_flow",
+      "name": "Maximum flow",
+      "description": "Compute a maximum feasible flow in a capacitated network.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.min_cut",
+      "name": "Minimum cut",
+      "description": "Use the source-side residual reachability or cut capacity after max flow.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.flow_network_modeling",
+      "name": "Flow network modeling",
+      "description": "Reduce constraints or choices to nodes, edges, capacities, and source/sink structure.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.bipartite_independent_set",
+      "name": "Bipartite independent set",
+      "description": "Recover a maximum independent set in a bipartite graph via matching or min-cut duality.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.flow_reconstruction",
+      "name": "Flow reconstruction",
+      "description": "Convert saturated or positive-flow edges back into explicit decisions or output objects.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.minimum_spanning_tree",
+      "name": "Minimum spanning tree",
+      "description": "Construct or reason about a minimum spanning tree.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.tree_distance_verification",
+      "name": "Tree distance verification",
+      "description": "Verify that a tree realizes required pairwise distances.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.all_pairs_tree_distance",
+      "name": "All-pairs tree distance",
+      "description": "Compute or check distances between all pairs of vertices in a tree.",
+      "parent": "graph"
+    }
+  ]
+}

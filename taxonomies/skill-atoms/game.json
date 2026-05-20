@@ -1,0 +1,13 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "parent": "game",
+  "items": [
+    {
+      "id": "game.impartial_game_dp",
+      "name": "Impartial game DP",
+      "description": "Classify impartial game positions as winning or losing from legal moves.",
+      "parent": "game"
+    }
+  ]
+}

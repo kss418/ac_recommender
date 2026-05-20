@@ -1,0 +1,37 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "parent": "string",
+  "items": [
+    {
+      "id": "string.z_algorithm",
+      "name": "Z-algorithm",
+      "description": "Compute longest common prefixes from each string position using the Z-algorithm.",
+      "parent": "string"
+    },
+    {
+      "id": "string.rotation_matching",
+      "name": "Rotation matching",
+      "description": "Reduce string rotation equality to pattern matching in a doubled string.",
+      "parent": "string"
+    },
+    {
+      "id": "string.suffix_automaton",
+      "name": "Suffix automaton",
+      "description": "Build or use a suffix automaton to represent substrings and transitions.",
+      "parent": "string"
+    },
+    {
+      "id": "string.game_dp",
+      "name": "String game DP",
+      "description": "Model game states over strings, substrings, or string automata and compute winning states.",
+      "parent": "string"
+    },
+    {
+      "id": "string.lexicographic_comparator",
+      "name": "Lexicographic comparator",
+      "description": "Compare strings or concatenations lexicographically using LCP or equivalent structure.",
+      "parent": "string"
+    }
+  ]
+}

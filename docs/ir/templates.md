@@ -126,6 +126,24 @@ Use when the solution defines states and transitions over subproblems.
 }
 ```
 
+## `flow_network`
+
+Use when the solution reduces feasibility, optimization, matching, cut, or
+reconstruction constraints to a capacitated source-sink network.
+
+```json
+{
+  "type": "flow_network",
+  "network_model": "<what the flow network represents>",
+  "node_definition": "<source, sink, and intermediate node meanings>",
+  "edge_definition": "<which constraints create edges>",
+  "capacity_model": "<capacity values and their meaning>",
+  "flow_objective": "<max-flow or min-cut target>",
+  "cut_or_reconstruction": "<how the residual graph, cut, or positive-flow edges are interpreted>",
+  "answer_extraction": "<how the final answer is produced>"
+}
+```
+
 ## `graph_traversal`
 
 Use when the solution models the problem as graph reachability, traversal, or
@@ -225,7 +243,6 @@ Likely future templates:
 
 - `fenwick_tree`
 - `shortest_path`
-- `flow`
 - `matching`
 - `number_theory`
 - `combinatorics`
