@@ -25,8 +25,8 @@ Binary search on answer.
     "index": "D",
     "name": "Raise Minimum",
     "difficulty": {
-      "rating": null,
-      "source": null
+      "rating": 677,
+      "source": "atcoder_problems"
     },
     "url": "https://atcoder.jp/contests/abc457/tasks/abc457_d"
   },

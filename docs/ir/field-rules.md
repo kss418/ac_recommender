@@ -84,8 +84,24 @@ Problem identity.
 - `index`: contest-local problem index such as `A`, `B`, `C`, `D`; use `null` when absent
 - `name`: official problem name
 - `difficulty.rating`: numeric difficulty or rating when available, otherwise `null`
-- `difficulty.source`: source of the difficulty value, for example `ac`, `cf`, `solved_ac`, otherwise `null`
+- `difficulty.source`: source of the difficulty value, for example `atcoder_problems`, `cf`, `solved_ac`, otherwise `null`
 - `url`: problem URL
+
+For AtCoder IR, populate `difficulty.rating` from
+`data/problem-models.json`, the local kenkoooo/AtCoder Problems difficulty
+model snapshot. Look up the entry by `problem.id`, for example `abc457_d`, and
+start from its raw `difficulty` value. Store the AtCoder Problems displayed
+difficulty, not the raw model value:
+
+```text
+rating = round(raw) if raw >= 400
+rating = round(400 / exp(1 - raw / 400)) if raw < 400
+```
+
+This matches AtCoder Problems' `clipDifficulty` behavior and prevents negative
+ratings for easy problems. Set `difficulty.source` to `"atcoder_problems"` when
+that value is present; keep both fields `null` when the problem is missing from
+the file or has no difficulty value.
 
 ## `source`
 
