@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create a zip archive containing generated editorial and IR data."""
+"""Create a zip archive containing generated editorial, IR, and embedding data."""
 
 from __future__ import annotations
 
@@ -11,7 +11,9 @@ from typing import Iterable
 
 
 def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Zip editorial and IR data into an archive.")
+    parser = argparse.ArgumentParser(
+        description="Zip editorial, IR, and embedding data into an archive."
+    )
     parser.add_argument(
         "-o",
         "--output",
@@ -26,6 +28,7 @@ def zip_data_bundle(*, repo_root: Path, output: Path) -> Path:
     source_roots = [
         repo_root / "editorials",
         repo_root / "ir",
+        repo_root / "embeddings",
     ]
     for source_root in source_roots:
         if not source_root.is_dir():

@@ -280,6 +280,7 @@ Included roots:
 ```text
 editorials/
 ir/
+embeddings/
 ```
 
 ### `scripts/embed_ir.py`
