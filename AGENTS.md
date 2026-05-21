@@ -318,6 +318,23 @@ Notes:
 - CPU-only PyTorch is slow for the full pilot set. Prefer a CUDA environment
   for full vector generation.
 
+### `scripts/analyze_embeddings.py`
+
+Analyzes an embedding output directory or standalone `.npy` file. If given an
+embedding directory, it auto-loads `manifest.json` and `documents.jsonl`.
+
+Useful commands:
+
+```powershell
+python scripts\analyze_embeddings.py embeddings\abc450-457\qwen3-embedding-0.6b-all
+python scripts\analyze_embeddings.py embeddings\abc450-457\qwen3-embedding-0.6b-all --exclude-same-problem
+python scripts\analyze_embeddings.py embeddings\abc450-457\qwen3-embedding-0.6b-all --no-pairs --json-output dist\embedding-analysis.json
+```
+
+It reports matrix shape, dtype, finite-value checks, row-norm statistics,
+manifest/document consistency, view/event counts, exact duplicate rows, and
+nearest cosine-similarity pairs.
+
 ### `scripts/runpod_embed.py`
 
 Runs `scripts/embed_ir.py` on a RunPod SSH GPU pod. This is a simple SSH/SCP
