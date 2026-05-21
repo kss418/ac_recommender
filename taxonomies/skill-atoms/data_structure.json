@@ -12,13 +12,7 @@
     {
       "id": "data_structure.fenwick_tree",
       "name": "Fenwick tree",
-      "description": "Fenwick tree for prefix aggregates or point updates.",
-      "parent": "data_structure"
-    },
-    {
-      "id": "data_structure.binary_indexed_tree",
-      "name": "Binary indexed tree",
-      "description": "Binary indexed tree operations such as prefix sums, point updates, and prefix lower_bound.",
+      "description": "Fenwick tree, also known as a binary indexed tree, for prefix aggregates, point updates, and prefix lower_bound.",
       "parent": "data_structure"
     },
     {

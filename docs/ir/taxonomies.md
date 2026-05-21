@@ -46,6 +46,9 @@ Prefer one canonical namespace. For example, use `graph.dijkstra`; do not also
 add `graph.shortest_path.dijkstra` or `shortest_path.dijkstra` unless there is
 a clear, distinct meaning.
 
+Treat common aliases as naming hints, not additional ids. For Fenwick tree /
+binary indexed tree / BIT, use the canonical id `data_structure.fenwick_tree`.
+
 ## Adding New IDs
 
 Add a new id only when no existing id captures the concept.
@@ -157,8 +160,7 @@ are not statement-side problem categories.
 | `greedy.sorting_key` | Sort by a key that enables greedy choices. |
 | `greedy.exchange_argument` | Justify greedy choice by exchange argument. |
 | `data_structure.segment_tree` | Segment tree for range queries or updates. |
-| `data_structure.fenwick_tree` | Fenwick tree for prefix aggregates or point updates. |
-| `data_structure.binary_indexed_tree` | Binary indexed tree operations such as prefix sums, point updates, and prefix lower_bound. |
+| `data_structure.fenwick_tree` | Fenwick tree, also known as a binary indexed tree or BIT, for prefix aggregates, point updates, and prefix lower_bound. |
 | `data_structure.stack` | Stack used to manage nested, delayed, or last-in-first-out state. |
 | `string.z_algorithm` | Compute longest common prefixes from each string position using the Z-algorithm. |
 | `string.rotation_matching` | Reduce string rotation equality to pattern matching in a doubled string. |
