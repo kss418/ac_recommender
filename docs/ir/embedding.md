@@ -12,6 +12,34 @@ Each problem may produce multiple embedding documents:
 - `skill`
 - `combined`
 
+By default, embedding generation should produce only recommendation views:
+
+- `solution_structure`
+- `skill`
+- `combined`
+
+Do not include `problem_identity` in default embedding outputs.
+
+Recommendation retrieval must apply a metadata view filter:
+
+- compare `solution_structure` only with `solution_structure`,
+- compare `skill` only with `skill`,
+- compare `combined` only with `combined`.
+
+Even if all views share one vector index, recommendation search must filter on
+`metadata.view`. Do not mix views when computing recommendation scores.
+
+Use only these views for recommendation scoring:
+
+- `solution_structure`
+- `skill`
+- `combined`
+
+`problem_identity` is for debugging, joins, display, and problem-name lookup.
+Generate it only for a separate debug/name-search index when explicitly
+requested, for example with `--views problem_identity`. Exclude it from
+recommendation scores.
+
 ## Metadata-only Fields
 
 Use these fields for filtering, joins, display, or reranking. Do not include

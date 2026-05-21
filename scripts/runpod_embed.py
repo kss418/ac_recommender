@@ -27,7 +27,8 @@ from pathlib import Path
 from typing import Iterable, Sequence
 
 
-DEFAULT_VIEWS = ("problem_identity", "solution_structure", "skill", "combined")
+AVAILABLE_VIEWS = ("problem_identity", "solution_structure", "skill", "combined")
+DEFAULT_VIEWS = ("solution_structure", "skill", "combined")
 REMOTE_BUNDLE_NAME = "ac-recommender-embed-input.zip"
 
 
@@ -86,8 +87,11 @@ def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
         "--views",
         nargs="+",
         default=["all"],
-        choices=["all", *DEFAULT_VIEWS],
-        help="Views to embed. Defaults to all views.",
+        choices=["all", *AVAILABLE_VIEWS],
+        help=(
+            "Views to embed. Defaults to recommendation views "
+            "(solution_structure, skill, combined)."
+        ),
     )
     parser.add_argument(
         "--batch-size",

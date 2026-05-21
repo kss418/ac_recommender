@@ -15,6 +15,7 @@ from typing import Any, Iterable, Sequence
 
 
 JsonObject = dict[str, Any]
+RECOMMENDATION_VIEWS = ("solution_structure", "skill", "combined")
 
 
 @dataclass(frozen=True)
@@ -71,7 +72,25 @@ def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--exclude-same-problem",
         action="store_true",
-        help="Exclude pairs whose documents share the same metadata.problem_id.",
+        help=(
+            "Exclude pairs whose documents share the same metadata.problem_id. "
+            "This is already the default unless --include-same-problem is used."
+        ),
+    )
+    parser.add_argument(
+        "--include-same-problem",
+        action="store_true",
+        help="Allow pairwise matches between different embedding views of the same problem.",
+    )
+    parser.add_argument(
+        "--include-problem-identity",
+        action="store_true",
+        help="Include problem_identity in pairwise analysis. By default it is excluded from recommendation scoring.",
+    )
+    parser.add_argument(
+        "--cross-view",
+        action="store_true",
+        help="Allow cross-view pairwise comparisons. By default each view is compared only with the same view.",
     )
     parser.add_argument(
         "--no-pairs",
@@ -122,7 +141,9 @@ def main(argv: Iterable[str] | None = None) -> int:
         manifest=manifest,
         top_k=args.top_k,
         similarity_threshold=args.similarity_threshold,
-        exclude_same_problem=args.exclude_same_problem,
+        exclude_same_problem=args.exclude_same_problem or not args.include_same_problem,
+        include_problem_identity=args.include_problem_identity,
+        cross_view=args.cross_view,
         no_pairs=args.no_pairs,
         pair_block_size=args.pair_block_size,
         max_pair_rows=args.max_pair_rows,
@@ -199,6 +220,8 @@ def build_report(
     top_k: int,
     similarity_threshold: float,
     exclude_same_problem: bool,
+    include_problem_identity: bool,
+    cross_view: bool,
     no_pairs: bool,
     pair_block_size: int,
     max_pair_rows: int,
@@ -249,6 +272,8 @@ def build_report(
                 top_k=top_k,
                 threshold=similarity_threshold,
                 exclude_same_problem=exclude_same_problem,
+                include_problem_identity=include_problem_identity,
+                cross_view=cross_view,
                 block_size=pair_block_size,
             )
     else:
@@ -347,6 +372,8 @@ def analyze_pairs(
     top_k: int,
     threshold: float,
     exclude_same_problem: bool,
+    include_problem_identity: bool,
+    cross_view: bool,
     block_size: int,
 ) -> JsonObject:
     import numpy as np
@@ -359,6 +386,11 @@ def analyze_pairs(
     normalized = normalize_rows(embeddings)
     row_count = normalized.shape[0]
     problem_ids = problem_ids_by_index(documents, row_count)
+    views = views_by_index(documents, row_count)
+    allowed_views = None if include_problem_identity else set(RECOMMENDATION_VIEWS)
+    allowed_view_mask = None
+    if allowed_views is not None and views is not None:
+        allowed_view_mask = np.array([view in allowed_views for view in views], dtype=bool)
     top_pairs: list[PairRecord] = []
     above_threshold = 0
     compared_pairs = 0
@@ -371,6 +403,13 @@ def analyze_pairs(
             i = start + local_i
             row_scores = scores[local_i]
             row_scores[: i + 1] = -math.inf
+            if allowed_views is not None and views is not None:
+                if views[i] not in allowed_views:
+                    row_scores[:] = -math.inf
+                elif allowed_view_mask is not None:
+                    row_scores[~allowed_view_mask] = -math.inf
+            if not cross_view and views is not None:
+                row_scores[views != views[i]] = -math.inf
             if exclude_same_problem and problem_ids is not None:
                 same_problem = problem_ids == problem_ids[i]
                 row_scores[same_problem] = -math.inf
@@ -397,6 +436,10 @@ def analyze_pairs(
         "skipped": False,
         "cosine_assumes_row_normalization": True,
         "exclude_same_problem": exclude_same_problem,
+        "include_problem_identity": include_problem_identity,
+        "cross_view": cross_view,
+        "recommendation_views": list(RECOMMENDATION_VIEWS),
+        "view_filter": "same-view only" if not cross_view else "cross-view allowed",
         "compared_pairs": compared_pairs,
         "max_similarity": None if max_similarity == -math.inf else max_similarity,
         "threshold": threshold,
@@ -424,6 +467,18 @@ def problem_ids_by_index(documents: Sequence[DocumentRecord], row_count: int) ->
         if 0 <= record.embedding_index < row_count:
             problem_ids[record.embedding_index] = str(record.metadata.get("problem_id") or "")
     return problem_ids
+
+
+def views_by_index(documents: Sequence[DocumentRecord], row_count: int) -> Any:
+    import numpy as np
+
+    if not documents:
+        return None
+    views = np.array([""] * row_count, dtype=object)
+    for record in documents:
+        if 0 <= record.embedding_index < row_count:
+            views[record.embedding_index] = str(record.view or "")
+    return views
 
 
 def format_pair(pair: PairRecord, documents: Sequence[DocumentRecord]) -> JsonObject:
@@ -534,6 +589,10 @@ def print_pairwise(pairwise: JsonObject) -> None:
         print(f"Skipped: {pairwise.get('reason')}")
         return
     print(f"Compared pairs: {pairwise.get('compared_pairs')}")
+    print(f"View filter: {pairwise.get('view_filter')}")
+    print(f"Recommendation views: {', '.join(pairwise.get('recommendation_views') or [])}")
+    print(f"Include problem_identity: {pairwise.get('include_problem_identity')}")
+    print(f"Exclude same problem: {pairwise.get('exclude_same_problem')}")
     print(f"Max similarity: {pairwise.get('max_similarity')}")
     print(
         f"Pairs >= {pairwise.get('threshold')}: "

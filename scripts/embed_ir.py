@@ -14,7 +14,8 @@ from typing import Any, Iterable, Iterator, Sequence
 
 
 JsonObject = dict[str, Any]
-DEFAULT_VIEWS = ("problem_identity", "solution_structure", "skill", "combined")
+AVAILABLE_VIEWS = ("problem_identity", "solution_structure", "skill", "combined")
+DEFAULT_VIEWS = ("solution_structure", "skill", "combined")
 MODEL_ALIASES = {
     "0.6": "Qwen/Qwen3-Embedding-0.6B",
     "0.6b": "Qwen/Qwen3-Embedding-0.6B",
@@ -61,9 +62,12 @@ def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--views",
         nargs="+",
-        choices=DEFAULT_VIEWS,
+        choices=AVAILABLE_VIEWS,
         default=list(DEFAULT_VIEWS),
-        help="Embedding views to generate. Defaults to all views.",
+        help=(
+            "Embedding views to generate. Defaults to recommendation views "
+            "(solution_structure, skill, combined)."
+        ),
     )
     parser.add_argument(
         "--output-root",
