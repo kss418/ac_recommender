@@ -282,6 +282,76 @@ editorials/
 ir/
 ```
 
+### `scripts/embed_ir.py`
+
+Generates embedding documents and vectors from Editorial IR JSON. The script
+implements the text views documented in `docs/ir/embedding.md`.
+
+Useful local commands:
+
+```powershell
+python scripts\embed_ir.py --model-size 0.6b --overwrite
+python scripts\embed_ir.py --model-size 0.6b --views skill combined --limit 10 --overwrite
+python scripts\embed_ir.py --model-size 0.6b --text-only --overwrite
+```
+
+Default output:
+
+```text
+embeddings/qwen3-embedding-0.6b-all/
+```
+
+Output files:
+
+```text
+documents.jsonl
+embeddings.npy
+manifest.json
+```
+
+Notes:
+
+- `--model-size 0.6b` maps to `Qwen/Qwen3-Embedding-0.6B`.
+- Defaults are all IR files under `ir/` and all views:
+  `problem_identity`, `solution_structure`, `skill`, and `combined`.
+- CPU-only PyTorch is slow for the full pilot set. Prefer a CUDA environment
+  for full vector generation.
+
+### `scripts/runpod_embed.py`
+
+Runs `scripts/embed_ir.py` on a RunPod SSH GPU pod. This is a simple SSH/SCP
+wrapper, not a RunPod API client. Create a GPU pod first, then pass its SSH
+target, port, and optional key.
+
+Useful commands:
+
+```powershell
+python scripts\runpod_embed.py root@ssh.runpod.io --port 12345 --identity-file "$env:USERPROFILE\.ssh\id_ed25519" --model-size 0.6b
+python scripts\runpod_embed.py root@ssh.runpod.io --port 12345 --identity-file "$env:USERPROFILE\.ssh\id_ed25519" --limit 5 --views skill combined
+python scripts\runpod_embed.py root@ssh.runpod.io --port 12345 --dry-run --limit 1
+```
+
+What it does:
+
+```text
+zip requirements/docs/schema/scripts/taxonomies/ir
+upload bundle to the pod
+create .venv-runpod on the pod
+install requirements.txt
+verify CUDA when --device cuda is used
+run embed_ir.py remotely
+download and extract the result zip into embeddings/
+```
+
+RunPod setup notes:
+
+- Use a PyTorch + CUDA image or template. A plain Python/Ubuntu image will need
+  extra CUDA/PyTorch setup and is not the intended path.
+- The remote venv defaults to `--system-site-packages` so it can reuse the
+  image's GPU-enabled `torch`.
+- If the image already has all dependencies, pass `--skip-install`.
+- If CUDA is not visible, the script stops before embedding.
+
 ## Validation Checklist
 
 After editing docs or IR, run the smallest relevant checks:
@@ -312,6 +382,10 @@ python scripts\validate_ir.py ir --examples-md docs\ir\examples.md
   - machine schema/taxonomy data in `schema/` and `taxonomies/`.
 - Prefer adding new taxonomy ids to both the JSON data and `docs/ir/taxonomies.md`
   before using them in IR.
+- For full embedding runs, prefer `scripts/runpod_embed.py` on a CUDA RunPod
+  pod. Local Windows `.venv` may have CPU-only PyTorch; check with
+  `python -c "import torch; print(torch.cuda.is_available())"` before assuming
+  GPU acceleration.
 - Use `core_computations` as an array, even if there is only one central
   computation.
 - Avoid boilerplate in `procedure`; do not include generic steps like "read
