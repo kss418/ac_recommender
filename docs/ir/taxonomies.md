@@ -134,6 +134,7 @@ are not statement-side problem categories.
 | `binary_search.lower_bound` | Use lower_bound-style binary search over sorted data. |
 | `binary_search.real_number` | Binary search over continuous values. |
 | `binary_search.parametric_search` | Parametric search framing with a decision procedure. |
+| `bitwise.xor_pair_counting` | Count pairs of values subject to an XOR threshold, equality, or ordering condition. |
 | `array.linear_scan` | Linear scan over an array or sequence. |
 | `array.prefix_sum` | Prefix sums or cumulative aggregates. |
 | `array.suffix_aggregation` | Suffix aggregates or reverse cumulative values. |
@@ -150,6 +151,7 @@ are not statement-side problem categories.
 | `math.gaussian_integer` | Reason about factors, norms, or residues in Gaussian integers. |
 | `math.prime_factorization` | Factor integers and use prime exponents or prime classes in the solution. |
 | `math.residue_distribution` | Maintain counts or probabilities over residue classes, often modulo one or more dimensions. |
+| `math.xor_basis` | Build or use a linear basis over XOR values to reduce, test, or optimize bitwise combinations. |
 | `probability.generating_function` | Represent probability distributions or hitting probabilities with generating functions. |
 | `dp.state_design` | Define DP states that capture necessary information. |
 | `dp.transition_optimization` | Optimize transition cost or transition enumeration. |
@@ -164,6 +166,10 @@ are not statement-side problem categories.
 | `data_structure.stack` | Stack used to manage nested, delayed, or last-in-first-out state. |
 | `string.z_algorithm` | Compute longest common prefixes from each string position using the Z-algorithm. |
 | `string.rotation_matching` | Reduce string rotation equality to pattern matching in a doubled string. |
+| `string.suffix_array` | Build or use a suffix array to order suffixes of a string or sequence. |
+| `string.lcp_array` | Build or use longest-common-prefix values between adjacent suffix-array entries. |
+| `string.distinct_substring_counting` | Count distinct substrings or subarrays using suffix ordering, LCP subtraction, or equivalent structure. |
+| `string.run_length_encoding` | Compress consecutive equal symbols into runs and reason over run values or lengths. |
 | `string.suffix_automaton` | Build or use a suffix automaton to represent substrings and transitions. |
 | `string.game_dp` | Model game states over strings, substrings, or string automata and compute winning states. |
 | `string.lexicographic_comparator` | Compare strings or concatenations lexicographically using LCP or equivalent structure. |
@@ -180,9 +186,11 @@ are not statement-side problem categories.
 | `data_structure.small_to_large` | Merge smaller sets or containers into larger ones to bound total movement. |
 | `data_structure.set` | Maintain explicit sets of elements with insertion, deletion, or membership checks. |
 | `data_structure.trie` | Store sequences or bit patterns in a prefix tree for traversal, lookup, or counting. |
+| `data_structure.binary_trie` | Store integer bit patterns in a binary trie for XOR queries, pair counting, or bitwise order statistics. |
 | `data_structure.priority_queue` | Maintain elements or states ordered by a maximum or minimum priority key. |
 | `data_structure.order_statistic_tree` | Maintain dynamic ordered elements with rank, kth-element, or prefix lower_bound queries. |
 | `data_structure.functional_graph` | Model one-outgoing-edge transitions with cycles, trees into cycles, or binary lifting tables. |
+| `graph.spanning_tree` | Choose or use a spanning tree to define traversal labels, fundamental cycles, or connected structure. |
 | `graph.minimum_spanning_tree` | Construct or reason about a minimum spanning tree. |
 | `graph.tree_distance_verification` | Verify that a tree realizes required pairwise distances. |
 | `graph.all_pairs_tree_distance` | Compute or check distances between all pairs of vertices in a tree. |

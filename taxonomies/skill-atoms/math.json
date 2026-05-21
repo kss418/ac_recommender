@@ -82,6 +82,12 @@
       "parent": "math"
     },
     {
+      "id": "math.xor_basis",
+      "name": "XOR basis",
+      "description": "Build or use a linear basis over XOR values to reduce, test, or optimize bitwise combinations.",
+      "parent": "math"
+    },
+    {
       "id": "math.aggregate_formula",
       "name": "Aggregate formula",
       "description": "Use an algebraic formula over maintained aggregates.",

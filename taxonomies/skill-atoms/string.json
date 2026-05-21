@@ -16,6 +16,30 @@
       "parent": "string"
     },
     {
+      "id": "string.suffix_array",
+      "name": "Suffix array",
+      "description": "Build or use a suffix array to order suffixes of a string or sequence.",
+      "parent": "string"
+    },
+    {
+      "id": "string.lcp_array",
+      "name": "LCP array",
+      "description": "Build or use longest-common-prefix values between adjacent suffix-array entries.",
+      "parent": "string"
+    },
+    {
+      "id": "string.distinct_substring_counting",
+      "name": "Distinct substring counting",
+      "description": "Count distinct substrings or subarrays using suffix ordering, LCP subtraction, or equivalent structure.",
+      "parent": "string"
+    },
+    {
+      "id": "string.run_length_encoding",
+      "name": "Run-length encoding",
+      "description": "Compress consecutive equal symbols into runs and reason over run values or lengths.",
+      "parent": "string"
+    },
+    {
       "id": "string.suffix_automaton",
       "name": "Suffix automaton",
       "description": "Build or use a suffix automaton to represent substrings and transitions.",

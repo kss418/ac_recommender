@@ -46,6 +46,12 @@
       "parent": "data_structure"
     },
     {
+      "id": "data_structure.binary_trie",
+      "name": "Binary trie",
+      "description": "Store integer bit patterns in a binary trie for XOR queries, pair counting, or bitwise order statistics.",
+      "parent": "data_structure"
+    },
+    {
       "id": "data_structure.priority_queue",
       "name": "Priority queue",
       "description": "Maintain elements or states ordered by a maximum or minimum priority key.",

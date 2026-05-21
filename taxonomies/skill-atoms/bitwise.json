@@ -1,0 +1,13 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "parent": "bitwise",
+  "items": [
+    {
+      "id": "bitwise.xor_pair_counting",
+      "name": "XOR pair counting",
+      "description": "Count pairs of values subject to an XOR threshold, equality, or ordering condition.",
+      "parent": "bitwise"
+    }
+  ]
+}
