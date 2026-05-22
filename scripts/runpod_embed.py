@@ -80,7 +80,7 @@ def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--model-size",
         default="0.6b",
-        choices=["0.6", "0.6b", "0.6B", "4", "4b", "4B"],
+        choices=["0.6", "0.6b", "0.6B", "4", "4b", "4B", "8", "8b", "8B"],
         help="Qwen3 embedding model size alias. Defaults to 0.6b.",
     )
     parser.add_argument(
@@ -465,7 +465,15 @@ PY
 
 
 def embedding_output_name(model_size: str, views: Sequence[str]) -> str:
-    size = "0.6b" if model_size.lower() in {"0.6", "0.6b"} else "4b"
+    normalized = model_size.lower()
+    if normalized in {"0.6", "0.6b"}:
+        size = "0.6b"
+    elif normalized in {"4", "4b"}:
+        size = "4b"
+    elif normalized in {"8", "8b"}:
+        size = "8b"
+    else:
+        raise SystemExit(f"error: unsupported model size: {model_size}")
     view_part = "all" if views == ["all"] else "-".join(views)
     return f"qwen3-embedding-{size}-{view_part}"
 

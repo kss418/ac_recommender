@@ -23,6 +23,9 @@ MODEL_ALIASES = {
     "4": "Qwen/Qwen3-Embedding-4B",
     "4b": "Qwen/Qwen3-Embedding-4B",
     "4B": "Qwen/Qwen3-Embedding-4B",
+    "8": "Qwen/Qwen3-Embedding-8B",
+    "8b": "Qwen/Qwen3-Embedding-8B",
+    "8B": "Qwen/Qwen3-Embedding-8B",
 }
 
 
@@ -470,7 +473,14 @@ def make_output_dir(
 
 
 def canonical_model_size(model_size: str) -> str:
-    return "0.6b" if model_size.lower() in {"0.6", "0.6b"} else "4b"
+    normalized = model_size.lower()
+    if normalized in {"0.6", "0.6b"}:
+        return "0.6b"
+    if normalized in {"4", "4b"}:
+        return "4b"
+    if normalized in {"8", "8b"}:
+        return "8b"
+    raise SystemExit(f"error: unsupported model size: {model_size}")
 
 
 def remove_generated_outputs(output_dir: Path) -> None:
