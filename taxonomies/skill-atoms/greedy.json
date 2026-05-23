@@ -6,13 +6,43 @@
     {
       "id": "greedy.sorting_key",
       "name": "Greedy sorting key",
-      "description": "Sort by a key that enables greedy choices.",
+      "description": "Sort by a key that directly enables a greedy choice; use sorting.key_ordering for non-greedy preprocessing.",
       "parent": "greedy"
     },
     {
       "id": "greedy.exchange_argument",
       "name": "Exchange argument",
       "description": "Justify greedy choice by exchange argument.",
+      "parent": "greedy"
+    },
+    {
+      "id": "greedy.local_choice",
+      "name": "Local choice",
+      "description": "Make an immediately determined local choice that cannot hurt future feasibility or optimality.",
+      "parent": "greedy"
+    },
+    {
+      "id": "greedy.extreme_choice",
+      "name": "Extreme choice",
+      "description": "Choose the largest, smallest, earliest, latest, or otherwise extreme feasible option at each step.",
+      "parent": "greedy"
+    },
+    {
+      "id": "greedy.priority_queue_choice",
+      "name": "Priority-queue choice",
+      "description": "Repeatedly choose the currently best candidate from a priority queue or heap.",
+      "parent": "greedy"
+    },
+    {
+      "id": "greedy.reverse_processing",
+      "name": "Reverse processing",
+      "description": "Process operations in reverse so only the last effective choice for each object contributes.",
+      "parent": "greedy"
+    },
+    {
+      "id": "greedy.prefix_optimality",
+      "name": "Prefix optimality",
+      "description": "Maintain an optimal prefix, selected prefix length, or prefix aggregate justified by greedy dominance.",
       "parent": "greedy"
     }
   ]

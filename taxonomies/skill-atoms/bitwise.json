@@ -8,6 +8,12 @@
       "name": "XOR pair counting",
       "description": "Count pairs of values subject to an XOR threshold, equality, or ordering condition.",
       "parent": "bitwise"
+    },
+    {
+      "id": "bitwise.bit_greedy",
+      "name": "Bit greedy",
+      "description": "Choose bits from most significant to least significant while preserving feasibility or optimality.",
+      "parent": "bitwise"
     }
   ]
 }

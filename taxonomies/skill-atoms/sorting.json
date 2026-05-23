@@ -1,0 +1,13 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "parent": "sorting",
+  "items": [
+    {
+      "id": "sorting.key_ordering",
+      "name": "Key ordering",
+      "description": "Sort records by a key as preprocessing for scanning, searching, grouping, or aggregation without implying a greedy choice.",
+      "parent": "sorting"
+    }
+  ]
+}

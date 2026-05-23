@@ -134,6 +134,7 @@ are not statement-side problem categories.
 | `binary_search.lower_bound` | Use lower_bound-style binary search over sorted data. |
 | `binary_search.real_number` | Binary search over continuous values. |
 | `binary_search.parametric_search` | Parametric search framing with a decision procedure. |
+| `bitwise.bit_greedy` | Choose bits from most significant to least significant while preserving feasibility or optimality. |
 | `bitwise.xor_pair_counting` | Count pairs of values subject to an XOR threshold, equality, or ordering condition. |
 | `brute_force.subset_enumeration` | Enumerate subset masks or assignments and evaluate each candidate directly. |
 | `brute_force.backtracking` | Recursively explore candidates while maintaining and undoing local state. |
@@ -141,6 +142,7 @@ are not statement-side problem categories.
 | `geometry.half_plane_or_support_function` | Use a linear inequality, separating line, or support-function query over a convex set. |
 | `hashing.zobrist_hash` | Assign random values to objects and combine them additively or by XOR to compare multisets, states, or occurrence patterns. |
 | `hashing.rolling_hash` | Maintain substring or sequence hashes with incremental window updates or prefix-hash differences. |
+| `sorting.key_ordering` | Sort records by a key as preprocessing for scanning, searching, grouping, or aggregation without implying a greedy choice. |
 | `array.linear_scan` | Linear scan over an array or sequence. |
 | `array.prefix_sum` | Prefix sums or cumulative aggregates. |
 | `array.suffix_aggregation` | Suffix aggregates or reverse cumulative values. |
@@ -170,8 +172,13 @@ are not statement-side problem categories.
 | `graph.shortest_path_update` | Maintain shortest-path distances under added, removed, or restored edges. |
 | `graph.state_expansion` | Expand graph nodes with extra state dimensions. |
 | `graph.dag_game_dp` | Compute winning and losing states on an acyclic directed game graph. |
-| `greedy.sorting_key` | Sort by a key that enables greedy choices. |
+| `greedy.sorting_key` | Sort by a key that directly enables a greedy choice; use `sorting.key_ordering` for non-greedy preprocessing. |
 | `greedy.exchange_argument` | Justify greedy choice by exchange argument. |
+| `greedy.local_choice` | Make an immediately determined local choice that cannot hurt future feasibility or optimality. |
+| `greedy.extreme_choice` | Choose the largest, smallest, earliest, latest, or otherwise extreme feasible option at each step. |
+| `greedy.priority_queue_choice` | Repeatedly choose the currently best candidate from a priority queue or heap. |
+| `greedy.reverse_processing` | Process operations in reverse so only the last effective choice for each object contributes. |
+| `greedy.prefix_optimality` | Maintain an optimal prefix, selected prefix length, or prefix aggregate justified by greedy dominance. |
 | `data_structure.segment_tree` | Segment tree for range queries or updates. |
 | `data_structure.fenwick_tree` | Fenwick tree, also known as a binary indexed tree or BIT, for prefix aggregates, point updates, and prefix lower_bound. |
 | `data_structure.stack` | Stack used to manage nested, delayed, or last-in-first-out state. |
