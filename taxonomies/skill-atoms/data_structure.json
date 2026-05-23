@@ -22,6 +22,12 @@
       "parent": "data_structure"
     },
     {
+      "id": "data_structure.dynamic_array",
+      "name": "Dynamic array",
+      "description": "Maintain an appendable sequence with direct indexed access.",
+      "parent": "data_structure"
+    },
+    {
       "id": "data_structure.disjoint_set_union",
       "name": "Disjoint set union",
       "description": "Maintain connected components with union-find.",

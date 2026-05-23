@@ -10,9 +10,27 @@
       "parent": "graph"
     },
     {
+      "id": "graph.dfs",
+      "name": "Depth-first search",
+      "description": "Depth-first search, including recursive traversal over graph or grid states.",
+      "parent": "graph"
+    },
+    {
       "id": "graph.dijkstra",
       "name": "Dijkstra",
       "description": "Dijkstra shortest path with non-negative edge weights.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.reachability",
+      "name": "Reachability",
+      "description": "Compute or maintain which vertices or states are reachable under graph constraints.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.shortest_path_update",
+      "name": "Shortest-path update",
+      "description": "Maintain shortest-path distances under added, removed, or restored edges.",
       "parent": "graph"
     },
     {
@@ -109,6 +127,12 @@
       "id": "graph.spanning_tree",
       "name": "Spanning tree",
       "description": "Choose or use a spanning tree to define traversal labels, fundamental cycles, or connected structure.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.tree_centroid",
+      "name": "Tree centroid",
+      "description": "Find or use a tree centroid as a balanced separator without recursively decomposing the tree.",
       "parent": "graph"
     },
     {

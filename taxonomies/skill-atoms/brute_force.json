@@ -1,0 +1,19 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "parent": "brute_force",
+  "items": [
+    {
+      "id": "brute_force.subset_enumeration",
+      "name": "Subset enumeration",
+      "description": "Enumerate subset masks or assignments and evaluate each candidate directly.",
+      "parent": "brute_force"
+    },
+    {
+      "id": "brute_force.backtracking",
+      "name": "Backtracking",
+      "description": "Recursively explore candidates while maintaining and undoing local state.",
+      "parent": "brute_force"
+    }
+  ]
+}

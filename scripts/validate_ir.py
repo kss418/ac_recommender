@@ -94,6 +94,7 @@ def main(argv: Iterable[str] | None = None) -> int:
             errors.extend(validate_schema(schema_validator, label, instance))
         errors.extend(validate_primary_paradigm(label, instance))
         errors.extend(validate_template_invariant(label, instance))
+        errors.extend(validate_primary_skill_atom(label, instance))
         errors.extend(
             validate_taxonomy_references(
                 label,
@@ -182,6 +183,26 @@ def validate_template_invariant(label: str, instance: JsonObject) -> list[str]:
         return [
             f"{label}: invariant error: $.solution.algorithm_template "
             f"{algorithm_template!r} must equal $.solution.template_specific.type {template_type!r}"
+        ]
+    return []
+
+
+def validate_primary_skill_atom(label: str, instance: JsonObject) -> list[str]:
+    solution = instance.get("solution")
+    if not isinstance(solution, dict):
+        return [f"{label}: skill error at $.solution: missing or invalid solution object"]
+
+    skill_atoms = solution.get("skill_atoms")
+    if not isinstance(skill_atoms, list):
+        return [f"{label}: skill error at $.solution.skill_atoms: expected an array"]
+
+    has_primary = any(
+        isinstance(atom, dict) and atom.get("role") == "primary" for atom in skill_atoms
+    )
+    if not has_primary:
+        return [
+            f"{label}: skill error at $.solution.skill_atoms: "
+            "expected at least one atom with role 'primary'"
         ]
     return []
 

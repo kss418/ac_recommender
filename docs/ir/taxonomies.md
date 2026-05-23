@@ -135,6 +135,8 @@ are not statement-side problem categories.
 | `binary_search.real_number` | Binary search over continuous values. |
 | `binary_search.parametric_search` | Parametric search framing with a decision procedure. |
 | `bitwise.xor_pair_counting` | Count pairs of values subject to an XOR threshold, equality, or ordering condition. |
+| `brute_force.subset_enumeration` | Enumerate subset masks or assignments and evaluate each candidate directly. |
+| `brute_force.backtracking` | Recursively explore candidates while maintaining and undoing local state. |
 | `geometry.convex_hull` | Build or use the convex hull of points to restrict feasible or optimal candidates. |
 | `geometry.half_plane_or_support_function` | Use a linear inequality, separating line, or support-function query over a convex set. |
 | `hashing.zobrist_hash` | Assign random values to objects and combine them additively or by XOR to compare multisets, states, or occurrence patterns. |
@@ -142,6 +144,7 @@ are not statement-side problem categories.
 | `array.linear_scan` | Linear scan over an array or sequence. |
 | `array.prefix_sum` | Prefix sums or cumulative aggregates. |
 | `array.suffix_aggregation` | Suffix aggregates or reverse cumulative values. |
+| `array.indexing` | Use direct positional access, offset calculations, or kth-element indexing in an array or sequence. |
 | `math.sum_of_deficits` | Sum deficits from a target value or threshold. |
 | `math.ceil_division` | Integer ceiling division for counts or operation requirements. |
 | `math.modular_arithmetic` | Modular arithmetic operations or identities. |
@@ -161,7 +164,10 @@ are not statement-side problem categories.
 | `dp.transition_optimization` | Optimize transition cost or transition enumeration. |
 | `dp.slope_trick` | Represent and update a convex piecewise-linear DP cost function by slope changes or breakpoints. |
 | `graph.bfs` | Breadth-first search. |
+| `graph.dfs` | Depth-first search, including recursive traversal over graph or grid states. |
 | `graph.dijkstra` | Dijkstra shortest path with non-negative edge weights. |
+| `graph.reachability` | Compute or maintain which vertices or states are reachable under graph constraints. |
+| `graph.shortest_path_update` | Maintain shortest-path distances under added, removed, or restored edges. |
 | `graph.state_expansion` | Expand graph nodes with extra state dimensions. |
 | `graph.dag_game_dp` | Compute winning and losing states on an acyclic directed game graph. |
 | `greedy.sorting_key` | Sort by a key that enables greedy choices. |
@@ -169,6 +175,7 @@ are not statement-side problem categories.
 | `data_structure.segment_tree` | Segment tree for range queries or updates. |
 | `data_structure.fenwick_tree` | Fenwick tree, also known as a binary indexed tree or BIT, for prefix aggregates, point updates, and prefix lower_bound. |
 | `data_structure.stack` | Stack used to manage nested, delayed, or last-in-first-out state. |
+| `data_structure.dynamic_array` | Maintain an appendable sequence with direct indexed access. |
 | `string.z_algorithm` | Compute longest common prefixes from each string position using the Z-algorithm. |
 | `string.rotation_matching` | Reduce string rotation equality to pattern matching in a doubled string. |
 | `string.suffix_array` | Build or use a suffix array to order suffixes of a string or sequence. |
@@ -207,6 +214,7 @@ are not statement-side problem categories.
 | `data_structure.order_statistic_tree` | Maintain dynamic ordered elements with rank, kth-element, or prefix lower_bound queries. |
 | `data_structure.functional_graph` | Model one-outgoing-edge transitions with cycles, trees into cycles, or binary lifting tables. |
 | `graph.spanning_tree` | Choose or use a spanning tree to define traversal labels, fundamental cycles, or connected structure. |
+| `graph.tree_centroid` | Find or use a tree centroid as a balanced separator without recursively decomposing the tree. |
 | `graph.centroid_decomposition` | Recursively decompose a tree by centroids so path or subtree contributions are counted at balanced separators. |
 | `graph.minimum_spanning_tree` | Construct or reason about a minimum spanning tree. |
 | `graph.tree_distance_verification` | Verify that a tree realizes required pairwise distances. |

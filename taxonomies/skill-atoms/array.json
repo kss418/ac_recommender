@@ -20,6 +20,12 @@
       "name": "Suffix aggregation",
       "description": "Suffix aggregates or reverse cumulative values.",
       "parent": "array"
+    },
+    {
+      "id": "array.indexing",
+      "name": "Array indexing",
+      "description": "Use direct positional access, offset calculations, or kth-element indexing in an array or sequence.",
+      "parent": "array"
     }
   ]
 }
