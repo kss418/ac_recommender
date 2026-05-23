@@ -159,6 +159,7 @@ are not statement-side problem categories.
 | `probability.generating_function` | Represent probability distributions or hitting probabilities with generating functions. |
 | `dp.state_design` | Define DP states that capture necessary information. |
 | `dp.transition_optimization` | Optimize transition cost or transition enumeration. |
+| `dp.slope_trick` | Represent and update a convex piecewise-linear DP cost function by slope changes or breakpoints. |
 | `graph.bfs` | Breadth-first search. |
 | `graph.dijkstra` | Dijkstra shortest path with non-negative edge weights. |
 | `graph.state_expansion` | Expand graph nodes with extra state dimensions. |

@@ -14,6 +14,12 @@
       "name": "DP transition optimization",
       "description": "Optimize transition cost or transition enumeration.",
       "parent": "dp"
+    },
+    {
+      "id": "dp.slope_trick",
+      "name": "Slope trick",
+      "description": "Represent and update a convex piecewise-linear DP cost function by slope changes or breakpoints.",
+      "parent": "dp"
     }
   ]
 }
