@@ -10,6 +10,18 @@
       "parent": "data_structure"
     },
     {
+      "id": "data_structure.segment_tree_monoid",
+      "name": "Segment-tree monoid",
+      "description": "Design a segment-tree aggregate as an associative monoid with custom merge semantics.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.compressed_monoid",
+      "name": "Compressed monoid",
+      "description": "Store a compact representative of a monoid value while preserving enough information for merges or queries.",
+      "parent": "data_structure"
+    },
+    {
       "id": "data_structure.fenwick_tree",
       "name": "Fenwick tree",
       "description": "Fenwick tree, also known as a binary indexed tree, for prefix aggregates, point updates, and prefix lower_bound.",
@@ -61,6 +73,24 @@
       "id": "data_structure.block_list",
       "name": "Block list",
       "description": "Maintain a sequence as blocks that can be split, trimmed, removed, inserted, or searched with amortized costs.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.mergeable_blocks",
+      "name": "Mergeable blocks",
+      "description": "Maintain blocks that can be merged into equivalent larger blocks while preserving query behavior.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.monoid_composition",
+      "name": "Monoid composition",
+      "description": "Compose associative transformations or summaries so multiple operations can be applied as one aggregate.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.binary_counter",
+      "name": "Binary counter blocks",
+      "description": "Maintain power-of-two sized blocks and repeatedly merge equal-size blocks like binary carrying.",
       "parent": "data_structure"
     },
     {

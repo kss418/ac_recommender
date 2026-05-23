@@ -135,11 +135,19 @@ are not statement-side problem categories.
 | `binary_search.real_number` | Binary search over continuous values. |
 | `binary_search.parametric_search` | Parametric search framing with a decision procedure. |
 | `bitwise.bit_greedy` | Choose bits from most significant to least significant while preserving feasibility or optimality. |
+| `bitwise.bitset_optimization` | Use packed bitsets and word-level operations to accelerate pair, subset, reachability, or parity computations. |
+| `bitwise.parity_counting` | Count or maintain values by odd/even parity using XOR, popcount, or bit-level accumulators. |
 | `bitwise.xor_pair_counting` | Count pairs of values subject to an XOR threshold, equality, or ordering condition. |
 | `brute_force.subset_enumeration` | Enumerate subset masks or assignments and evaluate each candidate directly. |
 | `brute_force.backtracking` | Recursively explore candidates while maintaining and undoing local state. |
+| `brute_force.meet_in_the_middle` | Split an exponential search into halves and combine partial results by lookup, sorting, or two-pointer matching. |
+| `brute_force.reconstruction` | Recover an explicit witness, assignment, path, or operation sequence from enumerated states or matched partial results. |
 | `geometry.convex_hull` | Build or use the convex hull of points to restrict feasible or optimal candidates. |
 | `geometry.half_plane_or_support_function` | Use a linear inequality, separating line, or support-function query over a convex set. |
+| `geometry.symmetry_reduction` | Normalize geometric configurations by translation, rotation, reflection, or other symmetries. |
+| `geometry.lattice_distance` | Compute distances or movement costs over grid, lattice, tiling, or coordinate-parity geometry. |
+| `geometry.line_intersection` | Construct or compare intersections of lines, segments, or pair-defined geometric constraints. |
+| `geometry.candidate_enumeration` | Enumerate a finite geometric candidate set induced by points, lines, intersections, tangencies, or boundaries. |
 | `hashing.zobrist_hash` | Assign random values to objects and combine them additively or by XOR to compare multisets, states, or occurrence patterns. |
 | `hashing.rolling_hash` | Maintain substring or sequence hashes with incremental window updates or prefix-hash differences. |
 | `sorting.key_ordering` | Sort records by a key as preprocessing for scanning, searching, grouping, or aggregation without implying a greedy choice. |
@@ -161,6 +169,7 @@ are not statement-side problem categories.
 | `math.prime_factorization` | Factor integers and use prime exponents or prime classes in the solution. |
 | `math.residue_distribution` | Maintain counts or probabilities over residue classes, often modulo one or more dimensions. |
 | `math.xor_basis` | Build or use a linear basis over XOR values to reduce, test, or optimize bitwise combinations. |
+| `math.case_reduction` | Reduce many apparent cases to a small set of canonical cases using invariants, recurrences, or normalization. |
 | `probability.generating_function` | Represent probability distributions or hitting probabilities with generating functions. |
 | `dp.state_design` | Define DP states that capture necessary information. |
 | `dp.transition_optimization` | Optimize transition cost or transition enumeration. |
@@ -180,6 +189,8 @@ are not statement-side problem categories.
 | `greedy.reverse_processing` | Process operations in reverse so only the last effective choice for each object contributes. |
 | `greedy.prefix_optimality` | Maintain an optimal prefix, selected prefix length, or prefix aggregate justified by greedy dominance. |
 | `data_structure.segment_tree` | Segment tree for range queries or updates. |
+| `data_structure.segment_tree_monoid` | Design a segment-tree aggregate as an associative monoid with custom merge semantics. |
+| `data_structure.compressed_monoid` | Store a compact representative of a monoid value while preserving enough information for merges or queries. |
 | `data_structure.fenwick_tree` | Fenwick tree, also known as a binary indexed tree or BIT, for prefix aggregates, point updates, and prefix lower_bound. |
 | `data_structure.stack` | Stack used to manage nested, delayed, or last-in-first-out state. |
 | `data_structure.dynamic_array` | Maintain an appendable sequence with direct indexed access. |
@@ -215,6 +226,9 @@ are not statement-side problem categories.
 | `data_structure.sqrt_decomposition` | Split data or queries into square-root sized blocks or heavy/light classes to balance rebuild, scan, and precomputation costs. |
 | `data_structure.mo_algorithm` | Order offline range queries by block so adjacent queries can be answered by incremental endpoint moves. |
 | `data_structure.block_list` | Maintain a sequence as blocks that can be split, trimmed, removed, inserted, or searched with amortized costs. |
+| `data_structure.mergeable_blocks` | Maintain blocks that can be merged into equivalent larger blocks while preserving query behavior. |
+| `data_structure.monoid_composition` | Compose associative transformations or summaries so multiple operations can be applied as one aggregate. |
+| `data_structure.binary_counter` | Maintain power-of-two sized blocks and repeatedly merge equal-size blocks like binary carrying. |
 | `data_structure.trie` | Store sequences or bit patterns in a prefix tree for traversal, lookup, or counting. |
 | `data_structure.binary_trie` | Store integer bit patterns in a binary trie for XOR queries, pair counting, or bitwise order statistics. |
 | `data_structure.priority_queue` | Maintain elements or states ordered by a maximum or minimum priority key. |

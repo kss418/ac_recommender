@@ -14,6 +14,30 @@
       "name": "Half-plane or support function",
       "description": "Use a linear inequality, separating line, or support-function query over a convex set.",
       "parent": "geometry"
+    },
+    {
+      "id": "geometry.symmetry_reduction",
+      "name": "Symmetry reduction",
+      "description": "Normalize geometric configurations by translation, rotation, reflection, or other symmetries.",
+      "parent": "geometry"
+    },
+    {
+      "id": "geometry.lattice_distance",
+      "name": "Lattice distance",
+      "description": "Compute distances or movement costs over grid, lattice, tiling, or coordinate-parity geometry.",
+      "parent": "geometry"
+    },
+    {
+      "id": "geometry.line_intersection",
+      "name": "Line intersection",
+      "description": "Construct or compare intersections of lines, segments, or pair-defined geometric constraints.",
+      "parent": "geometry"
+    },
+    {
+      "id": "geometry.candidate_enumeration",
+      "name": "Geometry candidate enumeration",
+      "description": "Enumerate a finite geometric candidate set induced by points, lines, intersections, tangencies, or boundaries.",
+      "parent": "geometry"
     }
   ]
 }

@@ -14,6 +14,18 @@
       "name": "Bit greedy",
       "description": "Choose bits from most significant to least significant while preserving feasibility or optimality.",
       "parent": "bitwise"
+    },
+    {
+      "id": "bitwise.bitset_optimization",
+      "name": "Bitset optimization",
+      "description": "Use packed bitsets and word-level operations to accelerate pair, subset, reachability, or parity computations.",
+      "parent": "bitwise"
+    },
+    {
+      "id": "bitwise.parity_counting",
+      "name": "Parity counting",
+      "description": "Count or maintain values by odd/even parity using XOR, popcount, or bit-level accumulators.",
+      "parent": "bitwise"
     }
   ]
 }

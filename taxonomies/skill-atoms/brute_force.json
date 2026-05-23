@@ -14,6 +14,18 @@
       "name": "Backtracking",
       "description": "Recursively explore candidates while maintaining and undoing local state.",
       "parent": "brute_force"
+    },
+    {
+      "id": "brute_force.meet_in_the_middle",
+      "name": "Meet-in-the-middle",
+      "description": "Split an exponential search into halves and combine partial results by lookup, sorting, or two-pointer matching.",
+      "parent": "brute_force"
+    },
+    {
+      "id": "brute_force.reconstruction",
+      "name": "Brute-force reconstruction",
+      "description": "Recover an explicit witness, assignment, path, or operation sequence from enumerated states or matched partial results.",
+      "parent": "brute_force"
     }
   ]
 }

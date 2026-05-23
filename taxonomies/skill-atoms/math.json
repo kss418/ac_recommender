@@ -94,6 +94,12 @@
       "parent": "math"
     },
     {
+      "id": "math.case_reduction",
+      "name": "Case reduction",
+      "description": "Reduce many apparent cases to a small set of canonical cases using invariants, recurrences, or normalization.",
+      "parent": "math"
+    },
+    {
       "id": "math.sum_and_square_sum",
       "name": "Sum and square-sum aggregates",
       "description": "Maintain or use both sum and sum of squares.",
