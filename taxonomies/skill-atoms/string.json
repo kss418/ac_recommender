@@ -46,6 +46,12 @@
       "parent": "string"
     },
     {
+      "id": "string.aho_corasick",
+      "name": "Aho-Corasick automaton",
+      "description": "Build or use an Aho-Corasick automaton for multi-pattern matching with failure links and output masks.",
+      "parent": "string"
+    },
+    {
       "id": "string.game_dp",
       "name": "String game DP",
       "description": "Model game states over strings, substrings, or string automata and compute winning states.",

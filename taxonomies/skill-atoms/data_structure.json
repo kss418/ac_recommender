@@ -40,6 +40,24 @@
       "parent": "data_structure"
     },
     {
+      "id": "data_structure.sqrt_decomposition",
+      "name": "Square-root decomposition",
+      "description": "Split data or queries into square-root sized blocks or heavy/light classes to balance rebuild, scan, and precomputation costs.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.mo_algorithm",
+      "name": "Mo's algorithm",
+      "description": "Order offline range queries by block so adjacent queries can be answered by incremental endpoint moves.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.block_list",
+      "name": "Block list",
+      "description": "Maintain a sequence as blocks that can be split, trimmed, removed, inserted, or searched with amortized costs.",
+      "parent": "data_structure"
+    },
+    {
       "id": "data_structure.trie",
       "name": "Trie",
       "description": "Store sequences or bit patterns in a prefix tree for traversal, lookup, or counting.",

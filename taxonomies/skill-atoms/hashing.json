@@ -1,0 +1,19 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "parent": "hashing",
+  "items": [
+    {
+      "id": "hashing.zobrist_hash",
+      "name": "Zobrist hash",
+      "description": "Assign random values to objects and combine them additively or by XOR to compare multisets, states, or occurrence patterns.",
+      "parent": "hashing"
+    },
+    {
+      "id": "hashing.rolling_hash",
+      "name": "Rolling hash",
+      "description": "Maintain substring or sequence hashes with incremental window updates or prefix-hash differences.",
+      "parent": "hashing"
+    }
+  ]
+}

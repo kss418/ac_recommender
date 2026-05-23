@@ -16,9 +16,21 @@
       "parent": "graph"
     },
     {
+      "id": "graph.shortest_path_dag",
+      "name": "Shortest-path DAG",
+      "description": "Filter or orient edges that lie on shortest paths and reason on the resulting directed acyclic structure.",
+      "parent": "graph"
+    },
+    {
       "id": "graph.state_expansion",
       "name": "State expansion",
       "description": "Expand graph nodes with extra state dimensions.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.topological_order",
+      "name": "Topological order",
+      "description": "Process a DAG in topological order or use topological elimination for reachability, DP, or cycle detection.",
       "parent": "graph"
     },
     {
@@ -34,15 +46,45 @@
       "parent": "graph"
     },
     {
+      "id": "graph.scc",
+      "name": "Strongly connected components",
+      "description": "Contract directed strongly connected components and reason on the condensation DAG.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.bipartite_matching",
+      "name": "Bipartite matching",
+      "description": "Find a maximum, perfect, or weighted matching in a bipartite graph, directly or through a flow reduction.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.dag_path_cover",
+      "name": "DAG path cover",
+      "description": "Reduce a minimum path cover on a DAG to bipartite matching or maximum flow.",
+      "parent": "graph"
+    },
+    {
       "id": "graph.max_flow",
       "name": "Maximum flow",
       "description": "Compute a maximum feasible flow in a capacitated network.",
       "parent": "graph"
     },
     {
+      "id": "graph.min_cost_flow",
+      "name": "Minimum-cost flow",
+      "description": "Send required flow while minimizing total edge cost, including weighted matching and circulation reductions.",
+      "parent": "graph"
+    },
+    {
       "id": "graph.min_cut",
       "name": "Minimum cut",
       "description": "Use the source-side residual reachability or cut capacity after max flow.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.bridge_detection",
+      "name": "Bridge detection",
+      "description": "Find edges whose removal disconnects a graph or a relevant subgraph, often with DFS order and lowlink values.",
       "parent": "graph"
     },
     {
@@ -67,6 +109,12 @@
       "id": "graph.spanning_tree",
       "name": "Spanning tree",
       "description": "Choose or use a spanning tree to define traversal labels, fundamental cycles, or connected structure.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.centroid_decomposition",
+      "name": "Centroid decomposition",
+      "description": "Recursively decompose a tree by centroids so path or subtree contributions are counted at balanced separators.",
       "parent": "graph"
     },
     {

@@ -1,0 +1,19 @@
+{
+  "taxonomy_version": "1.0",
+  "kind": "skill_atoms",
+  "parent": "geometry",
+  "items": [
+    {
+      "id": "geometry.convex_hull",
+      "name": "Convex hull",
+      "description": "Build or use the convex hull of points to restrict feasible or optimal candidates.",
+      "parent": "geometry"
+    },
+    {
+      "id": "geometry.half_plane_or_support_function",
+      "name": "Half-plane or support function",
+      "description": "Use a linear inequality, separating line, or support-function query over a convex set.",
+      "parent": "geometry"
+    }
+  ]
+}

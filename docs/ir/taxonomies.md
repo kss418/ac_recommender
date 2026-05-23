@@ -135,6 +135,10 @@ are not statement-side problem categories.
 | `binary_search.real_number` | Binary search over continuous values. |
 | `binary_search.parametric_search` | Parametric search framing with a decision procedure. |
 | `bitwise.xor_pair_counting` | Count pairs of values subject to an XOR threshold, equality, or ordering condition. |
+| `geometry.convex_hull` | Build or use the convex hull of points to restrict feasible or optimal candidates. |
+| `geometry.half_plane_or_support_function` | Use a linear inequality, separating line, or support-function query over a convex set. |
+| `hashing.zobrist_hash` | Assign random values to objects and combine them additively or by XOR to compare multisets, states, or occurrence patterns. |
+| `hashing.rolling_hash` | Maintain substring or sequence hashes with incremental window updates or prefix-hash differences. |
 | `array.linear_scan` | Linear scan over an array or sequence. |
 | `array.prefix_sum` | Prefix sums or cumulative aggregates. |
 | `array.suffix_aggregation` | Suffix aggregates or reverse cumulative values. |
@@ -171,6 +175,7 @@ are not statement-side problem categories.
 | `string.distinct_substring_counting` | Count distinct substrings or subarrays using suffix ordering, LCP subtraction, or equivalent structure. |
 | `string.run_length_encoding` | Compress consecutive equal symbols into runs and reason over run values or lengths. |
 | `string.suffix_automaton` | Build or use a suffix automaton to represent substrings and transitions. |
+| `string.aho_corasick` | Build or use an Aho-Corasick automaton for multi-pattern matching with failure links and output masks. |
 | `string.game_dp` | Model game states over strings, substrings, or string automata and compute winning states. |
 | `string.lexicographic_comparator` | Compare strings or concatenations lexicographically using LCP or equivalent structure. |
 | `game.impartial_game_dp` | Classify impartial game positions as winning or losing from legal moves. |
@@ -178,19 +183,30 @@ are not statement-side problem categories.
 | `implementation.overflow_guard` | Avoid overflow in accumulated values or search bounds. |
 | `data_structure.disjoint_set_union` | Maintain connected components with union-find. |
 | `graph.bipartite_coloring` | Assign or maintain two-color parity constraints in a graph. |
+| `graph.shortest_path_dag` | Filter or orient edges that lie on shortest paths and reason on the resulting directed acyclic structure. |
+| `graph.topological_order` | Process a DAG in topological order or use topological elimination for reachability, DP, or cycle detection. |
+| `graph.scc` | Contract directed strongly connected components and reason on the condensation DAG. |
+| `graph.bipartite_matching` | Find a maximum, perfect, or weighted matching in a bipartite graph, directly or through a flow reduction. |
+| `graph.dag_path_cover` | Reduce a minimum path cover on a DAG to bipartite matching or maximum flow. |
 | `graph.max_flow` | Compute a maximum feasible flow in a capacitated network. |
+| `graph.min_cost_flow` | Send required flow while minimizing total edge cost, including weighted matching and circulation reductions. |
 | `graph.min_cut` | Use the source-side residual reachability or cut capacity after max flow. |
+| `graph.bridge_detection` | Find edges whose removal disconnects a graph or a relevant subgraph, often with DFS order and lowlink values. |
 | `graph.flow_network_modeling` | Reduce constraints or choices to nodes, edges, capacities, and source/sink structure. |
 | `graph.bipartite_independent_set` | Recover a maximum independent set in a bipartite graph via matching or min-cut duality. |
 | `graph.flow_reconstruction` | Convert saturated or positive-flow edges back into explicit decisions or output objects. |
 | `data_structure.small_to_large` | Merge smaller sets or containers into larger ones to bound total movement. |
 | `data_structure.set` | Maintain explicit sets of elements with insertion, deletion, or membership checks. |
+| `data_structure.sqrt_decomposition` | Split data or queries into square-root sized blocks or heavy/light classes to balance rebuild, scan, and precomputation costs. |
+| `data_structure.mo_algorithm` | Order offline range queries by block so adjacent queries can be answered by incremental endpoint moves. |
+| `data_structure.block_list` | Maintain a sequence as blocks that can be split, trimmed, removed, inserted, or searched with amortized costs. |
 | `data_structure.trie` | Store sequences or bit patterns in a prefix tree for traversal, lookup, or counting. |
 | `data_structure.binary_trie` | Store integer bit patterns in a binary trie for XOR queries, pair counting, or bitwise order statistics. |
 | `data_structure.priority_queue` | Maintain elements or states ordered by a maximum or minimum priority key. |
 | `data_structure.order_statistic_tree` | Maintain dynamic ordered elements with rank, kth-element, or prefix lower_bound queries. |
 | `data_structure.functional_graph` | Model one-outgoing-edge transitions with cycles, trees into cycles, or binary lifting tables. |
 | `graph.spanning_tree` | Choose or use a spanning tree to define traversal labels, fundamental cycles, or connected structure. |
+| `graph.centroid_decomposition` | Recursively decompose a tree by centroids so path or subtree contributions are counted at balanced separators. |
 | `graph.minimum_spanning_tree` | Construct or reason about a minimum spanning tree. |
 | `graph.tree_distance_verification` | Verify that a tree realizes required pairwise distances. |
 | `graph.all_pairs_tree_distance` | Compute or check distances between all pairs of vertices in a tree. |
