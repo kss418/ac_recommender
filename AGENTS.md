@@ -262,25 +262,27 @@ Generated data under `editorials/` and `ir/` is not included in this bundle.
 
 ### `scripts/zip_data_bundle.py`
 
-Creates a timestamped data bundle zip in the repo root.
+Creates timestamped data bundle zips in the repo root, split by data root.
 
 ```powershell
 python scripts\zip_data_bundle.py
 python scripts\zip_data_bundle.py -o data-bundle-custom.zip
 ```
 
-Default output:
+Default outputs:
 
 ```text
-data-bundle-YYMMDD-HHMMSS.zip
+data-bundle-YYMMDD-HHMMSS-editorials.zip
+data-bundle-YYMMDD-HHMMSS-embeddings.zip
+data-bundle-YYMMDD-HHMMSS-ir.zip
 ```
 
-Included roots:
+Included roots, one zip per root:
 
 ```text
 editorials/
-ir/
 embeddings/
+ir/
 ```
 
 ### `scripts/embed_ir.py`
