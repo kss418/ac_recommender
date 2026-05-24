@@ -153,15 +153,21 @@ are not statement-side problem categories.
 | `sorting.key_ordering` | Sort records by a key as preprocessing for scanning, searching, grouping, or aggregation without implying a greedy choice. |
 | `array.linear_scan` | Linear scan over an array or sequence. |
 | `array.prefix_sum` | Prefix sums or cumulative aggregates. |
+| `array.difference_array` | Represent range additions or toggles by endpoint deltas and recover point values with a prefix scan. |
+| `array.imos` | Use one-dimensional or multidimensional Imos difference updates to batch interval or rectangle coverage counts. |
 | `array.suffix_aggregation` | Suffix aggregates or reverse cumulative values. |
 | `array.indexing` | Use direct positional access, offset calculations, or kth-element indexing in an array or sequence. |
 | `math.sum_of_deficits` | Sum deficits from a target value or threshold. |
 | `math.ceil_division` | Integer ceiling division for counts or operation requirements. |
 | `math.modular_arithmetic` | Modular arithmetic operations or identities. |
 | `math.convolution` | Combine coefficient sequences by polynomial or distribution convolution. |
+| `math.concave_convolution` | Exploit concavity or monotone slopes to merge DP sequences faster than naive max-plus convolution. |
 | `math.ntt` | Use NTT-friendly modular convolution for polynomial or sequence multiplication. |
 | `math.generating_function` | Encode counts or probabilities as coefficients of a generating function. |
 | `math.formal_power_series` | Manipulate formal power series with polynomial arithmetic, inverses, products, or coefficient extraction. |
+| `math.bostan_mori` | Extract coefficients of rational generating functions with Bostan-Mori even/odd polynomial reductions. |
+| `math.linear_recurrence` | Model a sequence by a linear recurrence or rational generating function to compute distant terms or aggregates. |
+| `math.dirichlet_convolution` | Combine arithmetic functions by divisor/product convolution, often through Dirichlet generating functions. |
 | `math.power_projection` | Compute selected coefficients across powers of a polynomial or formal power series. |
 | `math.floor_sum` | Evaluate sums of floor((a*i+b)/m) or equivalent quotient decompositions. |
 | `math.binomial_coefficient` | Use binomial coefficients, factorial normalization, or modular combinations. |
@@ -169,14 +175,36 @@ are not statement-side problem categories.
 | `math.prime_factorization` | Factor integers and use prime exponents or prime classes in the solution. |
 | `math.residue_distribution` | Maintain counts or probabilities over residue classes, often modulo one or more dimensions. |
 | `math.xor_basis` | Build or use a linear basis over XOR values to reduce, test, or optimize bitwise combinations. |
+| `math.determinant` | Compute a matrix determinant, often modulo a prime or as part of a graph-counting reduction. |
+| `math.matrix_exponentiation` | Exponentiate a transition matrix or linear operator to apply many identical DP or automaton steps. |
 | `math.case_reduction` | Reduce many apparent cases to a small set of canonical cases using invariants, recurrences, or normalization. |
 | `probability.generating_function` | Represent probability distributions or hitting probabilities with generating functions. |
+| `probability.expected_value` | Derive or compute expected values, expected costs, or expected scores from a random process. |
+| `probability.probability_dp` | Maintain probability distributions, hitting probabilities, or win probabilities with dynamic programming transitions. |
+| `probability.linearity_of_expectation` | Compute an expectation by summing expected contributions term by term, regardless of independence. |
 | `dp.state_design` | Define DP states that capture necessary information. |
+| `dp.tree` | Dynamic programming over rooted or unrooted tree structure. |
+| `dp.rerooting` | Move a tree DP root across edges by reusing parent-side and child-side contributions. |
+| `dp.knapsack` | Dynamic programming over capacity, budget, count, or resource constraints. |
+| `dp.bitmask` | Dynamic programming with states indexed by masks over a small set of items or vertices. |
+| `dp.digit` | Dynamic programming over digits with prefix, tightness, residue, or digit-sum state. |
+| `dp.interval` | Dynamic programming over intervals, subarrays, substrings, or circular interval ranges. |
+| `dp.lis` | Longest-increasing-subsequence style chain DP, including reductions to ordered tails or posets. |
+| `dp.subset` | Dynamic programming over subsets with transitions between masks or subset partitions. |
+| `dp.probability` | Dynamic programming over probabilities, expected values, or probability distributions. |
+| `dp.alien` | Lagrangian-relaxation DP that searches a penalty parameter to recover a constrained optimum. |
+| `dp.monge_optimization` | Optimize DP or labeling transitions using Monge, quadrangle inequality, or monotone-decision structure. |
 | `dp.transition_optimization` | Optimize transition cost or transition enumeration. |
 | `dp.slope_trick` | Represent and update a convex piecewise-linear DP cost function by slope changes or breakpoints. |
 | `graph.bfs` | Breadth-first search. |
 | `graph.dfs` | Depth-first search, including recursive traversal over graph or grid states. |
 | `graph.dijkstra` | Dijkstra shortest path with non-negative edge weights. |
+| `graph.matrix_tree_theorem` | Count spanning trees or directed arborescences using Laplacian minors and the Matrix-Tree theorem. |
+| `graph.eulerian_trail_counting` | Count Eulerian circuits or trails in a graph, including reductions using the BEST theorem. |
+| `graph.lca` | Answer ancestor, path, or distance queries on a rooted tree using lowest common ancestors. |
+| `graph.euler_tour` | Flatten a rooted tree into entry/exit order so subtree or path relationships become interval operations. |
+| `graph.virtual_tree` | Compress marked tree vertices and their LCAs into an auxiliary tree preserving ancestor and path relationships. |
+| `graph.heavy_light_decomposition` | Decompose tree paths or recursive tree processing into heavy paths and light transitions. |
 | `graph.reachability` | Compute or maintain which vertices or states are reachable under graph constraints. |
 | `graph.shortest_path_update` | Maintain shortest-path distances under added, removed, or restored edges. |
 | `graph.state_expansion` | Expand graph nodes with extra state dimensions. |
@@ -193,8 +221,12 @@ are not statement-side problem categories.
 | `data_structure.compressed_monoid` | Store a compact representative of a monoid value while preserving enough information for merges or queries. |
 | `data_structure.fenwick_tree` | Fenwick tree, also known as a binary indexed tree or BIT, for prefix aggregates, point updates, and prefix lower_bound. |
 | `data_structure.stack` | Stack used to manage nested, delayed, or last-in-first-out state. |
+| `data_structure.cartesian_tree` | Build or use a Cartesian tree, often with a monotonic stack, to decompose ranges by minimum or maximum elements. |
 | `data_structure.dynamic_array` | Maintain an appendable sequence with direct indexed access. |
+| `data_structure.rollback_dsu` | Maintain disjoint-set union states with undo operations for offline divide-and-conquer or DFS traversal. |
 | `string.z_algorithm` | Compute longest common prefixes from each string position using the Z-algorithm. |
+| `string.manacher` | Compute palindrome radii around all centers in linear time using Manacher's algorithm or an equivalent scan. |
+| `string.palindrome_algorithm` | Use palindrome-specific structure such as radii, mirrored positions, or longest palindromic prefix/suffix construction. |
 | `string.rotation_matching` | Reduce string rotation equality to pattern matching in a doubled string. |
 | `string.suffix_array` | Build or use a suffix array to order suffixes of a string or sequence. |
 | `string.lcp_array` | Build or use longest-common-prefix values between adjacent suffix-array entries. |

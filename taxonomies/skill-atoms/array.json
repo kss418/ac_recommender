@@ -16,6 +16,18 @@
       "parent": "array"
     },
     {
+      "id": "array.difference_array",
+      "name": "Difference array",
+      "description": "Represent range additions or toggles by endpoint deltas and recover point values with a prefix scan.",
+      "parent": "array"
+    },
+    {
+      "id": "array.imos",
+      "name": "Imos method",
+      "description": "Use one-dimensional or multidimensional Imos difference updates to batch interval or rectangle coverage counts.",
+      "parent": "array"
+    },
+    {
       "id": "array.suffix_aggregation",
       "name": "Suffix aggregation",
       "description": "Suffix aggregates or reverse cumulative values.",

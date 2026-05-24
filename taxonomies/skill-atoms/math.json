@@ -28,6 +28,12 @@
       "parent": "math"
     },
     {
+      "id": "math.concave_convolution",
+      "name": "Concave convolution",
+      "description": "Exploit concavity or monotone slopes to merge DP sequences faster than naive max-plus convolution.",
+      "parent": "math"
+    },
+    {
       "id": "math.ntt",
       "name": "Number theoretic transform",
       "description": "Use NTT-friendly modular convolution for polynomial or sequence multiplication.",
@@ -43,6 +49,24 @@
       "id": "math.formal_power_series",
       "name": "Formal power series",
       "description": "Manipulate formal power series with polynomial arithmetic, inverses, products, or coefficient extraction.",
+      "parent": "math"
+    },
+    {
+      "id": "math.bostan_mori",
+      "name": "Bostan-Mori",
+      "description": "Extract coefficients of rational generating functions with Bostan-Mori even/odd polynomial reductions.",
+      "parent": "math"
+    },
+    {
+      "id": "math.linear_recurrence",
+      "name": "Linear recurrence",
+      "description": "Model a sequence by a linear recurrence or rational generating function to compute distant terms or aggregates.",
+      "parent": "math"
+    },
+    {
+      "id": "math.dirichlet_convolution",
+      "name": "Dirichlet convolution",
+      "description": "Combine arithmetic functions by divisor/product convolution, often through Dirichlet generating functions.",
       "parent": "math"
     },
     {
@@ -85,6 +109,18 @@
       "id": "math.xor_basis",
       "name": "XOR basis",
       "description": "Build or use a linear basis over XOR values to reduce, test, or optimize bitwise combinations.",
+      "parent": "math"
+    },
+    {
+      "id": "math.determinant",
+      "name": "Determinant",
+      "description": "Compute a matrix determinant, often modulo a prime or as part of a graph-counting reduction.",
+      "parent": "math"
+    },
+    {
+      "id": "math.matrix_exponentiation",
+      "name": "Matrix exponentiation",
+      "description": "Exponentiate a transition matrix or linear operator to apply many identical DP or automaton steps.",
       "parent": "math"
     },
     {

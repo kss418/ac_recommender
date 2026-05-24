@@ -234,6 +234,32 @@ Notes:
   `solution.solution_models[].id` and `solution.skill_atoms[].id` exist in the
   JSON taxonomy files. Skill atom files are read from `taxonomies/skill-atoms/`.
 
+### `scripts/lint_ir_semantics.py`
+
+Emits advisory semantic warnings when IR text and `solution.skill_atoms` look
+inconsistent. This is separate from schema validation and taxonomy-id
+validation.
+
+Useful commands:
+
+```powershell
+python scripts\lint_ir_semantics.py ir
+python scripts\lint_ir_semantics.py ir --fail-on-warning
+python scripts\lint_ir_semantics.py ir --examples-md docs\ir\examples.md
+```
+
+Notes:
+
+- Default behavior prints warnings but exits successfully, so the current data
+  backlog can be inspected without breaking ordinary validation.
+- Use `--fail-on-warning` in CI or focused cleanup runs.
+- The lint intentionally excludes existing `solution.skill_atoms` strings from
+  its text triggers, so an already-present atom does not cause a self-triggered
+  warning.
+- Current rule families cover binomial coefficients, meet-in-the-middle,
+  backtracking/DFS, LIS templates, expanded DP atoms, probability/expectation,
+  and major string/hash algorithms.
+
 ### `scripts/zip_project_bundle.py`
 
 Creates a timestamped project bundle zip in the repo root.
@@ -385,6 +411,7 @@ After editing docs or IR, run the smallest relevant checks:
 
 ```powershell
 python scripts\validate_ir.py ir --skip-schema
+python scripts\lint_ir_semantics.py ir
 python -c "import json, pathlib; json.loads(pathlib.Path(r'ir\v1\ac\abc\457\D-raise-minimum.json').read_text(encoding='utf-8')); print('json ok')"
 git diff --check
 ```

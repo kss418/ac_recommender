@@ -10,6 +10,72 @@
       "parent": "dp"
     },
     {
+      "id": "dp.tree",
+      "name": "Tree DP",
+      "description": "Dynamic programming over rooted or unrooted tree structure.",
+      "parent": "dp"
+    },
+    {
+      "id": "dp.rerooting",
+      "name": "Rerooting DP",
+      "description": "Move a tree DP root across edges by reusing parent-side and child-side contributions.",
+      "parent": "dp"
+    },
+    {
+      "id": "dp.knapsack",
+      "name": "Knapsack DP",
+      "description": "Dynamic programming over capacity, budget, count, or resource constraints.",
+      "parent": "dp"
+    },
+    {
+      "id": "dp.bitmask",
+      "name": "Bitmask DP",
+      "description": "Dynamic programming with states indexed by masks over a small set of items or vertices.",
+      "parent": "dp"
+    },
+    {
+      "id": "dp.digit",
+      "name": "Digit DP",
+      "description": "Dynamic programming over digits with prefix, tightness, residue, or digit-sum state.",
+      "parent": "dp"
+    },
+    {
+      "id": "dp.interval",
+      "name": "Interval DP",
+      "description": "Dynamic programming over intervals, subarrays, substrings, or circular interval ranges.",
+      "parent": "dp"
+    },
+    {
+      "id": "dp.lis",
+      "name": "LIS DP",
+      "description": "Longest-increasing-subsequence style chain DP, including reductions to ordered tails or posets.",
+      "parent": "dp"
+    },
+    {
+      "id": "dp.subset",
+      "name": "Subset DP",
+      "description": "Dynamic programming over subsets with transitions between masks or subset partitions.",
+      "parent": "dp"
+    },
+    {
+      "id": "dp.probability",
+      "name": "Probability DP",
+      "description": "Dynamic programming over probabilities, expected values, or probability distributions.",
+      "parent": "dp"
+    },
+    {
+      "id": "dp.alien",
+      "name": "Alien DP",
+      "description": "Lagrangian-relaxation DP that searches a penalty parameter to recover a constrained optimum.",
+      "parent": "dp"
+    },
+    {
+      "id": "dp.monge_optimization",
+      "name": "Monge DP optimization",
+      "description": "Optimize DP or labeling transitions using Monge, quadrangle inequality, or monotone-decision structure.",
+      "parent": "dp"
+    },
+    {
       "id": "dp.transition_optimization",
       "name": "DP transition optimization",
       "description": "Optimize transition cost or transition enumeration.",

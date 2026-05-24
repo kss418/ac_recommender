@@ -130,6 +130,42 @@
       "parent": "graph"
     },
     {
+      "id": "graph.matrix_tree_theorem",
+      "name": "Matrix-tree theorem",
+      "description": "Count spanning trees or directed arborescences using Laplacian minors and the Matrix-Tree theorem.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.eulerian_trail_counting",
+      "name": "Eulerian trail counting",
+      "description": "Count Eulerian circuits or trails in a graph, including reductions using the BEST theorem.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.lca",
+      "name": "Lowest common ancestor",
+      "description": "Answer ancestor, path, or distance queries on a rooted tree using lowest common ancestors.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.euler_tour",
+      "name": "Euler tour",
+      "description": "Flatten a rooted tree into entry/exit order so subtree or path relationships become interval operations.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.virtual_tree",
+      "name": "Virtual tree",
+      "description": "Compress marked tree vertices and their LCAs into an auxiliary tree preserving ancestor and path relationships.",
+      "parent": "graph"
+    },
+    {
+      "id": "graph.heavy_light_decomposition",
+      "name": "Heavy-light decomposition",
+      "description": "Decompose tree paths or recursive tree processing into heavy paths and light transitions.",
+      "parent": "graph"
+    },
+    {
       "id": "graph.tree_centroid",
       "name": "Tree centroid",
       "description": "Find or use a tree centroid as a balanced separator without recursively decomposing the tree.",

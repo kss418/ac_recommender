@@ -8,6 +8,24 @@
       "name": "Probability generating function",
       "description": "Represent probability distributions or hitting probabilities with generating functions.",
       "parent": "probability"
+    },
+    {
+      "id": "probability.expected_value",
+      "name": "Expected value",
+      "description": "Derive or compute expected values, expected costs, or expected scores from a random process.",
+      "parent": "probability"
+    },
+    {
+      "id": "probability.probability_dp",
+      "name": "Probability DP",
+      "description": "Maintain probability distributions, hitting probabilities, or win probabilities with dynamic programming transitions.",
+      "parent": "probability"
+    },
+    {
+      "id": "probability.linearity_of_expectation",
+      "name": "Linearity of expectation",
+      "description": "Compute an expectation by summing expected contributions term by term, regardless of independence.",
+      "parent": "probability"
     }
   ]
 }

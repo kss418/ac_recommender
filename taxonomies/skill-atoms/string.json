@@ -10,6 +10,18 @@
       "parent": "string"
     },
     {
+      "id": "string.manacher",
+      "name": "Manacher",
+      "description": "Compute palindrome radii around all centers in linear time using Manacher's algorithm or an equivalent scan.",
+      "parent": "string"
+    },
+    {
+      "id": "string.palindrome_algorithm",
+      "name": "Palindrome algorithm",
+      "description": "Use palindrome-specific structure such as radii, mirrored positions, or longest palindromic prefix/suffix construction.",
+      "parent": "string"
+    },
+    {
       "id": "string.rotation_matching",
       "name": "Rotation matching",
       "description": "Reduce string rotation equality to pattern matching in a doubled string.",

@@ -34,6 +34,12 @@
       "parent": "data_structure"
     },
     {
+      "id": "data_structure.cartesian_tree",
+      "name": "Cartesian tree",
+      "description": "Build or use a Cartesian tree, often with a monotonic stack, to decompose ranges by minimum or maximum elements.",
+      "parent": "data_structure"
+    },
+    {
       "id": "data_structure.dynamic_array",
       "name": "Dynamic array",
       "description": "Maintain an appendable sequence with direct indexed access.",
@@ -43,6 +49,12 @@
       "id": "data_structure.disjoint_set_union",
       "name": "Disjoint set union",
       "description": "Maintain connected components with union-find.",
+      "parent": "data_structure"
+    },
+    {
+      "id": "data_structure.rollback_dsu",
+      "name": "Rollback DSU",
+      "description": "Maintain disjoint-set union states with undo operations for offline divide-and-conquer or DFS traversal.",
       "parent": "data_structure"
     },
     {
