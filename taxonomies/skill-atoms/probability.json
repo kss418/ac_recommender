@@ -16,6 +16,12 @@
       "parent": "probability"
     },
     {
+      "id": "probability.probability_formula",
+      "name": "Probability formula",
+      "description": "Compute a probability directly from cases, counts, or closed-form probability expressions.",
+      "parent": "probability"
+    },
+    {
       "id": "probability.probability_dp",
       "name": "Probability DP",
       "description": "Maintain probability distributions, hitting probabilities, or win probabilities with dynamic programming transitions.",

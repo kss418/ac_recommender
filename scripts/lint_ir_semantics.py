@@ -13,6 +13,17 @@ from typing import Any, Iterable, Iterator
 
 
 JsonObject = dict[str, Any]
+GENERIC_FALLBACK_SPECIFICS = {
+    "string_pattern_processing",
+    "direct_output_construction",
+    "linear_scan_implementation",
+    "graph_reachability_traversal",
+    "candidate_enumeration",
+    "combinatorial_formula_counting",
+    "state_transition_dynamic_programming",
+    "case_analysis_implementation",
+    "binary_search_on_answer",
+}
 
 
 @dataclass(frozen=True)
@@ -105,14 +116,28 @@ def lint_instance(
     models = weighted_ids(solution.get("solution_models"))
 
     warnings: list[WarningMessage] = []
+    warnings.extend(lint_generic_fallback(label, specific))
     warnings.extend(lint_binomial(label, lower_text, skills, skill_atom_ids))
     warnings.extend(lint_meet_in_the_middle(label, specific, models, skills, skill_atom_ids))
     warnings.extend(lint_backtracking(label, specific, skills, skill_atom_ids))
     warnings.extend(lint_lis_template(label, algorithm_template, skills, skill_atom_ids))
     warnings.extend(lint_dp_specific(label, solution, specific, models, skills, skill_atom_ids))
-    warnings.extend(lint_probability(label, lower_text, skills, skill_atom_ids))
+    warnings.extend(lint_probability(label, lower_text, specific, skills, skill_atom_ids))
     warnings.extend(lint_string_algorithms(label, lower_text, skills, skill_atom_ids))
+    warnings.extend(lint_rolling_hash_evidence(label, lower_text, skills))
     return warnings
+
+
+def lint_generic_fallback(label: str, specific: str) -> list[WarningMessage]:
+    if specific not in GENERIC_FALLBACK_SPECIFICS:
+        return []
+    return [
+        WarningMessage(
+            label,
+            "generic-fallback-specific",
+            f"specific_paradigm is generic fallback value {specific!r}; replace it with a problem-specific algorithm description",
+        )
+    ]
 
 
 def lint_binomial(
@@ -126,8 +151,9 @@ def lint_binomial(
         return []
 
     patterns = [
-        r"\bc\s*\(",
+        r"\bc[ \t]*\([^)]*,[ \t]*\d",
         r"\bbinom(?:ial)?\b",
+        r"\bncr\b",
         r"\bfactorial precomputation\b",
         r"\bprecomput(?:e|ed|ing)? factorial",
     ]
@@ -153,7 +179,7 @@ def lint_meet_in_the_middle(
     if atom not in skill_atom_ids or atom in skills:
         return []
 
-    if "meet_in_the_middle" in specific or any("meet_in_the_middle" in model for model in models):
+    if has_meet_in_the_middle_token(specific) or "meet_in_the_middle" in models:
         return [
             WarningMessage(
                 label,
@@ -162,6 +188,10 @@ def lint_meet_in_the_middle(
             )
         ]
     return []
+
+
+def has_meet_in_the_middle_token(specific: str) -> bool:
+    return bool(re.search(r"(?<![a-z0-9])meet_in_the_middle(?![a-z0-9])", specific))
 
 
 def lint_backtracking(
@@ -214,7 +244,7 @@ def lint_dp_specific(
 ) -> list[WarningMessage]:
     checks: list[tuple[str, str, bool]] = [
         ("digit-dp", "dp.digit", "digit_dp" in specific),
-        ("knapsack-dp", "dp.knapsack", "knapsack" in specific),
+        ("knapsack-dp", "dp.knapsack", "knapsack" in specific and has_dp_context(solution, specific, models)),
         ("tree-dp", "dp.tree", "tree_dp" in specific),
         ("interval-dp", "dp.interval", "interval_dp" in specific),
         ("bitmask-dp", "dp.bitmask", "bitmask" in specific and has_dp_context(solution, specific, models)),
@@ -248,23 +278,69 @@ def has_dp_context(solution: JsonObject, specific: str, models: set[str]) -> boo
 def lint_probability(
     label: str,
     lower_text: str,
+    specific: str,
     skills: set[str],
     skill_atom_ids: set[str],
 ) -> list[WarningMessage]:
-    expected_atoms = {"probability.expected_value", "probability.probability_dp"} & skill_atom_ids
-    if not expected_atoms or skills & expected_atoms:
-        return []
+    expected_atom = "probability.expected_value"
+    probability_atoms = {
+        "probability.expected_value",
+        "probability.probability_dp",
+        "probability.probability_formula",
+        "probability.generating_function",
+    } & skill_atom_ids
 
-    if re.search(r"\bexpected_value\b|\bexpected cost\b|\bexpected score\b|\bexpectation\b|\bprobability\b", lower_text):
-        expected = " or ".join(sorted(expected_atoms))
+    has_expected_text = has_probability_expectation_text(lower_text)
+    if has_expected_text and expected_atom in skill_atom_ids and expected_atom not in skills:
         return [
             WarningMessage(
                 label,
                 "probability-skill",
-                f"text mentions expectation/probability but skill_atoms lacks {expected}",
+                f"text mentions expectation but skill_atoms lacks {expected_atom}",
+            )
+        ]
+
+    if not probability_atoms or skills & probability_atoms:
+        return []
+
+    if is_randomized_algorithm_context(specific, lower_text, skills):
+        return []
+
+    if has_probability_text(lower_text):
+        expected = " or ".join(sorted(probability_atoms))
+        return [
+            WarningMessage(
+                label,
+                "probability-skill",
+                f"text mentions probability but skill_atoms lacks {expected}",
             )
         ]
     return []
+
+
+def has_probability_expectation_text(lower_text: str) -> bool:
+    return bool(
+        re.search(
+            r"\bexpected[-_ ]value\b|"
+            r"\bexpected (?:cost|score|time|number|count|total|sum|throws|steps|turns|moves|area|rank)\b|"
+            r"\bexpectation[-_ ](?:dp|formula|recurrence|system|sum)\b",
+            lower_text,
+        )
+    )
+
+
+def has_probability_text(lower_text: str) -> bool:
+    return bool(re.search(r"\bprobability\b|\bprobabilit(?:y|ies|istically)\b", lower_text))
+
+
+def is_randomized_algorithm_context(specific: str, lower_text: str, skills: set[str]) -> bool:
+    if not specific.startswith("randomized_") and "randomized " not in lower_text:
+        return False
+    if has_probability_expectation_text(lower_text):
+        return False
+    evidence_atoms = {"hashing.zobrist_hash", "hashing.rolling_hash"} & skills
+    evidence_text = re.search(r"\bhash(?:ing|es)?\b|\bzobrist\b|\bmajority\b|\bsampling\b", lower_text)
+    return bool(evidence_atoms or evidence_text)
 
 
 def lint_string_algorithms(
@@ -294,6 +370,34 @@ def lint_string_algorithms(
                 )
             )
     return warnings
+
+
+def lint_rolling_hash_evidence(
+    label: str,
+    lower_text: str,
+    skills: set[str],
+) -> list[WarningMessage]:
+    atom = "hashing.rolling_hash"
+    if atom not in skills:
+        return []
+
+    evidence = (
+        r"\brolling[_ -]?hash\b|"
+        r"\bprefix[_ -]?hash(?:es)?\b|"
+        r"\bsubstring[_ -]?hash(?:es)?\b|"
+        r"\bsequence[_ -]?hash(?:es)?\b|"
+        r"\bhash(?:ing|es|ed)?\b"
+    )
+    if re.search(evidence, lower_text):
+        return []
+
+    return [
+        WarningMessage(
+            label,
+            "rolling-hash-evidence",
+            f"skill_atoms contains {atom} but IR text does not mention a hashing-based method",
+        )
+    ]
 
 
 def semantic_text(instance: JsonObject) -> str:

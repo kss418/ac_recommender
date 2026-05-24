@@ -180,6 +180,7 @@ are not statement-side problem categories.
 | `math.case_reduction` | Reduce many apparent cases to a small set of canonical cases using invariants, recurrences, or normalization. |
 | `probability.generating_function` | Represent probability distributions or hitting probabilities with generating functions. |
 | `probability.expected_value` | Derive or compute expected values, expected costs, or expected scores from a random process. |
+| `probability.probability_formula` | Compute a probability directly from cases, counts, or closed-form probability expressions. |
 | `probability.probability_dp` | Maintain probability distributions, hitting probabilities, or win probabilities with dynamic programming transitions. |
 | `probability.linearity_of_expectation` | Compute an expectation by summing expected contributions term by term, regardless of independence. |
 | `dp.state_design` | Define DP states that capture necessary information. |
