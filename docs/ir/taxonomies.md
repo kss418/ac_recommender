@@ -146,10 +146,12 @@ are not statement-side problem categories.
 | `geometry.half_plane_or_support_function` | Use a linear inequality, separating line, or support-function query over a convex set. |
 | `geometry.symmetry_reduction` | Normalize geometric configurations by translation, rotation, reflection, or other symmetries. |
 | `geometry.lattice_distance` | Compute distances or movement costs over grid, lattice, tiling, or coordinate-parity geometry. |
+| `geometry.euclidean_distance` | Compute or compare Euclidean distances between coordinate points, often by squared distance. |
 | `geometry.line_intersection` | Construct or compare intersections of lines, segments, or pair-defined geometric constraints. |
 | `geometry.candidate_enumeration` | Enumerate a finite geometric candidate set induced by points, lines, intersections, tangencies, or boundaries. |
 | `hashing.zobrist_hash` | Assign random values to objects and combine them additively or by XOR to compare multisets, states, or occurrence patterns. |
 | `hashing.rolling_hash` | Maintain substring or sequence hashes with incremental window updates or prefix-hash differences. |
+| `hashing.modular_fingerprint` | Represent large objects or algebraic expressions by residue vectors under one or more moduli for probabilistic equality checks. |
 | `sorting.key_ordering` | Sort records by a key as preprocessing for scanning, searching, grouping, or aggregation without implying a greedy choice. |
 | `array.linear_scan` | Linear scan over an array or sequence. |
 | `array.prefix_sum` | Prefix sums or cumulative aggregates. |
@@ -202,6 +204,7 @@ are not statement-side problem categories.
 | `graph.dijkstra` | Dijkstra shortest path with non-negative edge weights. |
 | `graph.matrix_tree_theorem` | Count spanning trees or directed arborescences using Laplacian minors and the Matrix-Tree theorem. |
 | `graph.eulerian_trail_counting` | Count Eulerian circuits or trails in a graph, including reductions using the BEST theorem. |
+| `graph.degree_condition` | Use vertex degrees or degree bounds to characterize, validate, or count graph structures. |
 | `graph.lca` | Answer ancestor, path, or distance queries on a rooted tree using lowest common ancestors. |
 | `graph.euler_tour` | Flatten a rooted tree into entry/exit order so subtree or path relationships become interval operations. |
 | `graph.virtual_tree` | Compress marked tree vertices and their LCAs into an auxiliary tree preserving ancestor and path relationships. |

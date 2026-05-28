@@ -28,6 +28,12 @@
       "parent": "graph"
     },
     {
+      "id": "graph.degree_condition",
+      "name": "Degree condition",
+      "description": "Use vertex degrees or degree bounds to characterize, validate, or count graph structures.",
+      "parent": "graph"
+    },
+    {
       "id": "graph.shortest_path_update",
       "name": "Shortest-path update",
       "description": "Maintain shortest-path distances under added, removed, or restored edges.",

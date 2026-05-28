@@ -23,6 +23,8 @@ GENERIC_FALLBACK_SPECIFICS = {
     "state_transition_dynamic_programming",
     "case_analysis_implementation",
     "binary_search_on_answer",
+    "sorted_greedy_selection",
+    "connectivity_with_disjoint_set",
 }
 
 
@@ -125,6 +127,7 @@ def lint_instance(
     warnings.extend(lint_probability(label, lower_text, specific, skills, skill_atom_ids))
     warnings.extend(lint_string_algorithms(label, lower_text, skills, skill_atom_ids))
     warnings.extend(lint_rolling_hash_evidence(label, lower_text, skills))
+    warnings.extend(lint_minimum_spanning_tree_evidence(label, specific, skills))
     return warnings
 
 
@@ -152,7 +155,8 @@ def lint_binomial(
 
     patterns = [
         r"\bc[ \t]*\([^)]*,[ \t]*\d",
-        r"\bbinom(?:ial)?\b",
+        r"\bbinomial coefficient\b",
+        r"\bbinom\b|\bbinom[ \t]*\(",
         r"\bncr\b",
         r"\bfactorial precomputation\b",
         r"\bprecomput(?:e|ed|ing)? factorial",
@@ -245,7 +249,7 @@ def lint_dp_specific(
     checks: list[tuple[str, str, bool]] = [
         ("digit-dp", "dp.digit", "digit_dp" in specific),
         ("knapsack-dp", "dp.knapsack", "knapsack" in specific and has_dp_context(solution, specific, models)),
-        ("tree-dp", "dp.tree", "tree_dp" in specific),
+        ("tree-dp", "dp.tree", has_tree_dp_specific(specific)),
         ("interval-dp", "dp.interval", "interval_dp" in specific),
         ("bitmask-dp", "dp.bitmask", "bitmask" in specific and has_dp_context(solution, specific, models)),
     ]
@@ -273,6 +277,10 @@ def has_dp_context(solution: JsonObject, specific: str, models: set[str]) -> boo
         or algorithm_template.endswith("_dp")
         or any("dp" in model for model in models)
     )
+
+
+def has_tree_dp_specific(specific: str) -> bool:
+    return re.search(r"(?<!segment_)tree_dp", specific) is not None
 
 
 def lint_probability(
@@ -305,6 +313,8 @@ def lint_probability(
 
     if is_randomized_algorithm_context(specific, lower_text, skills):
         return []
+    if is_non_probability_algorithm_context(specific, lower_text, skills):
+        return []
 
     if has_probability_text(lower_text):
         expected = " or ".join(sorted(probability_atoms))
@@ -334,13 +344,44 @@ def has_probability_text(lower_text: str) -> bool:
 
 
 def is_randomized_algorithm_context(specific: str, lower_text: str, skills: set[str]) -> bool:
-    if not specific.startswith("randomized_") and "randomized " not in lower_text:
+    randomized_text = re.search(
+        r"\brandomized\b|"
+        r"\brandom moduli\b|"
+        r"\brandom large integers\b|"
+        r"\bfalse equality\b|"
+        r"\bwith high probability\b",
+        lower_text,
+    )
+    if not specific.startswith("randomized_") and not randomized_text:
         return False
     if has_probability_expectation_text(lower_text):
         return False
-    evidence_atoms = {"hashing.zobrist_hash", "hashing.rolling_hash"} & skills
-    evidence_text = re.search(r"\bhash(?:ing|es)?\b|\bzobrist\b|\bmajority\b|\bsampling\b", lower_text)
+    evidence_atoms = {
+        "hashing.zobrist_hash",
+        "hashing.rolling_hash",
+        "hashing.modular_fingerprint",
+        "math.modular_arithmetic",
+    } & skills
+    evidence_text = re.search(
+        r"\bhash(?:ing|es)?\b|"
+        r"\bzobrist\b|"
+        r"\bmajority\b|"
+        r"\bsampling\b|"
+        r"\bfingerprint(?:s|ing)?\b|"
+        r"\bmoduli\b",
+        lower_text,
+    )
     return bool(evidence_atoms or evidence_text)
+
+
+def is_non_probability_algorithm_context(specific: str, lower_text: str, skills: set[str]) -> bool:
+    if "probability mass" in lower_text and {"dp.alien", "dp.monge_optimization"} & skills:
+        return True
+    if "probability weight" in lower_text and "ratio_greedy" in specific:
+        return True
+    if "mixed strategy probability" in lower_text and "zero_sum_game" in specific:
+        return True
+    return False
 
 
 def lint_string_algorithms(
@@ -386,7 +427,8 @@ def lint_rolling_hash_evidence(
         r"\bprefix[_ -]?hash(?:es)?\b|"
         r"\bsubstring[_ -]?hash(?:es)?\b|"
         r"\bsequence[_ -]?hash(?:es)?\b|"
-        r"\bhash(?:ing|es|ed)?\b"
+        r"\bhash(?:ing|es|ed)?\b|"
+        r"\bfingerprint(?:s|ing)?\b"
     )
     if re.search(evidence, lower_text):
         return []
@@ -396,6 +438,28 @@ def lint_rolling_hash_evidence(
             label,
             "rolling-hash-evidence",
             f"skill_atoms contains {atom} but IR text does not mention a hashing-based method",
+        )
+    ]
+
+
+def lint_minimum_spanning_tree_evidence(
+    label: str,
+    specific: str,
+    skills: set[str],
+) -> list[WarningMessage]:
+    atom = "graph.minimum_spanning_tree"
+    if atom not in skills:
+        return []
+
+    evidence = r"(?<![a-z0-9])mst(?![a-z0-9])|kruskal|spanning|minimum_spanning"
+    if re.search(evidence, specific):
+        return []
+
+    return [
+        WarningMessage(
+            label,
+            "minimum-spanning-tree-evidence",
+            f"skill_atoms contains {atom} but specific_paradigm does not mention mst, kruskal, or spanning-tree structure",
         )
     ]
 

@@ -14,6 +14,12 @@
       "name": "Rolling hash",
       "description": "Maintain substring or sequence hashes with incremental window updates or prefix-hash differences.",
       "parent": "hashing"
+    },
+    {
+      "id": "hashing.modular_fingerprint",
+      "name": "Modular fingerprint",
+      "description": "Represent large objects or algebraic expressions by residue vectors under one or more moduli for probabilistic equality checks.",
+      "parent": "hashing"
     }
   ]
 }

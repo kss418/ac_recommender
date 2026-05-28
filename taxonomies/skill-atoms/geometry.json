@@ -28,6 +28,12 @@
       "parent": "geometry"
     },
     {
+      "id": "geometry.euclidean_distance",
+      "name": "Euclidean distance",
+      "description": "Compute or compare Euclidean distances between coordinate points, often by squared distance.",
+      "parent": "geometry"
+    },
+    {
       "id": "geometry.line_intersection",
       "name": "Line intersection",
       "description": "Construct or compare intersections of lines, segments, or pair-defined geometric constraints.",
