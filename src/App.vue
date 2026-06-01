@@ -185,40 +185,6 @@
           </button>
         </div>
 
-        <div class="selected-grid">
-          <dl class="detail-list">
-            <div>
-              <dt>embedding_id</dt>
-              <dd>{{ selectedRecord?.embedding_id || '-' }}</dd>
-            </div>
-            <div>
-              <dt>problem_url</dt>
-              <dd>
-                <a
-                  v-if="selectedRecord?.metadata.problem_url"
-                  :href="selectedRecord.metadata.problem_url"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {{ selectedRecord.metadata.problem_url }}
-                </a>
-                <span v-else>-</span>
-              </dd>
-            </div>
-            <div>
-              <dt>source_kind</dt>
-              <dd>{{ selectedRecord?.metadata.source_kind || '-' }}</dd>
-            </div>
-            <div>
-              <dt>ir_path</dt>
-              <dd>{{ selectedRecord?.metadata.ir_path || '-' }}</dd>
-            </div>
-          </dl>
-
-          <pre class="sample">{{ selectedVectorSample }}</pre>
-          <pre class="sample ir-preview">{{ selectedIrPreview }}</pre>
-        </div>
-
         <section class="similar-panel" aria-label="Similar problems">
           <div class="panel-heading">
             <h2>Similar Problems</h2>
@@ -227,22 +193,24 @@
 
           <ol v-if="similarProblems.length" class="similar-list">
             <li v-for="item in similarProblems" :key="item.record.embedding_id">
-              <button
-                type="button"
+              <a
+                :href="item.url || undefined"
+                target="_blank"
+                rel="noreferrer"
                 class="similar-item"
-                @click="selectSimilarProblem(item)"
+                :class="{ disabled: !item.url }"
+                @click="handleSimilarClick($event, item)"
               >
                 <span class="similar-rank">{{ item.rank }}</span>
                 <span class="similar-main">
-                  <strong>{{ item.problem.problem_id }}</strong>
-                  <span>{{ item.problem.problem_name || item.record.metadata.problem_name || '-' }}</span>
+                  <strong>{{ item.problem.problem_name || item.record.metadata.problem_name || item.problem.problem_id }}</strong>
                 </span>
                 <span class="similar-meta">
                   {{ item.problem.event_id || item.record.metadata.event_id || '-' }}
                   {{ item.problem.problem_index || item.record.metadata.problem_index || '' }}
                 </span>
                 <span class="similar-score">{{ item.score.toFixed(4) }}</span>
-              </button>
+              </a>
             </li>
           </ol>
           <p v-else class="similar-empty">No comparable problems for this view.</p>
@@ -254,10 +222,10 @@
 
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
-import { cosineSimilarityRows, parseNpy, readNpyValues } from './utils/npy'
+import { cosineSimilarityRows, parseNpy } from './utils/npy'
 
 const DEFAULT_EMBEDDING_DIR = '/embeddings/qwen3-embedding-0.6b-all'
-const VIEW_ORDER = ['skill', 'solution_structure', 'combined']
+const VIEW_ORDER = ['combined', 'solution_structure', 'skill']
 const DEFAULT_PROBLEM_INDEX_ORDER = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
 
 const npyFileName = ref('')
@@ -268,12 +236,9 @@ const documentRecords = ref([])
 const manifest = ref(null)
 const query = ref('')
 const selectedProblemId = ref(null)
-const selectedView = ref('skill')
+const selectedView = ref('combined')
 const errors = ref([])
 const isAutoLoading = ref(false)
-const selectedIr = ref(null)
-const irError = ref('')
-let irRequestId = 0
 
 const hasLoadedFiles = computed(() => Boolean(npyInfo.value || documentRecords.value.length))
 const vectorDimension = computed(() => npyInfo.value?.shape?.at(-1) ?? manifest.value?.vector_dimension)
@@ -325,34 +290,6 @@ const selectedRecord = computed(() => {
 })
 const selectedProblemLabel = computed(() => selectedProblem.value?.problem_id || '-')
 const selectedRecordView = computed(() => recordView(selectedRecord.value))
-const selectedVectorSample = computed(() => {
-  if (!npyInfo.value || !selectedRecord.value) return '[]'
-  try {
-    const values = readNpyValues(npyInfo.value, selectedRecord.value.embedding_index, 8)
-    return JSON.stringify(values, null, 2)
-  } catch (error) {
-    return String(error.message || error)
-  }
-})
-const selectedIrPreview = computed(() => {
-  if (irError.value) return irError.value
-  if (!selectedIr.value) return '{}'
-
-  return JSON.stringify(
-    {
-      problem: selectedIr.value.problem,
-      event: selectedIr.value.event,
-      solution: {
-        primary_paradigm: selectedIr.value.solution?.primary_paradigm,
-        specific_paradigm: selectedIr.value.solution?.specific_paradigm,
-        algorithm_template: selectedIr.value.solution?.algorithm_template,
-        complexity: selectedIr.value.solution?.complexity,
-      },
-    },
-    null,
-    2,
-  )
-})
 const similarProblems = computed(() => {
   if (!npyInfo.value || !selectedRecord.value || !selectedProblem.value) return []
 
@@ -374,6 +311,7 @@ const similarProblems = computed(() => {
       scores.push({
         record,
         problem,
+        url: problem.problem_url || record.metadata.problem_url || '',
         score: cosineSimilarityRows(npyInfo.value, selectedRecord.value.embedding_index, record.embedding_index),
       })
     } catch {
@@ -396,10 +334,6 @@ watch(selectedProblem, (problem) => {
   if (!problem.views.has(selectedView.value)) {
     selectedView.value = preferredView(problem)
   }
-})
-
-watch(selectedRecord, (record) => {
-  loadSelectedIr(record)
 })
 
 async function loadDefaultBundle() {
@@ -465,26 +399,6 @@ async function runFileTask(task) {
     await task()
   } catch (error) {
     errors.value.push(String(error.message || error))
-  }
-}
-
-async function loadSelectedIr(record) {
-  const requestId = ++irRequestId
-  selectedIr.value = null
-  irError.value = ''
-
-  const irPath = record?.metadata?.ir_path
-  if (!irPath) return
-
-  try {
-    const data = await fetchJson(`/${irPath}`)
-    if (requestId === irRequestId) {
-      selectedIr.value = data
-    }
-  } catch (error) {
-    if (requestId === irRequestId) {
-      irError.value = `IR load failed: ${String(error.message || error)}`
-    }
   }
 }
 
@@ -680,16 +594,16 @@ function canonicalProblemSlot(index) {
 function selectFirstProblem() {
   const firstProblem = contestRecords.value[0]?.problems[0] ?? null
   selectedProblemId.value = firstProblem?.problem_id ?? null
-  selectedView.value = firstProblem ? preferredView(firstProblem) : 'skill'
+  selectedView.value = firstProblem ? preferredView(firstProblem) : 'combined'
 }
 
 function preferredView(problem) {
-  return VIEW_ORDER.find((view) => problem.views.has(view)) ?? problem.viewNames[0] ?? 'skill'
+  return VIEW_ORDER.find((view) => problem.views.has(view)) ?? problem.viewNames[0] ?? 'combined'
 }
 
-function selectSimilarProblem(item) {
-  selectedProblemId.value = item.problem.problem_id
-  selectedView.value = recordView(item.record)
+function handleSimilarClick(event, item) {
+  if (item.url) return
+  event.preventDefault()
 }
 
 function sortViews(viewNames) {
@@ -704,7 +618,7 @@ function sortViews(viewNames) {
 }
 
 function viewLabel(view) {
-  if (view === 'solution_structure') return 'solution_structure'
+  if (view === 'solution_structure') return 'solution'
   if (view === 'combined') return 'combine'
   return view
 }
