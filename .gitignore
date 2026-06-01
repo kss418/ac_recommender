@@ -11,3 +11,5 @@ scripts/*/__pycache__
 .venv
 dist/
 .vscode
+node_modules/
+frontend-dist/
