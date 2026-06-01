@@ -80,6 +80,46 @@ export function readNpyValues(npyInfo, rowIndex = 0, limit = 8) {
   })
 }
 
+export function cosineSimilarityRows(npyInfo, leftRowIndex, rightRowIndex) {
+  if (npyInfo.fortranOrder) {
+    throw new Error('Fortran-order cosine similarity is not implemented')
+  }
+  if (npyInfo.shape.length < 2) {
+    throw new Error('Cosine similarity requires a 2D embedding matrix')
+  }
+
+  const rows = npyInfo.shape[0]
+  if (leftRowIndex < 0 || leftRowIndex >= rows || rightRowIndex < 0 || rightRowIndex >= rows) {
+    throw new Error('Row index is outside vector range')
+  }
+
+  const reader = DTYPE_READERS[npyInfo.dtypeCode]
+  if (!reader) {
+    throw new Error(`Cosine similarity does not support dtype ${npyInfo.descr}`)
+  }
+
+  const rowWidth = npyInfo.shape.slice(1).reduce((product, value) => product * value, 1) || 1
+  const leftOffset = npyInfo.dataOffset + leftRowIndex * rowWidth * npyInfo.dtypeBytes
+  const rightOffset = npyInfo.dataOffset + rightRowIndex * rowWidth * npyInfo.dtypeBytes
+  const view = new DataView(npyInfo.buffer)
+
+  let dot = 0
+  let leftNorm = 0
+  let rightNorm = 0
+
+  for (let index = 0; index < rowWidth; index += 1) {
+    const byteOffset = index * npyInfo.dtypeBytes
+    const left = reader.read(view, leftOffset + byteOffset, npyInfo.littleEndian)
+    const right = reader.read(view, rightOffset + byteOffset, npyInfo.littleEndian)
+    dot += left * right
+    leftNorm += left * left
+    rightNorm += right * right
+  }
+
+  if (leftNorm === 0 || rightNorm === 0) return 0
+  return dot / (Math.sqrt(leftNorm) * Math.sqrt(rightNorm))
+}
+
 function parseHeader(header) {
   const descr = matchString(header, /'descr'\s*:\s*'([^']+)'/)
   const fortranOrder = matchBoolean(header, /'fortran_order'\s*:\s*(True|False)/)

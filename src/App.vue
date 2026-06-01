@@ -182,7 +182,6 @@
             @click="selectedView = option.id"
           >
             <strong>{{ viewLabel(option.id) }}</strong>
-            <span>row {{ option.record.embedding_index }}</span>
           </button>
         </div>
 
@@ -219,6 +218,35 @@
           <pre class="sample">{{ selectedVectorSample }}</pre>
           <pre class="sample ir-preview">{{ selectedIrPreview }}</pre>
         </div>
+
+        <section class="similar-panel" aria-label="Similar problems">
+          <div class="panel-heading">
+            <h2>Similar Problems</h2>
+            <span>{{ viewLabel(selectedRecordView) }} top 10</span>
+          </div>
+
+          <ol v-if="similarProblems.length" class="similar-list">
+            <li v-for="item in similarProblems" :key="item.record.embedding_id">
+              <button
+                type="button"
+                class="similar-item"
+                @click="selectSimilarProblem(item)"
+              >
+                <span class="similar-rank">{{ item.rank }}</span>
+                <span class="similar-main">
+                  <strong>{{ item.problem.problem_id }}</strong>
+                  <span>{{ item.problem.problem_name || item.record.metadata.problem_name || '-' }}</span>
+                </span>
+                <span class="similar-meta">
+                  {{ item.problem.event_id || item.record.metadata.event_id || '-' }}
+                  {{ item.problem.problem_index || item.record.metadata.problem_index || '' }}
+                </span>
+                <span class="similar-score">{{ item.score.toFixed(4) }}</span>
+              </button>
+            </li>
+          </ol>
+          <p v-else class="similar-empty">No comparable problems for this view.</p>
+        </section>
       </section>
     </section>
   </main>
@@ -226,7 +254,7 @@
 
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
-import { parseNpy, readNpyValues } from './utils/npy'
+import { cosineSimilarityRows, parseNpy, readNpyValues } from './utils/npy'
 
 const DEFAULT_EMBEDDING_DIR = '/embeddings/qwen3-embedding-0.6b-all'
 const VIEW_ORDER = ['skill', 'solution_structure', 'combined']
@@ -296,6 +324,7 @@ const selectedRecord = computed(() => {
   return problem.views.get(selectedView.value) ?? problem.views.get(problem.viewNames[0]) ?? problem.records[0] ?? null
 })
 const selectedProblemLabel = computed(() => selectedProblem.value?.problem_id || '-')
+const selectedRecordView = computed(() => recordView(selectedRecord.value))
 const selectedVectorSample = computed(() => {
   if (!npyInfo.value || !selectedRecord.value) return '[]'
   try {
@@ -323,6 +352,39 @@ const selectedIrPreview = computed(() => {
     null,
     2,
   )
+})
+const similarProblems = computed(() => {
+  if (!npyInfo.value || !selectedRecord.value || !selectedProblem.value) return []
+
+  const view = selectedRecordView.value
+  const selectedProblemIdValue = selectedProblem.value.problem_id
+  const scores = []
+
+  for (const record of documentRecords.value) {
+    if (record.embedding_index === selectedRecord.value.embedding_index) continue
+    if (recordView(record) !== view) continue
+
+    const problemId = record.metadata.problem_id || inferProblemId(record.embedding_id)
+    if (!problemId || problemId === selectedProblemIdValue) continue
+
+    const problem = problemById.value.get(problemId)
+    if (!problem) continue
+
+    try {
+      scores.push({
+        record,
+        problem,
+        score: cosineSimilarityRows(npyInfo.value, selectedRecord.value.embedding_index, record.embedding_index),
+      })
+    } catch {
+      return []
+    }
+  }
+
+  return scores
+    .sort((left, right) => right.score - left.score)
+    .slice(0, 10)
+    .map((item, index) => ({ ...item, rank: index + 1 }))
 })
 
 onMounted(() => {
@@ -625,6 +687,11 @@ function preferredView(problem) {
   return VIEW_ORDER.find((view) => problem.views.has(view)) ?? problem.viewNames[0] ?? 'skill'
 }
 
+function selectSimilarProblem(item) {
+  selectedProblemId.value = item.problem.problem_id
+  selectedView.value = recordView(item.record)
+}
+
 function sortViews(viewNames) {
   return viewNames.sort((left, right) => {
     const leftIndex = VIEW_ORDER.indexOf(left)
@@ -638,8 +705,13 @@ function sortViews(viewNames) {
 
 function viewLabel(view) {
   if (view === 'solution_structure') return 'solution_structure'
-  if (view === 'combined') return 'combined'
+  if (view === 'combined') return 'combine'
   return view
+}
+
+function recordView(record) {
+  if (!record) return ''
+  return record.view || record.metadata.view || inferView(record.embedding_id)
 }
 
 function inferView(embeddingId) {
