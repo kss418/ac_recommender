@@ -526,7 +526,10 @@ def scp_download(config: SshConfig, remote_path: str, local_path: Path) -> None:
 def run_checked(command: Sequence[str], *, input_text: str | None = None) -> None:
     printable = " ".join(shlex.quote(part) for part in command)
     print(f"\n$ {printable}")
-    completed = subprocess.run(command, input=input_text, text=True)
+    if input_text is None:
+        completed = subprocess.run(command)
+    else:
+        completed = subprocess.run(command, input=input_text.encode("utf-8"))
     if completed.returncode != 0:
         raise SystemExit(completed.returncode)
 
