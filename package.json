@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "description": "",
-  "type": "module",
   "directories": {
     "doc": "docs"
   },
@@ -19,7 +18,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/kss418/ac_recommender/issues"
   },
