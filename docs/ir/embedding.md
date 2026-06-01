@@ -26,7 +26,7 @@ Recommendation retrieval must apply a metadata view filter:
 - compare `skill` only with `skill`,
 - compare `combined` only with `combined`.
 
-Even if all views share one vector index, recommendation search must filter on
+Even if all views share one vector index, recommendation search must filter on  
 `metadata.view`. Do not mix views when computing recommendation scores.
 
 Use only these views for recommendation scoring:

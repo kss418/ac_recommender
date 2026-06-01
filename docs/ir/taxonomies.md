@@ -143,6 +143,7 @@ are not statement-side problem categories.
 | `brute_force.meet_in_the_middle` | Split an exponential search into halves and combine partial results by lookup, sorting, or two-pointer matching. |
 | `brute_force.reconstruction` | Recover an explicit witness, assignment, path, or operation sequence from enumerated states or matched partial results. |
 | `geometry.convex_hull` | Build or use the convex hull of points to restrict feasible or optimal candidates. |
+| `geometry.orientation_test` | Use cross products or signed area to determine orientation, convexity, or turn direction of points. |
 | `geometry.half_plane_or_support_function` | Use a linear inequality, separating line, or support-function query over a convex set. |
 | `geometry.symmetry_reduction` | Normalize geometric configurations by translation, rotation, reflection, or other symmetries. |
 | `geometry.lattice_distance` | Compute distances or movement costs over grid, lattice, tiling, or coordinate-parity geometry. |
@@ -259,6 +260,7 @@ are not statement-side problem categories.
 | `graph.flow_reconstruction` | Convert saturated or positive-flow edges back into explicit decisions or output objects. |
 | `data_structure.small_to_large` | Merge smaller sets or containers into larger ones to bound total movement. |
 | `data_structure.set` | Maintain explicit sets of elements with insertion, deletion, or membership checks. |
+| `data_structure.frequency_table` | Maintain counts of values or keys under insertions, deletions, and frequency-based queries. |
 | `data_structure.sqrt_decomposition` | Split data or queries into square-root sized blocks or heavy/light classes to balance rebuild, scan, and precomputation costs. |
 | `data_structure.mo_algorithm` | Order offline range queries by block so adjacent queries can be answered by incremental endpoint moves. |
 | `data_structure.block_list` | Maintain a sequence as blocks that can be split, trimmed, removed, inserted, or searched with amortized costs. |

@@ -10,6 +10,12 @@
       "parent": "geometry"
     },
     {
+      "id": "geometry.orientation_test",
+      "name": "Orientation test",
+      "description": "Use cross products or signed area to determine orientation, convexity, or turn direction of points.",
+      "parent": "geometry"
+    },
+    {
       "id": "geometry.half_plane_or_support_function",
       "name": "Half-plane or support function",
       "description": "Use a linear inequality, separating line, or support-function query over a convex set.",

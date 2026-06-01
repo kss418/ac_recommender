@@ -70,6 +70,12 @@
       "parent": "data_structure"
     },
     {
+      "id": "data_structure.frequency_table",
+      "name": "Frequency table",
+      "description": "Maintain counts of values or keys under insertions, deletions, and frequency-based queries.",
+      "parent": "data_structure"
+    },
+    {
       "id": "data_structure.sqrt_decomposition",
       "name": "Square-root decomposition",
       "description": "Split data or queries into square-root sized blocks or heavy/light classes to balance rebuild, scan, and precomputation costs.",
