@@ -48,7 +48,12 @@ def zip_data_bundle(*, repo_root: Path, output: Path) -> list[Path]:
         if output_path.exists():
             output_path.unlink()
 
-        with zipfile.ZipFile(output_path, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        with zipfile.ZipFile(
+            output_path,
+            "w",
+            compression=zipfile.ZIP_DEFLATED,
+            compresslevel=1,
+        ) as archive:
             write_directory_entry(archive, source_root.relative_to(repo_root))
             for path in sorted(source_root.rglob("*")):
                 if path.is_dir():
