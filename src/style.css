@@ -270,7 +270,7 @@ table {
 
 th,
 td {
-  padding: 11px 12px;
+  padding: 11px 16px;
   border-bottom: 1px solid #e0e8ee;
   overflow: hidden;
   text-align: left;
@@ -296,7 +296,16 @@ th {
 
 th:nth-child(1),
 td:nth-child(1) {
-  width: 180px;
+  width: 220px;
+}
+
+th:nth-child(1),
+td:nth-child(1) {
+  padding-left: 24px;
+}
+
+th:nth-child(1) {
+  padding-left: 46px;
 }
 
 th:nth-child(2),
@@ -334,15 +343,24 @@ tbody tr.selected {
 }
 
 .contest-id {
+  width: fit-content;
+  min-width: 96px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: #eef6fb;
   color: #17212b;
   font-size: 0.98rem;
+  text-align: center;
 }
 
 .contest-count {
-  margin-top: 4px;
+  width: fit-content;
+  min-width: 96px;
+  margin-top: 5px;
   color: #68717a;
   font-size: 0.76rem;
   font-weight: 800;
+  text-align: center;
 }
 
 .problem-strip {
