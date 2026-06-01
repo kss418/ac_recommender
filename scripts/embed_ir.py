@@ -213,7 +213,7 @@ def load_ir_paths(repo_root: Path, paths: Sequence[Path]) -> Iterator[Path]:
 
 def build_documents(path: Path, *, repo_root: Path, views: Sequence[str]) -> list[EmbeddingDocument]:
     data = load_json(path)
-    relative_path = path.relative_to(repo_root).as_posix()
+    relative_path = metadata_ir_path(path, repo_root=repo_root)
     metadata = build_metadata(data, relative_path=relative_path)
     documents: list[EmbeddingDocument] = []
     for view in views:
@@ -230,6 +230,13 @@ def build_documents(path: Path, *, repo_root: Path, views: Sequence[str]) -> lis
             )
         )
     return documents
+
+
+def metadata_ir_path(path: Path, *, repo_root: Path) -> str:
+    try:
+        return path.relative_to(repo_root).as_posix()
+    except ValueError:
+        return path.as_posix()
 
 
 def build_metadata(data: JsonObject, *, relative_path: str) -> JsonObject:
