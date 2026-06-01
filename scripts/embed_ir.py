@@ -118,6 +118,24 @@ def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
         help="Write embedding documents and manifest without loading the model or writing vectors.",
     )
     parser.add_argument(
+        "--update-existing",
+        type=Path,
+        default=None,
+        help=(
+            "Refresh selected IR files inside an existing embedding output directory. "
+            "Matching embedding_id rows are replaced and new rows are appended."
+        ),
+    )
+    parser.add_argument(
+        "--merge-from",
+        type=Path,
+        default=None,
+        help=(
+            "Merge vectors from another embedding output directory into --update-existing "
+            "without loading the embedding model."
+        ),
+    )
+    parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Print generated embedding texts without writing files or loading the model.",
@@ -133,13 +151,20 @@ def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
 def main(argv: Iterable[str] | None = None) -> int:
     args = parse_args(argv)
     repo_root = Path(__file__).resolve().parents[1]
-    model_id = args.model_id or MODEL_ALIASES[args.model_size]
+    if args.merge_from is not None and args.update_existing is None:
+        raise SystemExit("error: --merge-from requires --update-existing")
+    if args.update_existing is not None and args.merge_from is not None:
+        return update_existing_embeddings(args=args, repo_root=repo_root, ir_paths=[])
+
     ir_paths = list(load_ir_paths(repo_root, args.paths))
     if args.limit is not None:
         ir_paths = ir_paths[: args.limit]
     if not ir_paths:
         print("error: no IR JSON files found", file=sys.stderr)
         return 2
+
+    if args.update_existing is not None:
+        return update_existing_embeddings(args=args, repo_root=repo_root, ir_paths=ir_paths)
 
     documents = [
         document
@@ -154,6 +179,7 @@ def main(argv: Iterable[str] | None = None) -> int:
             print(document.text)
         return 0
 
+    model_id = args.model_id or MODEL_ALIASES[args.model_size]
     output_dir = make_output_dir(
         repo_root=repo_root,
         output_root=args.output_root,
@@ -193,6 +219,264 @@ def main(argv: Iterable[str] | None = None) -> int:
     write_json(output_dir / "manifest.json", manifest)
     print(f"Wrote {len(documents)} embedding document(s) to {output_dir}")
     print(f"Vector dimension: {embeddings.shape[1]}")
+    return 0
+
+
+def update_existing_embeddings(
+    *,
+    args: argparse.Namespace,
+    repo_root: Path,
+    ir_paths: Sequence[Path],
+) -> int:
+    if args.text_only:
+        raise SystemExit("error: --text-only cannot be combined with --update-existing")
+
+    output_dir = resolve_existing_output_dir(repo_root, args.update_existing)
+    documents_path = output_dir / "documents.jsonl"
+    vector_path = output_dir / "embeddings.npy"
+    manifest_path = output_dir / "manifest.json"
+    if not documents_path.is_file():
+        raise SystemExit(f"error: documents.jsonl not found: {documents_path}")
+    if not vector_path.is_file():
+        raise SystemExit(f"error: embeddings.npy not found: {vector_path}")
+    if not manifest_path.is_file():
+        raise SystemExit(f"error: manifest.json not found: {manifest_path}")
+
+    if args.merge_from is not None:
+        return merge_embedding_patch(
+            repo_root=repo_root,
+            target_dir=output_dir,
+            patch_dir=args.merge_from,
+            dry_run=args.dry_run,
+        )
+
+    manifest = load_json(manifest_path)
+    views = list(manifest.get("views") or args.views)
+    if not views:
+        raise SystemExit("error: existing manifest does not declare any views")
+
+    documents = [
+        document
+        for ir_path in ir_paths
+        for document in build_documents(ir_path, repo_root=repo_root, views=views)
+    ]
+    if args.dry_run:
+        print(f"Existing output: {output_dir}")
+        print(f"IR files to refresh: {len(ir_paths)}")
+        print(f"Embedding documents to refresh: {len(documents)}")
+        for document in documents:
+            print(f"\n--- {document.embedding_id} [{document.view}] ---")
+            print(document.text)
+        return 0
+    if not documents:
+        print("No embedding documents generated for the selected IR files.")
+        return 0
+
+    model_size = str(manifest.get("model_size") or args.model_size)
+    model_id = args.model_id or str(manifest.get("model_id") or MODEL_ALIASES[model_size])
+    normalize = manifest.get("normalize_embeddings")
+    if not isinstance(normalize, bool):
+        normalize = not args.no_normalize
+    dimensions = args.dimensions if args.dimensions is not None else manifest.get("requested_dimensions")
+    max_seq_length = args.max_seq_length if args.max_seq_length is not None else manifest.get("max_seq_length")
+
+    existing_records = load_document_records(documents_path)
+    embeddings = load_vectors(vector_path)
+    if embeddings.ndim != 2:
+        raise SystemExit(f"error: expected a 2D embedding matrix, got shape {embeddings.shape}")
+    if embeddings.shape[0] != len(existing_records):
+        raise SystemExit(
+            "error: document count does not match embedding rows: "
+            f"{len(existing_records)} document(s), {embeddings.shape[0]} row(s)"
+        )
+
+    existing_by_id = build_embedding_id_index(existing_records, documents_path)
+
+    refreshed_vectors = encode_documents(
+        model_id=model_id,
+        texts=[document.text for document in documents],
+        batch_size=args.batch_size,
+        device=args.device,
+        normalize=normalize,
+        dimensions=dimensions,
+        max_seq_length=max_seq_length,
+    )
+    if refreshed_vectors.ndim != 2:
+        raise SystemExit(f"error: expected refreshed vectors to be 2D, got shape {refreshed_vectors.shape}")
+    if refreshed_vectors.shape[1] != embeddings.shape[1]:
+        raise SystemExit(
+            "error: refreshed vector dimension does not match existing matrix: "
+            f"{refreshed_vectors.shape[1]} vs {embeddings.shape[1]}"
+        )
+
+    replaced_count = 0
+    appended_count = 0
+    appended_vectors = []
+    for document, vector in zip(documents, refreshed_vectors):
+        index = existing_by_id.get(document.embedding_id)
+        if index is None:
+            index = len(existing_records)
+            existing_by_id[document.embedding_id] = index
+            existing_records.append(document_record(index, document))
+            appended_vectors.append(vector)
+            appended_count += 1
+        else:
+            existing_records[index] = document_record(index, document)
+            embeddings[index] = vector
+            replaced_count += 1
+
+    if appended_vectors:
+        try:
+            import numpy as np
+        except ModuleNotFoundError as exc:
+            raise SystemExit("error: numpy is required to update embeddings.npy") from exc
+        embeddings = np.concatenate(
+            [embeddings, np.asarray(appended_vectors, dtype=embeddings.dtype)],
+            axis=0,
+        )
+
+    write_document_records(documents_path, existing_records)
+    save_vectors(vector_path, embeddings)
+    manifest["updated_at"] = datetime.now(timezone.utc).isoformat()
+    manifest["model_size"] = canonical_model_size(model_size)
+    manifest["model_id"] = model_id
+    manifest["views"] = views
+    manifest["ir_count"] = count_unique_ir_paths(existing_records)
+    manifest["document_count"] = len(existing_records)
+    manifest["documents_file"] = documents_path.name
+    manifest["vector_file"] = vector_path.name
+    manifest["vector_dimension"] = int(embeddings.shape[1])
+    manifest["normalize_embeddings"] = normalize
+    manifest["requested_dimensions"] = dimensions
+    manifest["batch_size"] = args.batch_size
+    manifest["max_seq_length"] = max_seq_length
+    manifest["last_update"] = {
+        "ir_count": len(ir_paths),
+        "document_count": len(documents),
+        "replaced_count": replaced_count,
+        "appended_count": appended_count,
+    }
+    write_json(manifest_path, manifest)
+    print(f"Updated existing embedding output: {output_dir}")
+    print(f"Refreshed documents: {len(documents)}")
+    print(f"Rows replaced: {replaced_count}")
+    print(f"Rows appended: {appended_count}")
+    print(f"Embedding matrix shape: {embeddings.shape[0]} x {embeddings.shape[1]}")
+    return 0
+
+
+def merge_embedding_patch(
+    *,
+    repo_root: Path,
+    target_dir: Path,
+    patch_dir: Path,
+    dry_run: bool,
+) -> int:
+    patch_output_dir = resolve_existing_output_dir(repo_root, patch_dir)
+    target_documents_path = target_dir / "documents.jsonl"
+    target_vector_path = target_dir / "embeddings.npy"
+    target_manifest_path = target_dir / "manifest.json"
+    patch_documents_path = patch_output_dir / "documents.jsonl"
+    patch_vector_path = patch_output_dir / "embeddings.npy"
+    patch_manifest_path = patch_output_dir / "manifest.json"
+    if not patch_documents_path.is_file():
+        raise SystemExit(f"error: patch documents.jsonl not found: {patch_documents_path}")
+    if not patch_vector_path.is_file():
+        raise SystemExit(f"error: patch embeddings.npy not found: {patch_vector_path}")
+    if not patch_manifest_path.is_file():
+        raise SystemExit(f"error: patch manifest.json not found: {patch_manifest_path}")
+
+    target_manifest = load_json(target_manifest_path)
+    patch_manifest = load_json(patch_manifest_path)
+    validate_patch_compatibility(target_manifest, patch_manifest)
+
+    target_records = load_document_records(target_documents_path)
+    patch_records = load_document_records(patch_documents_path)
+    target_embeddings = load_vectors(target_vector_path)
+    patch_embeddings = load_vectors(patch_vector_path)
+    if target_embeddings.ndim != 2:
+        raise SystemExit(f"error: expected target vectors to be 2D, got shape {target_embeddings.shape}")
+    if patch_embeddings.ndim != 2:
+        raise SystemExit(f"error: expected patch vectors to be 2D, got shape {patch_embeddings.shape}")
+    if target_embeddings.shape[0] != len(target_records):
+        raise SystemExit(
+            "error: target document count does not match embedding rows: "
+            f"{len(target_records)} document(s), {target_embeddings.shape[0]} row(s)"
+        )
+    if patch_embeddings.shape[0] != len(patch_records):
+        raise SystemExit(
+            "error: patch document count does not match embedding rows: "
+            f"{len(patch_records)} document(s), {patch_embeddings.shape[0]} row(s)"
+        )
+    if target_embeddings.shape[1] != patch_embeddings.shape[1]:
+        raise SystemExit(
+            "error: patch vector dimension does not match target matrix: "
+            f"{patch_embeddings.shape[1]} vs {target_embeddings.shape[1]}"
+        )
+
+    target_by_id = build_embedding_id_index(target_records, target_documents_path)
+    build_embedding_id_index(patch_records, patch_documents_path)
+
+    replaced_count = 0
+    appended_count = 0
+    appended_vectors = []
+    for patch_record in patch_records:
+        embedding_id = str(patch_record["embedding_id"])
+        patch_index = int(patch_record["embedding_index"])
+        target_index = target_by_id.get(embedding_id)
+        merged_record = dict(patch_record)
+        if target_index is None:
+            target_index = len(target_records)
+            target_by_id[embedding_id] = target_index
+            merged_record["embedding_index"] = target_index
+            target_records.append(merged_record)
+            appended_vectors.append(patch_embeddings[patch_index])
+            appended_count += 1
+        else:
+            merged_record["embedding_index"] = target_index
+            target_records[target_index] = merged_record
+            target_embeddings[target_index] = patch_embeddings[patch_index]
+            replaced_count += 1
+
+    if dry_run:
+        print(f"Target output: {target_dir}")
+        print(f"Patch output: {patch_output_dir}")
+        print(f"Patch documents: {len(patch_records)}")
+        print(f"Rows to replace: {replaced_count}")
+        print(f"Rows to append: {appended_count}")
+        return 0
+
+    if appended_vectors:
+        try:
+            import numpy as np
+        except ModuleNotFoundError as exc:
+            raise SystemExit("error: numpy is required to update embeddings.npy") from exc
+        target_embeddings = np.concatenate(
+            [target_embeddings, np.asarray(appended_vectors, dtype=target_embeddings.dtype)],
+            axis=0,
+        )
+
+    write_document_records(target_documents_path, target_records)
+    save_vectors(target_vector_path, target_embeddings)
+    target_manifest["updated_at"] = datetime.now(timezone.utc).isoformat()
+    target_manifest["ir_count"] = count_unique_ir_paths(target_records)
+    target_manifest["document_count"] = len(target_records)
+    target_manifest["documents_file"] = target_documents_path.name
+    target_manifest["vector_file"] = target_vector_path.name
+    target_manifest["vector_dimension"] = int(target_embeddings.shape[1])
+    target_manifest["last_update"] = {
+        "source": "merge_from",
+        "patch_dir": patch_output_dir.as_posix(),
+        "document_count": len(patch_records),
+        "replaced_count": replaced_count,
+        "appended_count": appended_count,
+    }
+    write_json(target_manifest_path, target_manifest)
+    print(f"Merged patch output into: {target_dir}")
+    print(f"Patch documents: {len(patch_records)}")
+    print(f"Rows replaced: {replaced_count}")
+    print(f"Rows appended: {appended_count}")
+    print(f"Embedding matrix shape: {target_embeddings.shape[0]} x {target_embeddings.shape[1]}")
     return 0
 
 
@@ -479,6 +763,10 @@ def make_output_dir(
     return output_dir
 
 
+def resolve_existing_output_dir(repo_root: Path, output_dir: Path) -> Path:
+    return output_dir if output_dir.is_absolute() else repo_root / output_dir
+
+
 def canonical_model_size(model_size: str) -> str:
     normalized = model_size.lower()
     if normalized in {"0.6", "0.6b"}:
@@ -498,17 +786,90 @@ def remove_generated_outputs(output_dir: Path) -> None:
 
 
 def write_documents(path: Path, documents: Sequence[EmbeddingDocument]) -> None:
+    write_document_records(
+        path,
+        [document_record(index, document) for index, document in enumerate(documents)],
+    )
+
+
+def document_record(index: int, document: EmbeddingDocument) -> JsonObject:
+    return {
+        "embedding_index": index,
+        "embedding_id": document.embedding_id,
+        "view": document.view,
+        "text": document.text,
+        "text_sha256": sha256_text(document.text),
+        "metadata": document.metadata,
+    }
+
+
+def write_document_records(path: Path, records: Sequence[JsonObject]) -> None:
     with path.open("w", encoding="utf-8", newline="\n") as file:
-        for index, document in enumerate(documents):
-            record = {
-                "embedding_index": index,
-                "embedding_id": document.embedding_id,
-                "view": document.view,
-                "text": document.text,
-                "text_sha256": sha256_text(document.text),
-                "metadata": document.metadata,
-            }
+        for record in records:
             file.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
+
+
+def load_document_records(path: Path) -> list[JsonObject]:
+    records: list[JsonObject] = []
+    with path.open("r", encoding="utf-8") as file:
+        for line_number, line in enumerate(file, start=1):
+            if not line.strip():
+                continue
+            data = json.loads(line)
+            if not isinstance(data, dict):
+                raise SystemExit(f"error: expected JSON object at {path}:{line_number}")
+            records.append(data)
+    return records
+
+
+def build_embedding_id_index(records: Sequence[JsonObject], path: Path) -> dict[str, int]:
+    by_id: dict[str, int] = {}
+    for position, record in enumerate(records):
+        embedding_id = record.get("embedding_id")
+        embedding_index = record.get("embedding_index")
+        if not isinstance(embedding_id, str) or not isinstance(embedding_index, int):
+            raise SystemExit(f"error: invalid document record in {path}")
+        if embedding_index != position:
+            raise SystemExit(
+                f"error: embedding_index mismatch for {embedding_id}: "
+                f"record position {position}, embedding_index {embedding_index}"
+            )
+        if embedding_id in by_id:
+            raise SystemExit(f"error: duplicate embedding_id in {path}: {embedding_id}")
+        by_id[embedding_id] = embedding_index
+    return by_id
+
+
+def validate_patch_compatibility(target_manifest: JsonObject, patch_manifest: JsonObject) -> None:
+    for key in ("model_id", "model_size", "normalize_embeddings"):
+        target_value = target_manifest.get(key)
+        patch_value = patch_manifest.get(key)
+        if target_value is not None and patch_value is not None and target_value != patch_value:
+            raise SystemExit(
+                f"error: patch {key} does not match target: {patch_value!r} vs {target_value!r}"
+            )
+    target_dimension = target_manifest.get("vector_dimension")
+    patch_dimension = patch_manifest.get("vector_dimension")
+    if target_dimension is not None and patch_dimension is not None and target_dimension != patch_dimension:
+        raise SystemExit(
+            "error: patch vector_dimension does not match target: "
+            f"{patch_dimension!r} vs {target_dimension!r}"
+        )
+    target_views = target_manifest.get("views")
+    patch_views = patch_manifest.get("views")
+    if isinstance(target_views, list) and isinstance(patch_views, list):
+        unknown_views = sorted(set(map(str, patch_views)) - set(map(str, target_views)))
+        if unknown_views:
+            raise SystemExit("error: patch contains view(s) absent from target: " + ", ".join(unknown_views))
+
+
+def count_unique_ir_paths(records: Sequence[JsonObject]) -> int:
+    paths = set()
+    for record in records:
+        metadata = record.get("metadata")
+        if isinstance(metadata, dict) and metadata.get("ir_path"):
+            paths.add(str(metadata["ir_path"]))
+    return len(paths)
 
 
 def build_manifest(
@@ -597,6 +958,14 @@ def save_vectors(path: Path, embeddings: Any) -> None:
     except ModuleNotFoundError as exc:
         raise SystemExit("error: numpy is required to write embeddings.npy") from exc
     np.save(path, embeddings)
+
+
+def load_vectors(path: Path) -> Any:
+    try:
+        import numpy as np
+    except ModuleNotFoundError as exc:
+        raise SystemExit("error: numpy is required to read embeddings.npy") from exc
+    return np.load(path)
 
 
 def write_json(path: Path, data: JsonObject) -> None:

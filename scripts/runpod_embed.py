@@ -54,6 +54,12 @@ def parse_args(argv: Iterable[str] | None = None) -> argparse.Namespace:
         help="SSH target for the pod, for example root@123.45.67.89 or root@ssh.runpod.io.",
     )
     parser.add_argument(
+        "paths",
+        nargs="*",
+        type=Path,
+        help="Optional IR JSON files or directories to pass to scripts/embed_ir.py.",
+    )
+    parser.add_argument(
         "-p",
         "--port",
         type=int,
@@ -207,6 +213,7 @@ def main(argv: Iterable[str] | None = None) -> int:
     args = parse_args(argv)
     repo_root = Path(__file__).resolve().parents[1]
     validate_views(args.views)
+    remote_paths = normalize_remote_paths(repo_root, args.paths)
 
     ssh_config = SshConfig(
         target=args.target,
@@ -238,12 +245,15 @@ def main(argv: Iterable[str] | None = None) -> int:
             remote_bundle=remote_bundle,
             remote_result_zip=remote_result_zip,
             output_name=output_name,
+            remote_paths=remote_paths,
         )
 
         print(f"Input bundle: {bundle_path} ({bundle_path.stat().st_size:,} bytes)")
         print(f"Remote target: {ssh_config.target}")
         print(f"Remote dir: {remote_dir}")
         print(f"Remote output: {remote_dir}/{args.output_root.as_posix()}/{output_name}")
+        if remote_paths:
+            print("Remote IR path(s): " + ", ".join(remote_paths))
 
         if args.dry_run:
             print("\n--- Remote script ---")
@@ -278,6 +288,20 @@ def expand_optional_path(path: Path | None) -> Path | None:
     if path is None:
         return None
     return Path(os.path.expandvars(os.path.expanduser(str(path))))
+
+
+def normalize_remote_paths(repo_root: Path, paths: Sequence[Path]) -> list[str]:
+    remote_paths: list[str] = []
+    for path in paths:
+        resolved = path if path.is_absolute() else repo_root / path
+        if not resolved.exists():
+            raise SystemExit(f"error: IR path not found: {path}")
+        try:
+            relative = resolved.relative_to(repo_root)
+        except ValueError as exc:
+            raise SystemExit(f"error: IR path is outside the repository: {path}") from exc
+        remote_paths.append(relative.as_posix())
+    return remote_paths
 
 
 def check_local_tools(config: SshConfig) -> None:
@@ -343,6 +367,7 @@ def build_remote_script(
     remote_bundle: str,
     remote_result_zip: str,
     output_name: str,
+    remote_paths: Sequence[str],
 ) -> str:
     remote_dir = args.remote_dir.rstrip("/")
     remote_python = args.remote_python
@@ -395,6 +420,7 @@ PY={venv_dir}/bin/python
         embed_args.append("--no-normalize")
     if args.limit is not None:
         embed_args.extend(["--limit", str(args.limit)])
+    embed_args.extend(remote_paths)
     embed_line = '"$PY" ' + shlex.join(embed_args)
 
     gpu_check = build_gpu_check(args.device)
