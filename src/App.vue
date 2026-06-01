@@ -111,38 +111,55 @@
       <section class="table-panel">
         <div class="table-toolbar">
           <div>
-            <h2>Documents</h2>
-            <span>{{ formatNumber(filteredRecords.length) }} records</span>
+            <h2>Contests</h2>
+            <span>{{ formatNumber(filteredContests.length) }} contests</span>
           </div>
-          <input v-model="query" type="search" placeholder="problem id, name, view" />
+          <input v-model="query" type="search" placeholder="contest, problem id, name" />
         </div>
 
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>Row</th>
-                <th>Problem</th>
-                <th>Name</th>
-                <th>View</th>
-                <th>IR</th>
+                <th>Contest</th>
+                <th>Problems</th>
               </tr>
             </thead>
             <tbody>
               <tr
-                v-for="record in visibleRecords"
-                :key="record.embedding_id || record.embedding_index"
-                :class="{ selected: selectedIndex === record.embedding_index }"
-                @click="selectedIndex = record.embedding_index"
+                v-for="contest in visibleContests"
+                :key="contest.contest_id"
+                :class="{ selected: contest.problems.some((problem) => problem.problem_id === selectedProblem?.problem_id) }"
               >
-                <td>{{ record.embedding_index }}</td>
-                <td>{{ record.metadata.problem_id || '-' }}</td>
-                <td>{{ record.metadata.problem_name || '-' }}</td>
-                <td>{{ record.view || record.metadata.view || '-' }}</td>
-                <td>{{ record.metadata.ir_path || '-' }}</td>
+                <td>
+                  <strong class="contest-id">{{ contest.contest_id }}</strong>
+                  <span class="contest-count">{{ contest.problems.length }} problems</span>
+                </td>
+                <td class="problem-cell">
+                  <div class="problem-strip" :style="{ '--slot-count': contest.slots.length }">
+                    <template v-for="slot in contest.slots" :key="slot.key">
+                      <button
+                        v-if="slot.problem"
+                        type="button"
+                        class="problem-chip"
+                        :class="{ active: selectedProblem?.problem_id === slot.problem.problem_id }"
+                        :title="slot.problem.problem_name || slot.problem.problem_id"
+                        @click="selectedProblemId = slot.problem.problem_id"
+                      >
+                        {{ problemSlotLabel(slot) }}
+                      </button>
+                      <span
+                        v-else
+                        class="problem-chip empty"
+                        :title="`${slot.label} empty`"
+                        aria-hidden="true"
+                      ></span>
+                    </template>
+                  </div>
+                </td>
               </tr>
-              <tr v-if="!visibleRecords.length">
-                <td colspan="5" class="empty-cell">No records</td>
+              <tr v-if="!visibleContests.length">
+                <td colspan="2" class="empty-cell">No contests</td>
               </tr>
             </tbody>
           </table>
@@ -151,8 +168,22 @@
 
       <section class="selection-panel">
         <div class="panel-heading">
-          <h2>Selected Row</h2>
-          <span>{{ selectedIndexLabel }}</span>
+          <h2>Selected Problem</h2>
+          <span>{{ selectedProblemLabel }}</span>
+        </div>
+
+        <div v-if="selectedViewOptions.length" class="view-picker" aria-label="Embedding view">
+          <button
+            v-for="option in selectedViewOptions"
+            :key="option.id"
+            type="button"
+            class="view-button"
+            :class="{ active: selectedView === option.id }"
+            @click="selectedView = option.id"
+          >
+            <strong>{{ viewLabel(option.id) }}</strong>
+            <span>row {{ option.record.embedding_index }}</span>
+          </button>
         </div>
 
         <div class="selected-grid">
@@ -164,7 +195,12 @@
             <div>
               <dt>problem_url</dt>
               <dd>
-                <a v-if="selectedRecord?.metadata.problem_url" :href="selectedRecord.metadata.problem_url" target="_blank" rel="noreferrer">
+                <a
+                  v-if="selectedRecord?.metadata.problem_url"
+                  :href="selectedRecord.metadata.problem_url"
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   {{ selectedRecord.metadata.problem_url }}
                 </a>
                 <span v-else>-</span>
@@ -173,6 +209,10 @@
             <div>
               <dt>source_kind</dt>
               <dd>{{ selectedRecord?.metadata.source_kind || '-' }}</dd>
+            </div>
+            <div>
+              <dt>ir_path</dt>
+              <dd>{{ selectedRecord?.metadata.ir_path || '-' }}</dd>
             </div>
           </dl>
 
@@ -189,6 +229,8 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { parseNpy, readNpyValues } from './utils/npy'
 
 const DEFAULT_EMBEDDING_DIR = '/embeddings/qwen3-embedding-0.6b-all'
+const VIEW_ORDER = ['skill', 'solution_structure', 'combined']
+const DEFAULT_PROBLEM_INDEX_ORDER = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
 
 const npyFileName = ref('')
 const jsonlFileName = ref('')
@@ -197,7 +239,8 @@ const npyInfo = ref(null)
 const documentRecords = ref([])
 const manifest = ref(null)
 const query = ref('')
-const selectedIndex = ref(null)
+const selectedProblemId = ref(null)
+const selectedView = ref('skill')
 const errors = ref([])
 const isAutoLoading = ref(false)
 const selectedIr = ref(null)
@@ -206,19 +249,20 @@ let irRequestId = 0
 
 const hasLoadedFiles = computed(() => Boolean(npyInfo.value || documentRecords.value.length))
 const vectorDimension = computed(() => npyInfo.value?.shape?.at(-1) ?? manifest.value?.vector_dimension)
-const problemCount = computed(() => {
-  const ids = new Set(documentRecords.value.map((record) => record.metadata.problem_id).filter(Boolean))
-  return ids.size || manifest.value?.ir_count || 0
-})
+const problemRecords = computed(() => groupRecordsByProblem(documentRecords.value))
+const problemById = computed(() => new Map(problemRecords.value.map((problem) => [problem.problem_id, problem])))
+const problemSlotLabels = computed(() => buildProblemSlotLabels(problemRecords.value))
+const contestRecords = computed(() => groupProblemsByContest(problemRecords.value, problemSlotLabels.value))
+const problemCount = computed(() => problemRecords.value.length || manifest.value?.ir_count || 0)
 const views = computed(() => {
   const values = new Set(
     documentRecords.value
-      .map((record) => record.view || record.metadata.view)
+      .map((record) => record.view || record.metadata.view || inferView(record.embedding_id))
       .filter(Boolean),
   )
-  return [...values].sort()
+  return sortViews([...values])
 })
-const viewsLabel = computed(() => views.value.length ? views.value.join(', ') : '-')
+const viewsLabel = computed(() => (views.value.length ? views.value.map(viewLabel).join(', ') : '-'))
 const isAligned = computed(() => {
   if (!npyInfo.value || !documentRecords.value.length) return false
   return npyInfo.value.shape[0] === documentRecords.value.length
@@ -230,28 +274,28 @@ const alignmentLabel = computed(() => {
   if (!documentRecords.value.length) return 'NPY only'
   return isAligned.value ? 'Rows aligned' : 'Row mismatch'
 })
-const filteredRecords = computed(() => {
+const filteredContests = computed(() => {
   const term = query.value.trim().toLowerCase()
-  if (!term) return documentRecords.value
-  return documentRecords.value.filter((record) => {
-    const metadata = record.metadata
-    return [
-      record.embedding_id,
-      record.view,
-      metadata.problem_id,
-      metadata.problem_name,
-      metadata.problem_url,
-      metadata.ir_path,
-      metadata.event_id,
-    ]
-      .filter(Boolean)
-      .some((value) => String(value).toLowerCase().includes(term))
-  })
+  if (!term) return contestRecords.value
+  return contestRecords.value.filter((contest) => contest.searchText.includes(term))
 })
-const visibleRecords = computed(() => filteredRecords.value.slice(0, 200))
-const recordByIndex = computed(() => new Map(documentRecords.value.map((record) => [record.embedding_index, record])))
-const selectedRecord = computed(() => recordByIndex.value.get(selectedIndex.value) ?? visibleRecords.value[0] ?? null)
-const selectedIndexLabel = computed(() => selectedRecord.value ? `row ${selectedRecord.value.embedding_index}` : '-')
+const visibleContests = computed(() => filteredContests.value.slice(0, 200))
+const selectedProblem = computed(
+  () => problemById.value.get(selectedProblemId.value) ?? visibleContests.value[0]?.problems[0] ?? null,
+)
+const selectedViewOptions = computed(() => {
+  if (!selectedProblem.value) return []
+  return selectedProblem.value.viewNames.map((view) => ({
+    id: view,
+    record: selectedProblem.value.views.get(view),
+  }))
+})
+const selectedRecord = computed(() => {
+  const problem = selectedProblem.value
+  if (!problem) return null
+  return problem.views.get(selectedView.value) ?? problem.views.get(problem.viewNames[0]) ?? problem.records[0] ?? null
+})
+const selectedProblemLabel = computed(() => selectedProblem.value?.problem_id || '-')
 const selectedVectorSample = computed(() => {
   if (!npyInfo.value || !selectedRecord.value) return '[]'
   try {
@@ -285,6 +329,13 @@ onMounted(() => {
   loadDefaultBundle()
 })
 
+watch(selectedProblem, (problem) => {
+  if (!problem) return
+  if (!problem.views.has(selectedView.value)) {
+    selectedView.value = preferredView(problem)
+  }
+})
+
 watch(selectedRecord, (record) => {
   loadSelectedIr(record)
 })
@@ -305,7 +356,7 @@ async function loadDefaultBundle() {
     manifestFileName.value = 'qwen3-embedding-0.6b-all/manifest.json'
     jsonlFileName.value = 'qwen3-embedding-0.6b-all/documents.jsonl'
     npyFileName.value = 'qwen3-embedding-0.6b-all/embeddings.npy'
-    selectedIndex.value = documentRecords.value[0]?.embedding_index ?? null
+    selectFirstProblem()
   } catch (error) {
     errors.value.push(`0.6B default load failed: ${String(error.message || error)}`)
   } finally {
@@ -320,8 +371,8 @@ async function loadNpy(event) {
   await runFileTask(async () => {
     const buffer = await file.arrayBuffer()
     npyInfo.value = parseNpy(buffer)
-    if (selectedIndex.value === null && documentRecords.value.length) {
-      selectedIndex.value = documentRecords.value[0].embedding_index
+    if (!selectedProblemId.value && documentRecords.value.length) {
+      selectFirstProblem()
     }
   })
 }
@@ -333,7 +384,7 @@ async function loadJsonl(event) {
   await runFileTask(async () => {
     const text = await file.text()
     documentRecords.value = parseJsonl(text)
-    selectedIndex.value = documentRecords.value[0]?.embedding_index ?? null
+    selectFirstProblem()
   })
 }
 
@@ -394,6 +445,229 @@ function parseJsonl(text) {
         metadata: record.metadata && typeof record.metadata === 'object' ? record.metadata : {},
       }
     })
+}
+
+function groupRecordsByProblem(records) {
+  const byProblem = new Map()
+
+  for (const record of records) {
+    const metadata = record.metadata
+    const view = record.view || metadata.view || inferView(record.embedding_id)
+    const problemId =
+      metadata.problem_id || inferProblemId(record.embedding_id) || `row-${record.embedding_index}`
+
+    if (!byProblem.has(problemId)) {
+      byProblem.set(problemId, {
+        problem_id: problemId,
+        problem_index: metadata.problem_index || '',
+        problem_name: metadata.problem_name || '',
+        problem_url: metadata.problem_url || '',
+        event_id: metadata.event_id || '',
+        event_series: metadata.event_series || '',
+        event_number: metadata.event_number || '',
+        ir_path: metadata.ir_path || '',
+        records: [],
+        rows: [],
+        views: new Map(),
+      })
+    }
+
+    const problem = byProblem.get(problemId)
+    problem.records.push(record)
+    problem.rows.push(record.embedding_index)
+
+    if (view) {
+      problem.views.set(view, record)
+    }
+
+    problem.problem_name ||= metadata.problem_name || ''
+    problem.problem_index ||= metadata.problem_index || ''
+    problem.problem_url ||= metadata.problem_url || ''
+    problem.event_id ||= metadata.event_id || ''
+    problem.event_series ||= metadata.event_series || ''
+    problem.event_number ||= metadata.event_number || ''
+    problem.ir_path ||= metadata.ir_path || ''
+  }
+
+  return [...byProblem.values()].map((problem) => {
+    const sortedRows = [...problem.rows].sort((left, right) => left - right)
+    const viewNames = sortViews([...problem.views.keys()])
+    return {
+      ...problem,
+      rowLabel: formatRows(sortedRows),
+      viewNames,
+      searchText: [
+        problem.problem_id,
+        problem.problem_index,
+        problem.problem_name,
+        problem.problem_url,
+        problem.event_id,
+        problem.ir_path,
+        ...viewNames,
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase(),
+    }
+  })
+}
+
+function groupProblemsByContest(problems, slotLabels) {
+  const byContest = new Map()
+
+  for (const problem of problems) {
+    const contestId = problem.event_id || inferContestId(problem.problem_id) || 'standalone'
+
+    if (!byContest.has(contestId)) {
+      byContest.set(contestId, {
+        contest_id: contestId,
+        event_series: problem.event_series || '',
+        event_number: problem.event_number || '',
+        problems: [],
+      })
+    }
+
+    byContest.get(contestId).problems.push(problem)
+  }
+
+  return [...byContest.values()].map((contest) => {
+    const problemsInOrder = sortProblems(contest.problems)
+    const problemsBySlot = new Map(
+      problemsInOrder.map((problem) => [canonicalProblemSlot(problem.problem_index), problem]),
+    )
+    return {
+      ...contest,
+      problems: problemsInOrder,
+      slots: slotLabels.map((label) => ({
+        key: `${contest.contest_id}-${label}`,
+        label,
+        problem: problemsBySlot.get(canonicalProblemIndex(label)) ?? null,
+      })),
+      searchText: [
+        contest.contest_id,
+        contest.event_series,
+        contest.event_number,
+        ...problemsInOrder.flatMap((problem) => [
+          problem.problem_id,
+          problem.problem_index,
+          problem.problem_name,
+          problem.ir_path,
+        ]),
+      ]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase(),
+    }
+  })
+}
+
+function sortProblems(problems) {
+  return [...problems].sort((left, right) => {
+    const indexOrder = compareProblemIndices(left.problem_index, right.problem_index)
+    if (indexOrder !== 0) return indexOrder
+    return left.problem_id.localeCompare(right.problem_id, undefined, { numeric: true, sensitivity: 'base' })
+  })
+}
+
+function buildProblemSlotLabels(problems) {
+  const labels = new Set(DEFAULT_PROBLEM_INDEX_ORDER)
+  for (const problem of problems) {
+    const label = canonicalProblemSlot(problem.problem_index)
+    if (label) labels.add(label)
+  }
+  return [...labels].sort(compareProblemIndices)
+}
+
+function compareProblemIndices(left, right) {
+  const leftRank = problemIndexRank(left)
+  const rightRank = problemIndexRank(right)
+  if (leftRank !== rightRank) return leftRank - rightRank
+  return String(left || '').localeCompare(String(right || ''), undefined, {
+    numeric: true,
+    sensitivity: 'base',
+  })
+}
+
+function problemIndexRank(index) {
+  const label = canonicalProblemIndex(index)
+  if (!label) return 900
+  if (label.toLowerCase() === 'ex') return 1000
+
+  const defaultIndex = DEFAULT_PROBLEM_INDEX_ORDER.indexOf(label)
+  if (defaultIndex !== -1) return defaultIndex
+
+  if (/^[A-Z]$/i.test(label)) {
+    return label.toUpperCase().charCodeAt(0) - 'A'.charCodeAt(0)
+  }
+
+  return 800
+}
+
+function canonicalProblemIndex(index) {
+  if (index === null || index === undefined) return ''
+  const label = String(index).trim()
+  if (label.toLowerCase() === 'ex') return 'Ex'
+  return label.toUpperCase()
+}
+
+function canonicalProblemSlot(index) {
+  const label = canonicalProblemIndex(index)
+  return label === 'Ex' ? 'H' : label
+}
+
+function selectFirstProblem() {
+  const firstProblem = contestRecords.value[0]?.problems[0] ?? null
+  selectedProblemId.value = firstProblem?.problem_id ?? null
+  selectedView.value = firstProblem ? preferredView(firstProblem) : 'skill'
+}
+
+function preferredView(problem) {
+  return VIEW_ORDER.find((view) => problem.views.has(view)) ?? problem.viewNames[0] ?? 'skill'
+}
+
+function sortViews(viewNames) {
+  return viewNames.sort((left, right) => {
+    const leftIndex = VIEW_ORDER.indexOf(left)
+    const rightIndex = VIEW_ORDER.indexOf(right)
+    if (leftIndex !== -1 || rightIndex !== -1) {
+      return (leftIndex === -1 ? VIEW_ORDER.length : leftIndex) - (rightIndex === -1 ? VIEW_ORDER.length : rightIndex)
+    }
+    return left.localeCompare(right)
+  })
+}
+
+function viewLabel(view) {
+  if (view === 'solution_structure') return 'solution_structure'
+  if (view === 'combined') return 'combined'
+  return view
+}
+
+function inferView(embeddingId) {
+  if (typeof embeddingId !== 'string' || !embeddingId.includes('#')) return ''
+  return embeddingId.split('#').at(-1) || ''
+}
+
+function inferProblemId(embeddingId) {
+  if (typeof embeddingId !== 'string' || !embeddingId.includes('#')) return ''
+  return embeddingId.split('#')[0] || ''
+}
+
+function inferContestId(problemId) {
+  if (typeof problemId !== 'string') return ''
+  const match = problemId.match(/^(.+?)_[a-z0-9]+$/i)
+  return match?.[1] ?? ''
+}
+
+function problemSlotLabel(slot) {
+  if (!slot.problem) return slot.label
+  return canonicalProblemIndex(slot.problem.problem_index) || slot.label
+}
+
+function formatRows(rows) {
+  if (!rows.length) return '-'
+  if (rows.length === 1) return String(rows[0])
+  if (rows.length <= 3) return rows.join(', ')
+  return `${rows[0]}-${rows.at(-1)} (${rows.length})`
 }
 
 async function fetchJson(url) {
