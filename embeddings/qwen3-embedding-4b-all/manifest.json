@@ -1,0 +1,20 @@
+{
+  "batch_size": 16,
+  "document_count": 6327,
+  "documents_file": "documents.jsonl",
+  "embedding_text_rules": "docs/ir/embedding.md",
+  "generated_at": "2026-06-01T05:32:27.674331+00:00",
+  "ir_count": 2109,
+  "model_id": "Qwen/Qwen3-Embedding-4B",
+  "model_size": "4b",
+  "normalize_embeddings": true,
+  "query_instruction": "Instruct: Given a competitive programming solution query, retrieve relevant Editorial IR embedding documents.\nQuery: {query}",
+  "source": "Editorial IR v1",
+  "vector_dimension": 2560,
+  "vector_file": "embeddings.npy",
+  "views": [
+    "solution_structure",
+    "skill",
+    "combined"
+  ]
+}
