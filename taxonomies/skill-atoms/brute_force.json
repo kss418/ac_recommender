@@ -10,6 +10,12 @@
       "parent": "brute_force"
     },
     {
+      "id": "brute_force.permutation_enumeration",
+      "name": "Permutation enumeration",
+      "description": "Enumerate permutations of a small set of elements.",
+      "parent": "brute_force"
+    },
+    {
       "id": "brute_force.backtracking",
       "name": "Backtracking",
       "description": "Recursively explore candidates while maintaining and undoing local state.",

@@ -139,6 +139,7 @@ are not statement-side problem categories.
 | `bitwise.parity_counting` | Count or maintain values by odd/even parity using XOR, popcount, or bit-level accumulators. |
 | `bitwise.xor_pair_counting` | Count pairs of values subject to an XOR threshold, equality, or ordering condition. |
 | `brute_force.subset_enumeration` | Enumerate subset masks or assignments and evaluate each candidate directly. |
+| `brute_force.permutation_enumeration` | Enumerate permutations of a small set of elements. |
 | `brute_force.backtracking` | Recursively explore candidates while maintaining and undoing local state. |
 | `brute_force.meet_in_the_middle` | Split an exponential search into halves and combine partial results by lookup, sorting, or two-pointer matching. |
 | `brute_force.reconstruction` | Recover an explicit witness, assignment, path, or operation sequence from enumerated states or matched partial results. |
