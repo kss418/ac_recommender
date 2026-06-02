@@ -149,6 +149,16 @@ should show generic template shapes.
 
 ## Script Map
 
+For project Python scripts, prefer the repo-root virtual environment:
+
+```powershell
+.\.venv\Scripts\python.exe <script> ...
+```
+
+This `.venv` has project dependencies such as `jsonschema`. Use bare `python`
+only when the virtual environment is unavailable or when intentionally testing
+the ambient Python environment.
+
 ### `scripts/fetch_atcoder_editorials.py`
 
 Orchestrates AtCoder editorial fetching. It should remain mostly orchestration;
@@ -225,11 +235,14 @@ Useful commands:
 python scripts\validate_ir.py ir --skip-schema
 python scripts\validate_ir.py ir --examples-md docs\ir\examples.md --skip-schema
 python scripts\validate_ir.py ir --examples-md docs\ir\examples.md
+.\.venv\Scripts\python.exe scripts\validate_ir.py ir --examples-md docs\ir\examples.md
 ```
 
 Notes:
 
 - Without `--skip-schema`, the script requires the `jsonschema` Python package.
+- The repo-root `.venv` has `jsonschema` installed. Use the `.venv` Python
+  before concluding that schema validation is unavailable.
 - Taxonomy reference validation always checks that
   `solution.solution_models[].id` and `solution.skill_atoms[].id` exist in the
   JSON taxonomy files. Skill atom files are read from `taxonomies/skill-atoms/`.
@@ -430,10 +443,12 @@ python -c "import json, pathlib; json.loads(pathlib.Path(r'ir\v1\ac\abc\457\D-ra
 git diff --check
 ```
 
-If `jsonschema` is installed, prefer full validation:
+For project Python scripts, use the repo-root `.venv` first. In particular, it
+has `jsonschema`, so full schema validation should be run this way before
+reporting that validation is unavailable:
 
 ```powershell
-python scripts\validate_ir.py ir --examples-md docs\ir\examples.md
+.\.venv\Scripts\python.exe scripts\validate_ir.py ir --examples-md docs\ir\examples.md
 ```
 
 ## Working Notes For Future Agents
