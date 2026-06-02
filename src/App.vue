@@ -227,6 +227,24 @@ import { cosineSimilarityRows, parseNpy } from './utils/npy'
 const DEFAULT_EMBEDDING_DIR = '/embeddings/qwen3-embedding-0.6b-all'
 const VIEW_ORDER = ['combined', 'solution_structure', 'skill']
 const DEFAULT_PROBLEM_INDEX_ORDER = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+const MIRROR_CANONICAL_PROBLEM_IDS = new Map([
+  ['abc044_d', 'abc044_d'],
+  ['arc060_b', 'abc044_d'],
+  ['abc050_d', 'abc050_d'],
+  ['arc066_b', 'abc050_d'],
+  ['abc056_d', 'abc056_d'],
+  ['arc070_b', 'abc056_d'],
+  ['abc077_d', 'abc077_d'],
+  ['arc084_b', 'abc077_d'],
+  ['abc083_d', 'abc083_d'],
+  ['arc088_b', 'abc083_d'],
+  ['abc090_d', 'abc090_d'],
+  ['arc091_b', 'abc090_d'],
+  ['abc093_c', 'abc093_c'],
+  ['arc094_a', 'abc093_c'],
+  ['abc093_d', 'abc093_d'],
+  ['arc094_b', 'abc093_d'],
+])
 
 const npyFileName = ref('')
 const jsonlFileName = ref('')
@@ -295,6 +313,7 @@ const similarProblems = computed(() => {
 
   const view = selectedRecordView.value
   const selectedProblemIdValue = selectedProblem.value.problem_id
+  const selectedCanonicalProblemId = canonicalRecommendationProblemId(selectedProblemIdValue)
   const scores = []
 
   for (const record of documentRecords.value) {
@@ -303,6 +322,7 @@ const similarProblems = computed(() => {
 
     const problemId = record.metadata.problem_id || inferProblemId(record.embedding_id)
     if (!problemId || problemId === selectedProblemIdValue) continue
+    if (canonicalRecommendationProblemId(problemId) === selectedCanonicalProblemId) continue
 
     const problem = problemById.value.get(problemId)
     if (!problem) continue
@@ -319,10 +339,17 @@ const similarProblems = computed(() => {
     }
   }
 
-  return scores
-    .sort((left, right) => right.score - left.score)
-    .slice(0, 10)
-    .map((item, index) => ({ ...item, rank: index + 1 }))
+  const seenCanonicalProblemIds = new Set([selectedCanonicalProblemId])
+  const deduped = []
+  for (const item of scores.sort((left, right) => right.score - left.score)) {
+    const canonicalId = canonicalRecommendationProblemId(item.problem.problem_id)
+    if (seenCanonicalProblemIds.has(canonicalId)) continue
+    seenCanonicalProblemIds.add(canonicalId)
+    deduped.push(item)
+    if (deduped.length >= 10) break
+  }
+
+  return deduped.map((item, index) => ({ ...item, rank: index + 1 }))
 })
 
 onMounted(() => {
@@ -599,6 +626,11 @@ function selectFirstProblem() {
 
 function preferredView(problem) {
   return VIEW_ORDER.find((view) => problem.views.has(view)) ?? problem.viewNames[0] ?? 'combined'
+}
+
+function canonicalRecommendationProblemId(problemId) {
+  if (!problemId) return ''
+  return MIRROR_CANONICAL_PROBLEM_IDS.get(problemId) || problemId
 }
 
 function handleSimilarClick(event, item) {
